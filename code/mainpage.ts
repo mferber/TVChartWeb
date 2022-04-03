@@ -130,6 +130,7 @@ function drawSegmentInterior(segment: Segment, episodeOffset: number, xOffset: n
 
   const seenCount = howManyEpisodesSeen(segment, seasonNum, episodeOffset, seenThru);
   
+  // gray background for seen episodes
   if (seenCount > 0) {
     const grayX = xOffset + outerStrokeWidth;
     const grayY = outerStrokeWidth;
@@ -137,10 +138,20 @@ function drawSegmentInterior(segment: Segment, episodeOffset: number, xOffset: n
     elements.push(`<rect x="${grayX}" y="${grayY}" width="${grayWidth}" height="${innerBoxWidth}" stroke-opacity="0" fill="#ccc" />`);
   };
 
+  // divider lines between episodes
   for (let i = 1; i < segment.episodeCount; i++) {
     const x = xOffset + outerStrokeWidth + (i * innerBoxWidth) + ((i - 1) * dividerStrokeWidth) + dividerStrokeWidth / 2;
     elements.push(`<line x1="${x}" y1="0" x2="${x}" y2="${boxHeight - outerStrokeWidth / 2}" stroke="#000" stroke-width="${outerStrokeWidth / 2}" />`);
   }
+
+  // episode numbers
+  const fontSize = innerBoxWidth / 1.75;
+  for (let i = 0; i < segment.episodeCount; i++) {
+    const x = xOffset + outerStrokeWidth + (i * innerBoxWidth) + (i === 0 ? 0 : i * dividerStrokeWidth) + (innerBoxWidth / 2);
+    const y = outerStrokeWidth + innerBoxWidth / 2;
+    elements.push(`<text x="${x}" y="${y}" dominant-baseline="middle" text-anchor="middle" style="font-size: ${fontSize}px;">${i + episodeOffset + 1}</text>`);
+  }
+
   return elements.join('');
 }
 
