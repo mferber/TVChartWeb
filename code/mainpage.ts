@@ -138,7 +138,6 @@ function drawSegmentInterior(segment: Segment, episodeOffset: number, xOffset: n
   };
 
   for (let i = 1; i < segment.episodeCount; i++) {
-    // const x = xOffset + i * boxHeight + outerStrokeWidth / 2;
     const x = xOffset + outerStrokeWidth + (i * innerBoxWidth) + ((i - 1) * dividerStrokeWidth) + dividerStrokeWidth / 2;
     elements.push(`<line x1="${x}" y1="0" x2="${x}" y2="${boxHeight - outerStrokeWidth / 2}" stroke="#000" stroke-width="${outerStrokeWidth / 2}" />`);
   }
@@ -159,22 +158,6 @@ function drawPlusSeparator(xOffset: number): [string, number] {
 
   return [horiz + vert, interSegmentSpacing];
 }
-
-// function unseenBox() {
-//   return `<svg xmlns="https://www.w3.org/2000/svg" viewbox="0 0 ${boxHeight} ${boxHeight}" width="${boxHeight}" height="${boxHeight}">
-//     <desc>Red rectangle shape</desc>
-//     <rect x="0" y="0" width="${boxHeight}" height="${boxHeight}" fill="#fff" stroke="#000" />  
-//   </svg>`;
-// }
-
-// function seenBox() {
-//   return `<svg xmlns="https://www.w3.org/2000/svg" viewbox="0 0 ${boxHeight} ${boxHeight}" width="${boxHeight}" height="${boxHeight}">
-//     <desc>Red rectangle shape</desc>
-//     <rect x="0" y="0" width="${boxHeight}" height="${boxHeight}" fill="#fff" stroke="#000" stroke-width="5" />  
-//     <line x1="0" y1="0" x2="${boxHeight}" y2="${boxHeight}" stroke="#000" />
-//     <line x1="0" y1="${boxHeight}" x2="${boxHeight}" y2="0" stroke="#000" />
-//   </svg>`;
-// }
 
 function howManyEpisodesSeen(segment: Segment, seasonNum: number, episodeOffset: number, seenThru: Marker) {
   if (seasonNum < seenThru.season) {
