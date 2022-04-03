@@ -1,6 +1,6 @@
 import fs from 'fs';
 
-export default async function (dataFilePath: string): Promise<string> {
+export async function showDataFileForEditing(dataFilePath: string): Promise<string> {
   const data = await fs.promises.readFile(dataFilePath, 'utf-8');
   return `
   <html>
@@ -8,9 +8,9 @@ export default async function (dataFilePath: string): Promise<string> {
     <title>Edit TV shows list </title>
   </head>
   <body>
-    <form>
+    <form action="/edit" method="post" enctype="application/x-www-form-urlencoded">
       <div>
-        <textarea style="font-family: monospace; font-size: 14px" name="data" rows="40" cols="100">${data}</textarea>
+        <textarea style="font-family: monospace; font-size: 14px" name="text" rows="40" cols="100">${data}</textarea>
       </div>
       <div>
         <input type="submit" />
@@ -19,4 +19,8 @@ export default async function (dataFilePath: string): Promise<string> {
   </body>
   </html>
   `
+}
+
+export async function saveEditedDataFile(text: string, dataFilePath: string): Promise<void> {
+  return fs.promises.writeFile(dataFilePath, text, 'utf-8');
 }
