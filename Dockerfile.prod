@@ -1,0 +1,23 @@
+FROM node:alpine
+WORKDIR /app/code
+
+RUN ["apk", "update"]
+RUN ["apk", "add", "vim"]
+
+RUN ["npm", "install", "-g", "nodemon"]
+RUN ["npm", "install", "-g", "ts-node"]
+
+# install packages
+COPY code/package.json code/yarn.lock /app/code/
+RUN yarn
+
+# copy the remaining code and data
+COPY code /app/code
+COPY data /app/data
+RUN chown -R node /app
+
+USER node
+
+CMD ts-node main.ts
+
+EXPOSE 8000

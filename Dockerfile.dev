@@ -1,0 +1,12 @@
+FROM node:latest
+
+RUN npm install -g nodemon
+RUN npm install -g ts-node
+
+WORKDIR /app
+RUN chown -R node /app
+USER node
+
+CMD cd code && yarn && nodemon main.ts
+
+EXPOSE 8000
