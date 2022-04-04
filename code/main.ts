@@ -8,6 +8,7 @@ const port = 8000
 const dataFilePath = '../data/shows.csv';
 
 app.use(express.urlencoded({extended: true}));
+app.use(express.static('frontend'));
 
 app.get('/', async (req: Request, res: Response): Promise<void> => {
   res.send(await mainPage(dataFilePath));

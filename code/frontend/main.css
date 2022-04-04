@@ -1,0 +1,34 @@
+@import url('https://fonts.googleapis.com/css2?family=Alegreya&display=swap');
+
+body {
+  font-family: "Alegreya";
+}
+
+#controls {
+  margin: 0 0 1em 0;
+}
+
+.show + .show {
+  margin-top: 1.5em;
+}
+
+.show-title {
+  font-size: 2em;
+  font-weight: bold;
+  white-space: nowrap;
+  margin: 0;
+}
+
+.show-desc {
+  font-size: 1.25em;
+  white-space: nowrap;
+  margin: 0 0 0.5em 0;
+}
+
+svg.show-season {
+  display: block;
+}
+
+svg.show-season + svg.show-season {
+  margin-top: 0.25em;
+}

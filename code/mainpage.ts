@@ -1,53 +1,20 @@
-import parse, {Show, Season, Segment, Marker} from "./parse";
+import parse, { Show, Season, Segment, Marker } from "./parse";
+import fs from "fs";
 
 const boxHeight = 35;
 const outerStrokeWidth = boxHeight / 10;
 const dividerStrokeWidth = outerStrokeWidth / 2;
-const interSegmentSpacing = boxHeight * 2/3;
+const interSegmentSpacing = boxHeight * 2 / 3;
+const contentPlaceholder = '#CONTENT#';
 
 export default async function (dataFilePath: string): Promise<string> {
-  const shows = await parse(dataFilePath);
-  return `
-<html>
-<head>
-  <title>TV shows</title>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Alegreya&display=swap');
-    body {
-      font-family: "Alegreya";
-    }
-    #controls {
-      margin: 0 0 1em 0;
-    }
-    .show-title {
-      font-size: 2em;
-      font-weight: bold;
-      white-space: nowrap;
-      margin: 0;
-    }
-    .show-desc {
-      font-size: 1.25em;
-      white-space: nowrap;
-      margin: 0 0 0.5em 0;
-    }
-    .show-seasons {
-      font-size: 1.5em;
-      white-space: nowrap;
-    }
-    .show-season {
-      margin: 0 0 0.5em 0;
-    }
-  </style>
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-</head>
-<body>
-  <div id="controls">
-    <a href="edit">Edit show list</a> | <a href="export" download="shows.csv">Export data file</a>
-  </div>
-`
-    + sortShows(shows).map((s) => formatShow(s)).join("<br/>") + `
-</body>
-</html>`;
+  const [template, shows] = await Promise.all([
+    await fs.promises.readFile('frontend/main.html', 'utf-8'),
+    await parse(dataFilePath)
+  ]);
+  const listings = sortShows(shows)
+    .map((s) => formatShow(s)).join('');
+  return template.replace(contentPlaceholder, listings);
 }
 
 function sortShows(shows: Show[]): Show[] {
@@ -77,8 +44,9 @@ function formatDescription(location: string, length: string) {
 }
 
 function formatSeasons(seasons: Season[], seenThru: Marker) {
-  const seasonLines = seasons.map((s, i) => formatSeason(s, i + 1, seenThru)).join("<br/>");
-  return `<div class="show-seasons" onclick="console.log('click: ', event);">${seasonLines}</div>`;
+  const seasonLines = seasons
+    .map((s, i) => formatSeason(s, i + 1, seenThru)).join('');
+  return `<div class="show-seasons">${seasonLines}</div>`;
 }
 
 function formatSeason(season: Season, seasonNum: number, seenThru: Marker) {
@@ -129,7 +97,7 @@ function drawSegmentInterior(segment: Segment, episodeOffset: number, xOffset: n
   const innerBoxWidth = boxHeight - 2 * outerStrokeWidth;
 
   const seenCount = howManyEpisodesSeen(segment, seasonNum, episodeOffset, seenThru);
-  
+
   // gray background for seen episodes
   if (seenCount > 0) {
     const grayX = xOffset + outerStrokeWidth;
@@ -184,6 +152,6 @@ function howManyEpisodesSeen(segment: Segment, seasonNum: number, episodeOffset:
   }
 }
 function escape(string: string): string {
-  const coded= string.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;');
+  const coded = string.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;');
   return coded;
 }
