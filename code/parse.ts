@@ -1,26 +1,5 @@
 import fs from 'fs';
-
-export interface Show {
-  title: string,
-  location: string,
-  length: string,
-  seasons: Season[],
-  seenThru: Marker
-};
-
-export interface Season {
-  segments: Segment[]
-};
-
-export interface Segment {
-  episodeCount: number;
-};
-
-type EpisodeCount = number | 'all';
-export interface Marker {
-  season: number,
-  episode: EpisodeCount
-};
+import {Show, Segment, EpisodeCount} from "./types";
 
 const reComment = new RegExp('//.*');
 
