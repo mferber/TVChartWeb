@@ -1,11 +1,11 @@
-import {Season, Segment, Marker} from "./types";
+import {Show, Season, Segment, Marker} from "./types";
 
 const boxHeight = 35;
 const outerStrokeWidth = boxHeight / 10;
 const dividerStrokeWidth = outerStrokeWidth / 2;
 const interSegmentSpacing = boxHeight * 2 / 3;
 
-export default function (season: Season, seasonNum: number, seenThru: Marker) {
+export default function (show: Show, season: Season, seasonNum: number, seenThru: Marker) {
   let drawnSegments: string[] = [];
   let episodeOffset = 0;
   let xOffset = 0;
@@ -15,7 +15,12 @@ export default function (season: Season, seasonNum: number, seenThru: Marker) {
     episodeOffset += segment.episodeCount;
     xOffset += updatedEndX;
   }
-  return `<svg class="show-season" width="${xOffset}" height="${boxHeight}" viewBox="0 0 ${xOffset} ${boxHeight}" xmlns="https://www.w3.org/2000/svg">`
+  return `<svg class="show-season" 
+    width="${xOffset}" height="${boxHeight}"
+    viewBox="0 0 ${xOffset} ${boxHeight}"
+    data-showName="${show.title}"
+    data-season="${seasonNum}"
+    xmlns="https://www.w3.org/2000/svg">`
     + drawnSegments.join('')
     + '</svg>';
 }

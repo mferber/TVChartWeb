@@ -29,7 +29,7 @@ function sortShows(shows: Show[]): Show[] {
 function formatShow(show: Show): string {
   const title = formatTitle(show.title);
   const descr = formatDescription(show.location, show.length);
-  const seasons = formatSeasons(show.seasons, show.seenThru);
+  const seasons = formatSeasons(show);
   return `<div class="show">${title}${descr}${seasons}</div>`;
 }
 
@@ -41,9 +41,9 @@ function formatDescription(location: string, length: string) {
   return `<div class="show-desc">(${length}, ${escape(location)})</div>`;
 }
 
-function formatSeasons(seasons: Season[], seenThru: Marker) {
-  const seasonLines = seasons
-    .map((s, i) => drawSeason(s, i + 1, seenThru)).join('');
+function formatSeasons(show: Show) {
+  const seasonLines = show.seasons
+    .map((s, i) => drawSeason(show, s, i + 1, show.seenThru)).join('');
   return `<div class="show-seasons">${seasonLines}</div>`;
 }
 

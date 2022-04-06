@@ -30,5 +30,5 @@ svg.show-season {
 }
 
 svg.show-season + svg.show-season {
-  margin-top: 0.25em;
+  margin-top: 0.35em;
 }
