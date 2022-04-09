@@ -4,7 +4,7 @@ const CopyPlugin = require("copy-webpack-plugin");
 module.exports = {
   mode: 'development',
   devtool: 'eval-source-map',
-  entry: './src/index.ts',
+  entry: './src/scripts/index.ts',
   output: {
     library: 'tvTools',
     filename: 'tv-app-tools-bundle.js',
@@ -25,7 +25,9 @@ module.exports = {
   plugins: [
     new CopyPlugin({
       patterns: [
-        {from: '**/*.(html|css|png)', context: './src'}
+        {from: '**/*.html', context: 'src/html'},
+        {from: '**/*.(css|png)', context: 'src/assets'}
+
       ],
     }),
   ]
