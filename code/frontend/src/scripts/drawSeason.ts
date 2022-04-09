@@ -1,18 +1,14 @@
-import {Season, Segment, Marker} from "./types";
+import {Show, Segment, Marker} from "./types";
 import {createElementNS} from './htmlUtils';
-
-const boxHeight = 35;
-const outerStrokeWidth = boxHeight / 10;
-const dividerStrokeWidth = outerStrokeWidth / 2;
-const interSegmentSpacing = boxHeight * 2 / 3;
+import {boxHeight, interSegmentSpacing, outerStrokeWidth, dividerStrokeWidth} from './metrics';
 
 const SVG_NS = 'http://www.w3.org/2000/svg';
 
-export default function (season: Season, seasonNum: number, seenThru: Marker): Element {
+export default function (show: Show, seasonNum: number, seenThru: Marker): SVGElement {
   let components: Element[] = [];
   let episodeOffset = 0;
   let x = 0;
-  season.segments.forEach((segment, idx) => {
+  show.seasons[seasonNum - 1].segments.forEach((segment, idx) => {
     if (idx > 0) {
       let [drawnSeparator, endX] = drawSegmentSeparator(x);
       components.push(drawnSeparator);
@@ -24,10 +20,12 @@ export default function (season: Season, seasonNum: number, seenThru: Marker): E
     x = endX;
   });
 
-  const svg = createElementNS('svg', SVG_NS, null, components);
+  const svg = createElementNS('svg', SVG_NS, null, components) as SVGElement;
   svg.setAttribute('width', x.toString());
   svg.setAttribute('height', boxHeight.toString());
   svg.setAttribute('viewBox', `0 0 ${x} ${boxHeight}`);
+  svg.dataset.title = show.title;
+  svg.dataset.season = seasonNum.toString();
   return svg;
 }
 

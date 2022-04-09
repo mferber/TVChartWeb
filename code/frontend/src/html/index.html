@@ -7,9 +7,10 @@
   <link rel="stylesheet" href="main.css">
   <script defer src="./tv-app-tools-bundle.js"></script>
   <script>
-    window.addEventListener('DOMContentLoaded', () => {
-      tvTools.renderShows();
-    })
+    window.addEventListener('DOMContentLoaded', async () => {
+      await tvTools.renderShows();
+      await tvTools.addEpisodeClickHandlers();
+    });
   </script>
 </head>
 
