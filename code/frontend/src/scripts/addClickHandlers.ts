@@ -1,5 +1,6 @@
-import {boxHeight, interSegmentSpacing, outerStrokeWidth, dividerStrokeWidth} from './metrics';
-import { Show } from './types';
+import { boxHeight, interSegmentSpacing, outerStrokeWidth, dividerStrokeWidth } from './metrics';
+import { segmentWidth } from './drawSeason';
+import { Show, Season } from './types';
 
 export default function (show: Show, seasonNum: number): (_: MouseEvent) => void {
   return (e: MouseEvent): void => {
@@ -10,8 +11,12 @@ export default function (show: Show, seasonNum: number): (_: MouseEvent) => void
     if (e.target instanceof SVGGraphicsElement) {
       let svgPt = toSVGPoint(e.target, e.clientX, e.clientY);
       if (svgPt) {
-        const episodeNum = episodeNumberFromPoint(svgPt);
-        console.log(`${show.title}, season ${seasonNum}, episode ${episodeNum}`);
+        const episodeNum = episodeNumberFromPoint(svgPt, show.seasons[seasonNum - 1]);
+        if (episodeNum !== null) {
+          console.log(`${show.title}, season ${seasonNum}, episode ${episodeNum}`);
+        } else {
+          console.log(`${show.title}, season ${seasonNum}, after the first segment`);
+        }
       }
     }
   }
@@ -31,7 +36,18 @@ function toSVGPoint(svg: SVGGraphicsElement, x: number, y: number): DOMPoint | n
   return p.matrixTransform(svg.getScreenCTM()?.inverse());
 };
 
-function episodeNumberFromPoint(point: DOMPoint): number | null {
+function episodeNumberFromPoint(point: DOMPoint, season: Season): number | null {
   const boxWidth = boxHeight - 2 * outerStrokeWidth;
-  return Math.max(0, Math.floor((point.x - outerStrokeWidth) / (boxWidth + dividerStrokeWidth)) + 1);
+
+  let segmentOffset = 0;
+  let episodeOffset = 0;
+  for (const [segmentIndex, segment] of season.segments.entries()) {
+    const boxIndex = Math.floor((point.x - segmentOffset - outerStrokeWidth) / (boxWidth + dividerStrokeWidth));
+    if (boxIndex >= 0 && boxIndex < segment.episodeCount) {
+      return boxIndex + 1 + episodeOffset;
+    }
+    segmentOffset += segmentWidth(segment.episodeCount) + interSegmentSpacing;
+    episodeOffset += segment.episodeCount;
+  }
+  return null;
 }

@@ -1,6 +1,6 @@
-import {Show, Segment, Marker} from "./types";
-import {createElementNS} from './htmlUtils';
-import {boxHeight, interSegmentSpacing, outerStrokeWidth, dividerStrokeWidth} from './metrics';
+import { Show, Segment, Marker } from "./types";
+import { createElementNS } from './htmlUtils';
+import { boxHeight, interSegmentSpacing, outerStrokeWidth, dividerStrokeWidth } from './metrics';
 
 const SVG_NS = 'http://www.w3.org/2000/svg';
 
@@ -27,6 +27,11 @@ export default function (show: Show, seasonNum: number, seenThru: Marker): SVGEl
   svg.dataset.title = show.title;
   svg.dataset.season = seasonNum.toString();
   return svg;
+}
+
+export function segmentWidth(episodeCount: number): number {
+  const innerBoxWidth = boxHeight - 2 * outerStrokeWidth;
+  return (episodeCount * innerBoxWidth) + ((episodeCount - 1) * dividerStrokeWidth) + outerStrokeWidth
 }
 
 function drawSegmentSeparator(x: number): [Element, number] {
@@ -57,11 +62,9 @@ function drawAppendedSegment(segment: Segment, episodeOffset: number, xOffset: n
 function drawSegmentOuterBox(segment: Segment, xStart: number): [Element, number] {
   const x = xStart + outerStrokeWidth / 2;
   const y = outerStrokeWidth / 2;
-  const innerBoxWidth = boxHeight - 2 * outerStrokeWidth;
-  const width = (segment.episodeCount * innerBoxWidth) + ((segment.episodeCount - 1) * dividerStrokeWidth) + outerStrokeWidth;
+  const width = segmentWidth(segment.episodeCount);
   const height = boxHeight - outerStrokeWidth;
   const rect = drawRect(x, y, width, height, outerStrokeWidth, undefined, 0); 
-
   const endX = xStart + width + outerStrokeWidth;
   return [rect, endX];
 }
