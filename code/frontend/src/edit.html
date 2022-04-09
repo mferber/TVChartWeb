@@ -1,0 +1,28 @@
+<html>
+
+<head>
+  <title>Edit TV shows list </title>
+  <link rel="icon" href="/favicon.png" type="image/png">
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="main.css">
+  <script defer src="./tv-app-tools-bundle.js"></script>
+  <script>
+    window.addEventListener('DOMContentLoaded', async () => {
+      const data = await window.tvTools.fetchRawData();
+      document.querySelector('#editor').textContent = data;
+    })
+  </script>
+</head>
+
+<body>
+  <form action="/edit" method="post" enctype="application/x-www-form-urlencoded">
+    <div>
+      <textarea id="editor" style="font-family: monospace; font-size: 14px" name="text" rows="40" cols="100"></textarea>
+    </div>
+    <div>
+      <input type="submit" />
+    </div>
+  </form>
+</body>
+
+</html>

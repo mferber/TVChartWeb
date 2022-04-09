@@ -1,6 +1,6 @@
 import express, {Request, Response} from "express";
 import * as fs from "fs";
-import {showDataFileForEditing, saveEditedDataFile} from "./edit";
+import {saveEditedDataFile} from "./edit";
 
 const app = express()
 const port = 8000
@@ -12,10 +12,6 @@ app.use(express.static('frontend/dist'));
 app.get('/data', async (req: Request, res: Response): Promise<void> => {
   res.set('Content-Type', 'text/plain')
   res.send(await fs.promises.readFile(dataFilePath, 'utf-8'));
-});
-
-app.get('/edit', async (req: Request, res: Response): Promise<void> => {
-  res.send(await showDataFileForEditing(dataFilePath));
 });
 
 app.post('/edit', async (req: Request, res: Response): Promise<void> => {

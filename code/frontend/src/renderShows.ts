@@ -3,7 +3,7 @@ import drawSeason from './drawSeason';
 import {Show, Season, Segment, EpisodeCount, Marker} from './types';
 import {createElement} from './htmlUtils';
 
-export async function renderShows() {
+export default async function () {
   const container = document.body.querySelector('#content');
   for (let element of await displayItems()) {
     document.querySelector('#content').appendChild(element);
