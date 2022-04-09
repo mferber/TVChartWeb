@@ -6,7 +6,7 @@ import {createElement} from './htmlUtils';
 export default async function () {
   const container = document.body.querySelector('#content');
   for (let element of await displayItems()) {
-    document.querySelector('#content').appendChild(element);
+    document.querySelector('#content')?.appendChild(element);
   }
 }
 
