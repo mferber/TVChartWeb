@@ -6,7 +6,8 @@ module.exports = {
   devtool: 'eval-source-map',
   entry: './src/index.ts',
   output: {
-    filename: 'bundle.js',
+    library: 'tvTools',
+    filename: 'tv-app-tools-bundle.js',
     path: path.resolve(__dirname, 'dist')
   },
   module: {

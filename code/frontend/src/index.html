@@ -5,7 +5,12 @@
   <link rel="icon" href="/favicon.png" type="image/png">
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <link rel="stylesheet" href="main.css">
-  <script src="./bundle.js" async></script>
+  <script defer src="./tv-app-tools-bundle.js"></script>
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      tvTools.renderShows();
+    })
+  </script>
 </head>
 
 <body>
