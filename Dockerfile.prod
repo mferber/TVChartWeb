@@ -18,6 +18,6 @@ RUN chown -R node /app
 
 USER node
 
-CMD ts-node main.ts
+CMD ts-node app.ts
 
 EXPOSE 8000

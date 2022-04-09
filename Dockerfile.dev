@@ -7,6 +7,6 @@ WORKDIR /app
 RUN chown -R node /app
 USER node
 
-CMD cd code && yarn && nodemon main.ts
+CMD cd code && yarn && nodemon app.ts
 
 EXPOSE 8000
