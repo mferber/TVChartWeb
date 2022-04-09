@@ -6,6 +6,7 @@ export async function showDataFileForEditing(dataFilePath: string): Promise<stri
   <html>
   <head>
     <title>Edit TV shows list </title>
+    <link rel="icon" href="/favicon.png" type="image/png">
   </head>
   <body>
     <form action="/edit" method="post" enctype="application/x-www-form-urlencoded">
