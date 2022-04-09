@@ -1,4 +1,4 @@
-import {Show, Segment, EpisodeCount} from "../../types";
+import {Show, Segment, EpisodeCount} from "./types";
 
 const reComment = new RegExp('//.*');
 
