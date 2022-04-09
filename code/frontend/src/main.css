@@ -2,6 +2,7 @@
 
 body {
   font-family: "Alegreya";
+  font-weight: bold;
 }
 
 #controls {
@@ -25,10 +26,6 @@ body {
   margin: 0 0 0.5em 0;
 }
 
-svg.show-season {
-  display: block;
-}
-
-svg.show-season + svg.show-season {
+.show-season + .show-season {
   margin-top: 0.25em;
 }

@@ -1,12 +1,10 @@
-import fs from 'fs';
-import {Show, Segment, EpisodeCount} from "./types";
+import {Show, Segment, EpisodeCount} from "../../types";
 
 const reComment = new RegExp('//.*');
 
-export default async function parseShows(path: string): Promise<Show[]> {
+export default function parseShows(config: string): Show[] {
   let shows: Show[] = [];
-  const text = await fs.promises.readFile(path, 'utf8');
-  const lines: string[] = text
+  const lines: string[] = config
     .split('\n')
     .map(ln => ln.replace(reComment, '').trim())
     .filter(ln => ln.length > 0);
