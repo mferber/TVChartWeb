@@ -4,7 +4,6 @@ WORKDIR /app/code
 RUN ["apk", "update"]
 RUN ["apk", "add", "vim"]
 
-RUN ["npm", "install", "-g", "nodemon"]
 RUN ["npm", "install", "-g", "ts-node"]
 
 # install packages
