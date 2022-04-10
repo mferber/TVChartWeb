@@ -8,20 +8,35 @@
   <script defer src="./tv-app-tools-bundle.js"></script>
   <script>
     window.addEventListener('DOMContentLoaded', async () => {
+      document.querySelector('button#submit').addEventListener('click', (e) => {
+        e.preventDefault();
+        const editedData = document.querySelector('textarea#editor').value;
+        fetch('/data', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'text/plain' },
+          body: editedData
+        }).then(() => location = '/'); // FIXME: validate the server response
+      });
+      document.querySelector('button#cancel').addEventListener('click', (e) => {
+        e.preventDefault();
+        location = '/index.html';
+      });
+
       const data = await window.tvTools.fetchRawData();
       document.querySelector('#editor').textContent = data;
-    })
+    });
   </script>
 </head>
 
 <body>
-  <form action="/edit" method="post" enctype="application/x-www-form-urlencoded">
-    <div>
-      <textarea id="editor" style="font-family: monospace; font-size: 14px" name="text" rows="40" cols="100"></textarea>
-    </div>
-    <div>
-      <input type="submit" />
-    </div>
+  <form>
+  <div>
+    <textarea id="editor" style="font-family: monospace; font-size: 14px" name="text" rows="40" cols="100"></textarea>
+  </div>
+  <div>
+    <button id="submit">Submit</button>
+    <button id="cancel">Cancel</button>
+  </div>
   </form>
 </body>
 
