@@ -1,12 +1,13 @@
 import express, {Request, Response} from "express";
 import * as fs from "fs";
-import {saveEditedDataFile} from "./edit";
+import {replaceDataFile, updateWatchStatus} from "./update";
 
 const app = express()
 const port = 8000
 const dataFilePath = '../data/shows.csv';
 
 app.use(express.text({type: 'text/plain'}));
+app.use(express.json({type: 'application/json'}));
 
 app.use(express.static('frontend/dist'));
 
@@ -18,13 +19,15 @@ app.get('/data', async (req: Request, res: Response): Promise<void> => {
 
 // PUT main data -- replaces old version
 app.put('/data', async (req: Request, res: Response): Promise<void> => {
-  await saveEditedDataFile(req.body, dataFilePath);
+  await replaceDataFile(dataFilePath, req.body);
   res.status(200).send();
 });
 
 // PATCH main data -- modify most recently watched episode for a show
 app.patch('/data', async(req: Request, res: Response): Promise<void> => {
-
+  const {show, seasonNum, episodeNum} = req.body;
+  await updateWatchStatus(dataFilePath, show, seasonNum, episodeNum);
+  res.status(200).send();
 });
 
 // Start server
