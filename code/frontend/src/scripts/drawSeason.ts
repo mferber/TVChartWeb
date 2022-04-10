@@ -100,6 +100,7 @@ function drawSegmentInterior(segment: Segment, episodeOffset: number, xOffset: n
     text.setAttribute('dominant-baseline', 'middle');
     text.setAttribute('text-anchor', 'middle');
     text.setAttribute('style', 'style="font-size: ${fontSize}px;');
+    text.setAttribute('fill', '#666');
     elts.push(text);
   }
   return elts;
