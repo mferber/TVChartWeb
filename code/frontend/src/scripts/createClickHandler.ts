@@ -4,22 +4,30 @@ import { Show, Season } from './types';
 
 export default function (show: Show, seasonNum: number): (_: MouseEvent) => void {
   return (e: MouseEvent): void => {
-    const svg = findSVGParent(e.target as SVGElement);
-    if (!svg) {
-      return;
-    }
-    if (e.target instanceof SVGGraphicsElement) {
-      let svgPt = toSVGPoint(e.target, e.clientX, e.clientY);
-      if (svgPt) {
-        const episodeNum = episodeNumberFromPoint(svgPt, show.seasons[seasonNum - 1]);
-        if (episodeNum !== null) {
-          console.log(`${show.title}, season ${seasonNum}, episode ${episodeNum}`);
-        } else {
-          console.log(`${show.title}, season ${seasonNum}, after the first segment`);
-        }
-      }
+    const episodeNumber = episodeNumberFromClientXY(e.target as SVGElement, e.clientX, e.clientY, show, seasonNum);
+    if (episodeNumber !== null) {
+      console.log(`${show.title}, season ${seasonNum}, episode ${episodeNumber}`);
+    } else {
+      console.log(`${show.title}, season ${seasonNum}, after the first segment`);
     }
   }
+}
+
+function episodeNumberFromClientXY(
+  element: SVGElement,
+  clientX: number,
+  clientY: number,
+  show: Show,
+  seasonNum: number
+): number | null {
+  const svg = findSVGParent(element as SVGElement);
+  if (svg instanceof SVGGraphicsElement) {
+    let svgPt = toSVGPoint(svg, clientX, clientY);
+    if (svgPt) {
+      return episodeNumberFromSVGPoint(svgPt, show.seasons[seasonNum - 1]);
+    }
+  }
+  return null;
 }
 
 function findSVGParent(el: SVGElement): SVGGraphicsElement | null {
@@ -36,7 +44,7 @@ function toSVGPoint(svg: SVGGraphicsElement, x: number, y: number): DOMPoint | n
   return p.matrixTransform(svg.getScreenCTM()?.inverse());
 };
 
-function episodeNumberFromPoint(point: DOMPoint, season: Season): number | null {
+function episodeNumberFromSVGPoint(point: DOMPoint, season: Season): number | null {
   const boxWidth = boxHeight - 2 * outerStrokeWidth;
 
   let segmentOffset = 0;

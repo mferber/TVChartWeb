@@ -2,7 +2,7 @@ import parse from './parse';
 import drawSeason from './drawSeason';
 import {Show, Season, Segment, EpisodeCount, Marker} from './types';
 import {createElement} from './htmlUtils';
-import createClickHandler from './addClickHandlers';
+import createClickHandler from './createClickHandler';
 
 export default async function () {
   const container = document.body.querySelector('#content');
