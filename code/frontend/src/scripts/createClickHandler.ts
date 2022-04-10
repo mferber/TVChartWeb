@@ -3,13 +3,19 @@ import { segmentWidth } from './drawSeason';
 import { Show, Season } from './types';
 
 export default function (show: Show, seasonNum: number): (_: MouseEvent) => void {
-  return (e: MouseEvent): void => {
+  return async (e: MouseEvent): Promise<void> => {
     const episodeNumber = episodeNumberFromClientXY(e.target as SVGElement, e.clientX, e.clientY, show, seasonNum);
-    if (episodeNumber !== null) {
-      console.log(`${show.title}, season ${seasonNum}, episode ${episodeNumber}`);
-    } else {
-      console.log(`${show.title}, season ${seasonNum}, after the first segment`);
+    if (episodeNumber === null) {
+      return;
     }
+
+    const body = {show: show.title, seasonNum: seasonNum, episodeNum: episodeNumber};
+    const rsp = await fetch('/data', {
+      method: 'PATCH',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(body)
+    });
+    location.reload();
   }
 }
 
