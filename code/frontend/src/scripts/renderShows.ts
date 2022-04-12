@@ -13,7 +13,19 @@ export default async function () {
 
 async function displayItems(): Promise<HTMLElement[]> {
   const config = await parse(await (await fetch('/data')).text());
-  return config.map(renderShow);
+  return sortShows(config).map(renderShow);
+}
+
+function sortShows(shows: Show[]): Show[] {
+  return shows.map(withSortableTitle)
+    .sort((a, b): number => { return a[0] < b[0] ? -1 : a[0] > b[0] ? 1 : 0 })
+    .map(([, show]) => show);
+}
+
+function withSortableTitle(show: Show): [string, Show] {
+  const sortableTitle = show.title.toLocaleLowerCase().replace(/^(an?|the)\s/, '');
+  console.log(sortableTitle);
+  return [sortableTitle, show];
 }
 
 function renderShow(show: Show): HTMLElement {
