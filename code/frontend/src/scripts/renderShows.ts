@@ -24,7 +24,6 @@ function sortShows(shows: Show[]): Show[] {
 
 function withSortableTitle(show: Show): [string, Show] {
   const sortableTitle = show.title.toLocaleLowerCase().replace(/^(an?|the)\s/, '');
-  console.log(sortableTitle);
   return [sortableTitle, show];
 }
 
