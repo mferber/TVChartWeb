@@ -9,4 +9,5 @@ USER node
 
 CMD cd code && yarn && nodemon app.ts
 
+ENV SITE_INSTANCE=dev
 EXPOSE 8000

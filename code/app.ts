@@ -11,6 +11,17 @@ app.use(express.json({type: 'application/json'}));
 
 app.use(express.static('frontend/dist'));
 
+// GET environment settings
+app.get('/env', async (req: Request, res: Response): Promise<void> => {
+  res.set('Content-Type', 'application/json');
+  const siteInstance = process.env.SITE_INSTANCE;
+  if (siteInstance) {
+    res.send({ instance: siteInstance });
+  } else {
+    res.send({});
+  }
+});
+
 // GET main data
 app.get('/data', async (req: Request, res: Response): Promise<void> => {
   res.set('Content-Type', 'text/plain')

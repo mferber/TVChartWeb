@@ -8,12 +8,16 @@
   <script defer src="./tv-app-tools-bundle.js"></script>
   <script>
     window.addEventListener('DOMContentLoaded', async () => {
-      await tvTools.renderShows();
+      return Promise.all([
+        tvTools.showEnvironmentBanner(),
+        tvTools.renderShows()
+      ]);
     });
   </script>
 </head>
 
 <body>
+  <div class="instanceIdentificationBanner"></div>
   <div id="controls">
     <a href="edit.html">Edit show list</a> | <a href="data" download="shows.csv">Export data file</a>
   </div>
