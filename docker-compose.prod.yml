@@ -1,0 +1,16 @@
+#docker run --name tv-app -d -p 8000:8000 --mount src=tv-app-data,dst=/app/data tv-app-prod
+
+services:
+  tv-app:
+    container_name: tv-app
+    image: tv-app
+    ports:
+      - target: 8000
+        published: 8000
+    volumes:
+      - type: volume
+        source: tv-app-data
+        target: /app/data
+
+volumes:
+  tv-app-data:

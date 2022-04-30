@@ -1,1 +1,4 @@
-docker run --name tv-app -d -p 8000:8000 --mount src=tv-app-data,dst=/app/data tv-app-prod
+#!/bin/sh
+
+docker compose -f docker-compose.prod.yml up -d
+docker logs -f tv-app
