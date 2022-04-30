@@ -1,0 +1,16 @@
+# docker run --name tv-app-dev -p 8000:8000 -v "$(pwd)/data":/app/data -v "$(pwd)/code":/app/code tv-app-dev
+
+services:
+  tv-app:
+    container_name: tv-app-dev
+    image: tv-app-dev
+    ports:
+      - target: 8000
+        published: 8000
+    volumes:
+      - type: bind
+        source: ./data
+        target: /app/data
+      - type: bind
+        source: ./code
+        target: /app/code

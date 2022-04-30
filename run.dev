@@ -1,1 +1,4 @@
-docker run --name tv-app-dev -p 8000:8000 -v "$(pwd)/data":/app/data -v "$(pwd)/code":/app/code tv-app-dev
+#!/bin/sh
+
+docker compose -f docker-compose.dev.yml up -d
+docker logs -f tv-app-dev
