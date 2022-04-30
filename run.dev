@@ -1,4 +1,4 @@
 #!/bin/sh
 
 docker compose -f docker-compose.dev.yml up -d
-docker logs -f tv-app-dev
+docker logs -f tv-chart-dev

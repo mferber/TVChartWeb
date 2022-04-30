@@ -1,6 +1,6 @@
 # Project-specific
 
-tv-app-*.tar
+tv-chart*.tar
 code/frontend/dist
 
 # Originally from https://raw.githubusercontent.com/github/gitignore/main/Node.gitignore

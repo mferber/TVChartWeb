@@ -2,15 +2,15 @@
 
 services:
   tv-app:
-    container_name: tv-app
-    image: tv-app
+    container_name: tv-chart
+    image: tv-chart
     ports:
       - target: 8000
         published: 8000
     volumes:
       - type: volume
-        source: tv-app-data
+        source: tv-chart-data
         target: /app/data
 
 volumes:
-  tv-app-data:
+  tv-chart-data:

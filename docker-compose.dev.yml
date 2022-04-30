@@ -2,8 +2,8 @@
 
 services:
   tv-app:
-    container_name: tv-app-dev
-    image: tv-app-dev
+    container_name: tv-chart-dev
+    image: tv-chart-dev
     ports:
       - target: 8000
         published: 8000
