@@ -24,7 +24,10 @@ app.get('/env', async (req: Request, res: Response): Promise<void> => {
 
 // GET main data
 app.get('/data', async (req: Request, res: Response): Promise<void> => {
+  const timestamp = new Date().toISOString();
+  const filename = `shows-${timestamp}.csv`;
   res.set('Content-Type', 'text/plain')
+  res.set('Content-Disposition', `attachment; filename="${filename}"`);
   res.send(await fs.promises.readFile(dataFilePath, 'utf-8'));
 });
 
