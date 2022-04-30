@@ -1,5 +1,3 @@
-#docker run --name tv-app -d -p 8000:8000 --mount src=tv-app-data,dst=/app/data tv-app-prod
-
 services:
   tv-app:
     container_name: tv-chart
