@@ -8,10 +8,7 @@
   <script defer src="./tv-app-tools-bundle.js"></script>
   <script>
     window.addEventListener('DOMContentLoaded', async () => {
-      return Promise.all([
-        tvTools.showEnvironmentBanner(),
-        tvTools.renderShows()
-      ]);
+      tvTools.initializeMain();
     });
   </script>
 </head>

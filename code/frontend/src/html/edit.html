@@ -8,22 +8,7 @@
   <script defer src="./tv-app-tools-bundle.js"></script>
   <script>
     window.addEventListener('DOMContentLoaded', async () => {
-      document.querySelector('button#submit').addEventListener('click', (e) => {
-        e.preventDefault();
-        const editedData = document.querySelector('textarea#editor').value;
-        fetch('/data', {
-          method: 'PUT',
-          headers: { 'Content-Type': 'text/plain' },
-          body: editedData
-        }).then(() => location = '/'); // FIXME: validate the server response
-      });
-      document.querySelector('button#cancel').addEventListener('click', (e) => {
-        e.preventDefault();
-        location = '/index.html';
-      });
-
-      const data = await window.tvTools.fetchRawData();
-      document.querySelector('#editor').textContent = data;
+      tvTools.initializeEditData();
     });
   </script>
 </head>
