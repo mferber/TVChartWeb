@@ -1,7 +1,7 @@
 services:
   tv-app:
     container_name: tv-chart
-    image: tv-chart
+    image: mbp2012.local:5000/tv-chart
     ports:
       - target: 8000
         published: 8000
