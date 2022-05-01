@@ -41,3 +41,34 @@ body {
 .show-season + .show-season {
   margin-top: 0.25em;
 }
+
+
+/* Synopsis */
+
+#synopsis-popup {
+  display: none;
+  position: fixed;
+  bottom: 0.5em;
+  left: 1em;
+  right: 1em;
+  border: 6px solid #444;
+  border-radius: 0.7em;
+  padding: 1em 1em 0.5em 1em;
+  background-color: #eee;
+}
+
+#synopsis-episode-title {
+  font-size: 130%;
+  font-weight: bold;
+}
+
+#synopsis-show-title {
+  font-weight: bold;
+  font-style: italic;
+}
+
+#synopsis-body {
+  margin-top: 0.5em;
+  max-height: 8em;
+  overflow: scroll;
+}
