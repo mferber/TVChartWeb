@@ -18,6 +18,7 @@ export function createSeasonClickHandler(show: Show, seasonNum: number): (_: Mou
         seasonNum,
         1,
         "The City on the Edge of Forever",
+        "48 min.",
         "Doctor Leonard McCoy (DeForest Kelley) accidentally overdoses himself with a dangerous drug. While not in his right mind, McCoy transports himself down to a mysterious planet and travels back in time through the Guardian of Forever, after which he changes history to such an extent that the Federation of Planets no longer exists. Captain Kirk (William Shatner) and Spock (Leonard Nimoy) follow McCoy to 1930 New York and attempt to discover how he changed history and restore their timeline. While in the past, Kirk falls in love with social worker Edith Keeler (Joan Collins) and is shocked when he and Spock realize that, in order to save his future, he must allow Keeler to die in a traffic accident."
       ),
       1000

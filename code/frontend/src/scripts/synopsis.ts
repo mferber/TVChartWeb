@@ -12,7 +12,7 @@ export function showSynopsisLoadingIndicator() {
   setPopupVisible(container, true);
 }
 
-export function showSynopsis(show: Show, seasonNum: number, episodeNum: number, episodeTitle: string, synopsis: string) {
+export function showSynopsis(show: Show, seasonNum: number, episodeNum: number, episodeTitle: string, episodeLength: string, synopsis: string) {
   const container = synopsisContainer();
   if (!container) {
     return;
@@ -22,6 +22,7 @@ export function showSynopsis(show: Show, seasonNum: number, episodeNum: number, 
   populate(container, '#synopsis-season-num', seasonNum.toString());
   populate(container, '#synopsis-episode-num', episodeNum.toString());
   populate(container, '#synopsis-episode-title', episodeTitle);
+  populate(container, '#synopsis-episode-length', episodeLength);
   populate(container, '#synopsis-body', synopsis);
 
   container.querySelector('#synopsis-body')?.scrollTo(0, 0);
