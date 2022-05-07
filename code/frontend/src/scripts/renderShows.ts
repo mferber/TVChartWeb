@@ -2,7 +2,7 @@ import parse from './parse';
 import drawSeason from './drawSeason';
 import {Show, Season, Segment, EpisodeCount, Marker} from './types';
 import {createElement} from './htmlUtils';
-import createClickHandler from './createClickHandler';
+import {createSeasonClickHandler} from './eventHandlers';
 
 export default async function () {
   const container = document.body.querySelector('#content');
@@ -47,7 +47,9 @@ function renderDescription(location: string, length: string): HTMLElement {
 function renderSeasons(show: Show, seenThru: Marker): HTMLElement {
   const seasonSVGs = show.seasons
     .map((season, seasonIndex) => drawSeason(show, seasonIndex + 1, seenThru));
-  seasonSVGs.forEach((svg, i) => svg.addEventListener('click', createClickHandler(show, i + 1)));
+
+  seasonSVGs.forEach((svg, i) => svg.addEventListener('click', createSeasonClickHandler(show, i + 1)));
+
   const divs = seasonSVGs.map(svg => createElement('div', 'show-season', [svg]));
   return createElement('div', 'show-seasons', divs);
 }
