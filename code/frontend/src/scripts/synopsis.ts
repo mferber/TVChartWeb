@@ -1,27 +1,34 @@
+import { syncBuiltinESMExports } from 'module';
 import {Show} from './types';
 
-export function showSynopsis(show: Show, seasonNum: number, episodeNum: number, episodeTitle: string, synopsis: string) {
-  const infoContainer = document.querySelector('#synopsis-popup') as HTMLElement;
-  if (!infoContainer) {
+export function showSynopsisLoadingIndicator() {
+  const container = synopsisContainer();
+  if (!container) {
     return;
   }
 
-  populate(infoContainer, '#synopsis-show-title', show.title);
-  populate(infoContainer, '#synopsis-season-num', seasonNum.toString());
-  populate(infoContainer, '#synopsis-episode-num', episodeNum.toString());
-  populate(infoContainer, '#synopsis-episode-title', episodeTitle);
-  populate(infoContainer, '#synopsis-body', synopsis);
-
-  
-  infoContainer.style.display = 'block';
-  infoContainer.querySelector('#synopsis-content')?.scrollTo(0, 0);
+  setContentVisible(container, false);
+  setLoadingIndicatorVisible(container, true);
+  setPopupVisible(container, true);
 }
 
-export function dismissSynopsis() {
-  const infoContainer = document.querySelector('#synopsis-popup') as HTMLElement;
-  if (infoContainer) {
-    infoContainer.style.display = 'none';
+export function showSynopsis(show: Show, seasonNum: number, episodeNum: number, episodeTitle: string, synopsis: string) {
+  const container = synopsisContainer();
+  if (!container) {
+    return;
   }
+  
+  populate(container, '#synopsis-show-title', show.title);
+  populate(container, '#synopsis-season-num', seasonNum.toString());
+  populate(container, '#synopsis-episode-num', episodeNum.toString());
+  populate(container, '#synopsis-episode-title', episodeTitle);
+  populate(container, '#synopsis-body', synopsis);
+
+  container.querySelector('#synopsis-body')?.scrollTo(0, 0);
+
+  setLoadingIndicatorVisible(container, false);
+  setContentVisible(container, true);
+  setPopupVisible(container, true);
 }
 
 function populate(container: HTMLElement, selector: string, value: string) {
@@ -29,4 +36,37 @@ function populate(container: HTMLElement, selector: string, value: string) {
   if (elt) {
     elt.textContent = value;
   }
+}
+
+export function dismissSynopsis() {
+  const container = synopsisContainer();
+  if (!container) {
+    return;
+  }
+  
+  setLoadingIndicatorVisible(container, false);
+  setContentVisible(container, false);
+  setPopupVisible(container, false);
+}
+
+function setContentVisible(container: Element, visible: boolean) {
+  const contentBlock = container.querySelector('#synopsis-content') as HTMLElement;
+  if (contentBlock) {
+    contentBlock.style.display = visible ? 'block' : 'none';
+  }
+}
+
+function setLoadingIndicatorVisible(container: Element, visible: boolean) {
+  const loadingIndicator = container.querySelector('#synopsis-loading-indicator') as HTMLElement;
+  if (loadingIndicator) {
+    loadingIndicator.style.display = visible ? 'block' : 'none';
+  }
+}
+
+function setPopupVisible(container: HTMLElement, visible: boolean) {
+  container.style.display = visible ? 'block' : 'none';
+}
+
+function synopsisContainer(): HTMLElement {
+  return document.querySelector('#synopsis-popup') as HTMLElement;
 }
