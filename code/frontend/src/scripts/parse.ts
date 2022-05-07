@@ -13,12 +13,12 @@ export default function parseShows(config: string): Show[] {
   for (const line of lines) {
     const fields = line.split(',').map(f => f.trim());
 
-    if (fields.length < 4) {
+    if (fields.length < 5) {
       notifyInvalid(line);
       continue lines;
     }
     let seasons = [];
-    for (const season of fields[3].split('.')) {
+    for (const season of fields[4].split('.')) {
       const segments = season.split('+').map(s => parseInt(s));
       if (segments.some(s => isNaN(s))) {
         notifyInvalid(line);
@@ -29,10 +29,10 @@ export default function parseShows(config: string): Show[] {
     };
 
     let seenThru = null;
-    if (fields[4] === '0' || fields[4] === 'unstarted') {
+    if (fields[5] === '0' || fields[5] === 'unstarted') {
       seenThru = { season: 0, episode: 0 };
     } else {
-      let seenThruMatch = /^S(\d+)(?:E(\d+))?$/.exec(fields[4]);
+      let seenThruMatch = /^S(\d+)(?:E(\d+))?$/.exec(fields[5]);
       if (seenThruMatch) {
         let season = Number(seenThruMatch[1]);
         let episode: EpisodeCount = 0;
@@ -50,8 +50,9 @@ export default function parseShows(config: string): Show[] {
 
     shows.push({
       title: fields[0],
-      location: fields[1],
-      length: fields[2],
+      tvmazeId: fields[1],
+      location: fields[2],
+      length: fields[3],
       seasons: seasons,
       seenThru: seenThru
     });
