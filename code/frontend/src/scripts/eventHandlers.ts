@@ -2,6 +2,8 @@ import { boxHeight, interSegmentSpacing, outerStrokeWidth, dividerStrokeWidth } 
 import { segmentWidth } from './drawSeason';
 import { Show, Season } from './types';
 import { showSynopsis, showSynopsisLoadingIndicator } from './synopsis';
+import TVMazeApi from './TVMazeApi';
+import metadataCache from './metadataCache';
 
 export function createSeasonClickHandler(show: Show, seasonNum: number): (_: MouseEvent) => void {
   return async (e: MouseEvent): Promise<void> => {
@@ -12,17 +14,20 @@ export function createSeasonClickHandler(show: Show, seasonNum: number): (_: Mou
 
     showSynopsisLoadingIndicator();
 
-    setTimeout(() =>
-      showSynopsis(
-        show,
-        seasonNum,
-        episodeNum,
-        "The City on the Edge of Forever",
-        "48 min.",
-        "Doctor Leonard McCoy (DeForest Kelley) accidentally overdoses himself with a dangerous drug. While not in his right mind, McCoy transports himself down to a mysterious planet and travels back in time through the Guardian of Forever, after which he changes history to such an extent that the Federation of Planets no longer exists. Captain Kirk (William Shatner) and Spock (Leonard Nimoy) follow McCoy to 1930 New York and attempt to discover how he changed history and restore their timeline. While in the past, Kirk falls in love with social worker Edith Keeler (Joan Collins) and is shocked when he and Spock realize that, in order to save his future, he must allow Keeler to die in a traffic accident."
-      ),
-      1000
+    if (!metadataCache.hasOwnProperty(show.title)) {
+      metadataCache[show.title] = await TVMazeApi.fetchEpisodesMetadata(show, seasonNum);
+    }
+
+    const metadata = metadataCache[show.title][seasonNum][episodeNum];
+    showSynopsis(
+      show,
+      seasonNum,
+      episodeNum,
+      metadata.title,
+      metadata.length,
+      metadata.synopsis
     );
+
     e.stopPropagation();
   }
 }

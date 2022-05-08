@@ -1,5 +1,6 @@
 export interface Show {
   title: string,
+  tvmazeId: string,
   location: string,
   length: string,
   seasons: Season[],

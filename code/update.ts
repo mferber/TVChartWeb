@@ -21,7 +21,11 @@ export async function updateWatchStatus(dataFilePath: string, showTitle: string,
 }
 
 async function saveDataFile(dataFilePath: string, text: string) {
-  const tempFilePath = dataFilePath + '.tmp'
-  await fs.promises.writeFile(tempFilePath, text, 'utf-8');
-  await fs.promises.rename(tempFilePath, dataFilePath);
+  try {
+    const tempFilePath = dataFilePath + '.tmp'
+    await fs.promises.writeFile(tempFilePath, text, 'utf-8');
+    await fs.promises.rename(tempFilePath, dataFilePath);
+  } catch (e) {
+    console.log("ERROR saving data file:", e);
+  }
 }
