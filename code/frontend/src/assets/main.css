@@ -58,16 +58,20 @@ body {
 }
 
 #synopsis-episode-title-quoted {
-  font-size: 130%;
+  font-size: 150%;
   font-weight: bold;
 }
 
 #synopsis-show-title {
+  font-size: 130%;
   font-weight: bold;
   font-style: italic;
 }
 
 #synopsis-body {
+  font-size: 120%;
+  border: 1px solid #777;
+  padding: 0.25em 0.5em;
   margin-top: 0.5em;
   max-height: 8em;
   overflow: scroll;
