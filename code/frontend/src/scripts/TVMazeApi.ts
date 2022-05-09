@@ -11,7 +11,6 @@ const tvMazeBaseUrl = 'https://api.tvmaze.com/';
 
 export default class {
   private static async fetch(relativeUri: string): Promise<Response> {
-    console.log(tvMazeBaseUrl + relativeUri);
     return fetch(tvMazeBaseUrl + relativeUri);
   }
 
