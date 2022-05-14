@@ -3,10 +3,11 @@ import { createElementNS } from './htmlUtils';
 import { boxHeight, interSegmentSpacing, outerStrokeWidth, dividerStrokeWidth } from './metrics';
 
 const SVG_NS = 'http://www.w3.org/2000/svg';
+const SPECIAL_EPISODE_MARKER = '\u2605';  // black star
 
 export default function (seasonMap: string, seasonNum: number, seenThru: Marker): SVGElement {
   let components: Element[] = [];
-  let episodeOffset = 0;
+  let episodeCounterOffset = 0;
   let x = 0;
 
   const segmentMaps = seasonMap.split('+');
@@ -16,9 +17,12 @@ export default function (seasonMap: string, seasonNum: number, seenThru: Marker)
       components.push(drawnSeparator);
       x = endX;
     }
-    let [drawnSegment, endX] = drawAppendedSegment(segmentMap, episodeOffset, x, seasonNum, seenThru);
+    let [drawnSegment, endX] = drawAppendedSegment(segmentMap, episodeCounterOffset, x, seasonNum, seenThru);
     components.push(drawnSegment);
-    episodeOffset += segmentMap.length;
+
+    const specialEpisodes = [...segmentMap].filter(c => c === 'S').length;
+    episodeCounterOffset += segmentMap.length - specialEpisodes;
+
     x = endX;
   });
 
@@ -49,10 +53,10 @@ function drawSegmentSeparator(x: number): [Element, number] {
   return [result, x + interSegmentSpacing];
 }
 
-function drawAppendedSegment(segmentMap: string, episodeOffset: number, xOffset: number, seasonNum: number, seenThru: Marker): [Element, number] {
+function drawAppendedSegment(segmentMap: string, episodeCounterOffset: number, xOffset: number, seasonNum: number, seenThru: Marker): [Element, number] {
   let x = xOffset;
 
-  let elts = drawSegmentInterior(segmentMap, episodeOffset, x, seasonNum, seenThru);
+  let elts = drawSegmentInterior(segmentMap, episodeCounterOffset, x, seasonNum, seenThru);
   let [outerBox, endX] = drawSegmentOuterBox(segmentMap, x);
   elts.push(outerBox);
   const group = createElementNS('g', SVG_NS, null, elts);
@@ -69,11 +73,11 @@ function drawSegmentOuterBox(segmentMap: string, xStart: number): [Element, numb
   return [rect, endX];
 }
 
-function drawSegmentInterior(segmentMap: string, episodeOffset: number, xOffset: number, seasonNum: number, seenThru: Marker): Element[] {
+function drawSegmentInterior(segmentMap: string, episodeCounterOffset: number, xOffset: number, seasonNum: number, seenThru: Marker): Element[] {
   let elts: Element[] = [];
   const innerBoxWidth = boxHeight - 2 * outerStrokeWidth;
 
-  const seenCount = howManyEpisodesSeen(segmentMap, seasonNum, episodeOffset, seenThru);
+  const seenCount = howManyEpisodesSeen(segmentMap, seasonNum, episodeCounterOffset, seenThru);
 
   // gray background for seen episodes
   if (seenCount > 0) {
@@ -91,10 +95,13 @@ function drawSegmentInterior(segmentMap: string, episodeOffset: number, xOffset:
 
   // episode numbers
   const fontSize = innerBoxWidth / 1.75;
+  let episodeCounter = episodeCounterOffset;
   for (let i = 0; i < segmentMap.length; i++) {
     const x = xOffset + outerStrokeWidth + (i * innerBoxWidth) + (i === 0 ? 0 : i * dividerStrokeWidth) + (innerBoxWidth / 2);
     const y = outerStrokeWidth + innerBoxWidth / 2;
-    const text = createElementNS('text', SVG_NS, null, [document.createTextNode((i + episodeOffset + 1).toString())]);
+
+    const label = segmentMap[i] === 'S' ? SPECIAL_EPISODE_MARKER : (++episodeCounter).toString();
+    const text = createElementNS('text', SVG_NS, null, [document.createTextNode(label)]); //(++episodeCounter).toString())]);
     text.setAttribute('x', x.toString());
     text.setAttribute('y', y.toString());
     text.setAttribute('dominant-baseline', 'middle');
@@ -106,7 +113,7 @@ function drawSegmentInterior(segmentMap: string, episodeOffset: number, xOffset:
   return elts;
 }
 
-function howManyEpisodesSeen(segmentMap: string, seasonNum: number, episodeOffset: number, seenThru: Marker) {
+function howManyEpisodesSeen(segmentMap: string, seasonNum: number, episodeCounterOffset: number, seenThru: Marker) {
   if (seasonNum < seenThru.season) {
     return segmentMap.length;
   } else if (seasonNum > seenThru.season) {
@@ -115,7 +122,7 @@ function howManyEpisodesSeen(segmentMap: string, seasonNum: number, episodeOffse
     if (seenThru.episode == 'all') {
       return segmentMap.length;
     } else {
-      return Math.min(Math.max(0, seenThru.episode as number - episodeOffset), segmentMap.length);
+      return Math.min(Math.max(0, seenThru.episode as number - episodeCounterOffset), segmentMap.length);
     }
   }
 }
