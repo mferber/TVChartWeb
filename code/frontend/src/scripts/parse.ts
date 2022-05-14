@@ -1,4 +1,4 @@
-import {Show, Segment, EpisodeCount} from "./types";
+import {Show, EpisodeCount} from "./types";
 
 const reComment = new RegExp('//.*');
 
@@ -17,16 +17,13 @@ export default function parseShows(config: string): Show[] {
       notifyInvalid(line);
       continue lines;
     }
-    let seasons = [];
-    for (const season of fields[4].split('.')) {
-      const segments = season.split('+').map(s => parseInt(s));
-      if (segments.some(s => isNaN(s))) {
-        notifyInvalid(line);
-        continue lines;
-      }
-      const segmentObjects: Segment[] = segments.map(s => ({episodeCount: s}));
-      seasons.push({segments: segmentObjects});
-    };
+
+    let episodeMap: string;
+    const seasonMaps = parseSeasonMaps(fields[4]);
+    if (seasonMaps === null) {
+      notifyInvalid(line);
+      continue lines;
+    }
 
     let seenThru = null;
     if (fields[5] === '0' || fields[5] === 'unstarted') {
@@ -53,12 +50,45 @@ export default function parseShows(config: string): Show[] {
       tvmazeId: fields[1],
       location: fields[2],
       length: fields[3],
-      seasons: seasons,
+      seasonMaps: seasonMaps,
       seenThru: seenThru
     });
   }
 
   return shows;
+}
+
+function parseSeasonMaps(allSeasonsDescriptor: string): string[] | null {
+  const seasonMaps: string[] = [];
+  const seasonDescriptors = allSeasonsDescriptor.split('|');
+
+  for (let seasonDescriptor of seasonDescriptors) {
+    const segmentMaps: string[] = [];
+    const segmentDescriptors = seasonDescriptor.split('+');
+    
+    for (let segmentDescriptor of segmentDescriptors) {
+      const asNumber = parseInt(segmentDescriptor);
+
+      if (!isNaN(asNumber)) {
+
+        // old format: number of episodes
+        segmentMaps.push('.'.repeat(asNumber));
+
+      } else if (/^[\.S]+$/.test(segmentDescriptor)) {
+
+        // valid new format: * for special, . for episode
+        segmentMaps.push(segmentDescriptor);
+      
+      } else {
+
+        // can't parse: line is invalid
+        return null;
+
+      }
+    }
+    seasonMaps.push(segmentMaps.join('+'));
+  }
+  return seasonMaps;
 }
 
 function notifyInvalid(line: string) {

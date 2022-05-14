@@ -1,6 +1,6 @@
 import parse from './parse';
 import drawSeason from './drawSeason';
-import {Show, Season, Segment, EpisodeCount, Marker} from './types';
+import {Show, EpisodeCount, Marker} from './types';
 import {createElement} from './htmlUtils';
 import {createSeasonClickHandler} from './eventHandlers';
 
@@ -45,8 +45,8 @@ function renderDescription(location: string, length: string): HTMLElement {
 }
 
 function renderSeasons(show: Show, seenThru: Marker): HTMLElement {
-  const seasonSVGs = show.seasons
-    .map((season, seasonIndex) => drawSeason(show, seasonIndex + 1, seenThru));
+  const seasonSVGs = show.seasonMaps
+    .map((seasonMap, seasonIndex) => drawSeason(seasonMap, seasonIndex + 1, seenThru));
 
   seasonSVGs.forEach((svg, i) => svg.addEventListener('click', createSeasonClickHandler(show, i + 1)));
 

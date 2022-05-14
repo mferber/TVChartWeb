@@ -1,6 +1,6 @@
 import { boxHeight, interSegmentSpacing, outerStrokeWidth, dividerStrokeWidth } from './metrics';
 import { segmentWidth } from './drawSeason';
-import { Show, Season } from './types';
+import { Show } from './types';
 import { showSynopsis, showSynopsisLoadingIndicator } from './synopsis';
 import TVMazeApi from './TVMazeApi';
 import metadataCache from './metadataCache';
@@ -43,7 +43,7 @@ function episodeNumberFromClientXY(
   if (svg instanceof SVGGraphicsElement) {
     let svgPt = toSVGPoint(svg, clientX, clientY);
     if (svgPt) {
-      return episodeNumberFromSVGPoint(svgPt, show.seasons[seasonNum - 1]);
+      return episodeNumberFromSVGPoint(svgPt, show.seasonMaps[seasonNum - 1]);
     }
   }
   return null;
@@ -63,18 +63,20 @@ function toSVGPoint(svg: SVGGraphicsElement, x: number, y: number): DOMPoint | n
   return p.matrixTransform(svg.getScreenCTM()?.inverse());
 };
 
-function episodeNumberFromSVGPoint(point: DOMPoint, season: Season): number | null {
+function episodeNumberFromSVGPoint(point: DOMPoint, seasonMap: string): number | null {
   const boxWidth = boxHeight - 2 * outerStrokeWidth;
 
   let segmentOffset = 0;
   let episodeOffset = 0;
-  for (const [segmentIndex, segment] of season.segments.entries()) {
+  const segmentMaps = seasonMap.split('+');
+  for (let segmentIndex = 0; segmentIndex < segmentMaps.length; segmentIndex++) {
+    const segmentMap = segmentMaps[segmentIndex];
     const boxIndex = Math.floor((point.x - segmentOffset - outerStrokeWidth) / (boxWidth + dividerStrokeWidth));
-    if (boxIndex >= 0 && boxIndex < segment.episodeCount) {
+    if (boxIndex >= 0 && boxIndex < segmentMap.length) {
       return boxIndex + 1 + episodeOffset;
     }
-    segmentOffset += segmentWidth(segment.episodeCount) + interSegmentSpacing;
-    episodeOffset += segment.episodeCount;
+    segmentOffset += segmentWidth(segmentMap.length) + interSegmentSpacing;
+    episodeOffset += segmentMap.length;
   }
   return null;
 }

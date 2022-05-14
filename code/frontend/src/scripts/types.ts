@@ -3,16 +3,8 @@ export interface Show {
   tvmazeId: string,
   location: string,
   length: string,
-  seasons: Season[],
+  seasonMaps: string[],
   seenThru: Marker
-};
-
-export interface Season {
-  segments: Segment[]
-};
-
-export interface Segment {
-  episodeCount: number;
 };
 
 export type EpisodeCount = number | 'all';
