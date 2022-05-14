@@ -47,8 +47,6 @@ export default class {
       metadata[season].push(epMetadata);
     }
 
-    console.log(metadata);
-    
     return metadata;
   }
 }
