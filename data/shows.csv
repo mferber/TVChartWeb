@@ -1,7 +1,9 @@
 // Line format:
-// title, TVmaze id, source, episode-length, season-lengths, last-watched-episode
+// title, TVmaze id, source, episode-length, season-map, last-watched-episode
 //
-// season-lengths: dot-delimited; for compound seasons, join segments with +
+// season-map: seasons delimited by "|"; episodes indicated by "." for regular episode, "S"
+//   for a special; may be split into segments with "+" (if there are no specials, the number
+//   of episodes in a season or segment may be given as a number instead of a sequence of dots)
 // last-watched-episode: use S1E1 format; in compound seasons, count episodes
 //   from start of season. If unstarted, use '0', 'S0E0', or 'unstarted'.
 //
