@@ -13,15 +13,24 @@ export function showSynopsisLoadingIndicator() {
   setPopupVisible(container, true);
 }
 
-export function showSynopsis(show: Show, seasonNum: number, episodeNum: number, episodeTitle: string, episodeLength: string, synopsis: string) {
+export function showSynopsis(
+  show: Show,
+  seasonNum: number,
+  episodeIndex: number,
+  episodeNum: number | null,
+  episodeTitle: string,
+  episodeLength: string,
+  synopsis: string
+) {
   const container = synopsisContainer();
   if (!container) {
     return;
   }
+
+  let episodeIdentifier = episodeNum ? `S${seasonNum}E${episodeNum}` : `S${seasonNum} — Special`;
   
   populate(container, '#synopsis-show-title', show.title);
-  populate(container, '#synopsis-season-num', seasonNum.toString());
-  populate(container, '#synopsis-episode-num', episodeNum.toString());
+  populate(container, '#synopsis-episode-identifier', episodeIdentifier);
   populate(container, '#synopsis-episode-title', episodeTitle);
   populate(container, '#synopsis-episode-length', episodeLength);
   populate(container, '#synopsis-body', synopsis);
@@ -30,7 +39,7 @@ export function showSynopsis(show: Show, seasonNum: number, episodeNum: number, 
 
   container.querySelector('#synopsis-mark-watched')?.addEventListener('click', async e => {
     e.preventDefault();
-    await Api.updateShowStatus(show, seasonNum, episodeNum);
+    await Api.updateShowStatus(show, seasonNum, episodeIndex);
     location.reload();
   });
 

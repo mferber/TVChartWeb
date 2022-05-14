@@ -1,7 +1,8 @@
 import {Show} from "./types";
 
 export interface EpisodeMetadata {
-  number: number | null;
+  id: number;
+  episode: number | null; // null for specials
   title: string;
   length: string;
   synopsis: string;
@@ -20,14 +21,20 @@ export default class {
 
     const metadata: EpisodeMetadata[][] = [];
     for (const ep of tvmazeResult) {
+      if (ep.type === 'insignificant_special') {
+        continue;
+      }
+
+      const id = ep.id as number;
       const season = ep.season as number;
-      const number = ep.number as number | null;
+      const episode = ep.number as number | null;
       const name = ep.name as string;
       const runtime = ep.runtime as number;
       const summary = ((ep.summary as string) || '').replace(/<.*?>/g, '');
       
       const epMetadata: EpisodeMetadata = {
-        number: number,
+        id, 
+        episode,
         title: name as string,
         length: `${runtime} min.`,
         synopsis: summary as string
@@ -37,13 +44,11 @@ export default class {
         metadata[season] = [];
       }
 
-      if (number === null) {
-        metadata[season].push(epMetadata);
-      } else {
-        metadata[season][number] = epMetadata;
-      }
+      metadata[season].push(epMetadata);
     }
 
+    console.log(metadata);
+    
     return metadata;
   }
 }

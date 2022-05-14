@@ -7,8 +7,8 @@ import metadataCache from './metadataCache';
 
 export function createSeasonClickHandler(show: Show, seasonNum: number): (_: MouseEvent) => void {
   return async (e: MouseEvent): Promise<void> => {
-    const episodeNum = episodeNumberFromClientXY(e.target as SVGElement, e.clientX, e.clientY, show, seasonNum);
-    if (episodeNum === null) {
+    const boxIndex = clientXYToBoxIndex(e.target as SVGElement, e.clientX, e.clientY, show, seasonNum);
+    if (boxIndex === null) {
       return;
     }
 
@@ -18,11 +18,12 @@ export function createSeasonClickHandler(show: Show, seasonNum: number): (_: Mou
       metadataCache[show.title] = await TVMazeApi.fetchEpisodesMetadata(show, seasonNum);
     }
 
-    const metadata = metadataCache[show.title][seasonNum][episodeNum];
+    const metadata = metadataCache[show.title][seasonNum][boxIndex];
     showSynopsis(
       show,
       seasonNum,
-      episodeNum,
+      boxIndex,
+      metadata.episode,
       metadata.title,
       metadata.length,
       metadata.synopsis
@@ -32,7 +33,7 @@ export function createSeasonClickHandler(show: Show, seasonNum: number): (_: Mou
   }
 }
 
-function episodeNumberFromClientXY(
+function clientXYToBoxIndex(
   element: SVGElement,
   clientX: number,
   clientY: number,
@@ -43,7 +44,7 @@ function episodeNumberFromClientXY(
   if (svg instanceof SVGGraphicsElement) {
     let svgPt = toSVGPoint(svg, clientX, clientY);
     if (svgPt) {
-      return episodeNumberFromSVGPoint(svgPt, show.seasonMaps[seasonNum - 1]);
+      return svgPointToBoxIndex(svgPt, show.seasonMaps[seasonNum - 1]);
     }
   }
   return null;
@@ -63,20 +64,20 @@ function toSVGPoint(svg: SVGGraphicsElement, x: number, y: number): DOMPoint | n
   return p.matrixTransform(svg.getScreenCTM()?.inverse());
 };
 
-function episodeNumberFromSVGPoint(point: DOMPoint, seasonMap: string): number | null {
+function svgPointToBoxIndex(point: DOMPoint, seasonMap: string): number | null {
   const boxWidth = boxHeight - 2 * outerStrokeWidth;
 
   let segmentOffset = 0;
-  let episodeOffset = 0;
+  let boxCountOffset = 0;
   const segmentMaps = seasonMap.split('+');
   for (let segmentIndex = 0; segmentIndex < segmentMaps.length; segmentIndex++) {
     const segmentMap = segmentMaps[segmentIndex];
     const boxIndex = Math.floor((point.x - segmentOffset - outerStrokeWidth) / (boxWidth + dividerStrokeWidth));
     if (boxIndex >= 0 && boxIndex < segmentMap.length) {
-      return boxIndex + 1 + episodeOffset;
+      return boxIndex + boxCountOffset;
     }
     segmentOffset += segmentWidth(segmentMap.length) + interSegmentSpacing;
-    episodeOffset += segmentMap.length;
+    boxCountOffset += segmentMap.length;
   }
   return null;
 }

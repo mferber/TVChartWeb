@@ -37,10 +37,10 @@ app.put('/data', async (req: Request, res: Response): Promise<void> => {
   res.status(200).send();
 });
 
-// PATCH main data -- modify most recently watched episode for a show
+// PATCH main data -- modify most recently watched episode for a show (by index, 0-based)
 app.patch('/data', async(req: Request, res: Response): Promise<void> => {
-  const {show, seasonNum, episodeNum} = req.body;
-  await updateWatchStatus(dataFilePath, show, seasonNum, episodeNum);
+  const {show, seasonNum, episodeIndex} = req.body;
+  await updateWatchStatus(dataFilePath, show, seasonNum, episodeIndex);
   res.status(200).send();
 });
 
