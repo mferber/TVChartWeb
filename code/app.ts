@@ -26,22 +26,34 @@ app.get('/env', async (req: Request, res: Response): Promise<void> => {
 app.get('/data', async (req: Request, res: Response): Promise<void> => {
   const timestamp = new Date().toISOString();
   const filename = `shows-${timestamp}.json`;
-  res.set('Content-Type', 'application/json')
-  res.set('Content-Disposition', `attachment; filename="${filename}"`);
-  res.send(await fs.promises.readFile(dataFilePath, 'utf-8'));
+  try {
+    res.set('Content-Type', 'application/json')
+    res.set('Content-Disposition', `attachment; filename="${filename}"`);
+    res.send(await fs.promises.readFile(dataFilePath, 'utf-8'));
+  } catch (e) {
+    res.status(500).send(`Error: ${e}`);
+  }
 });
 
 // PUT main data -- replaces old version
 app.put('/data', async (req: Request, res: Response): Promise<void> => {
-  await replaceDataFile(dataFilePath, req.body);
-  res.status(200).send();
+  try {
+    await replaceDataFile(dataFilePath, req.body);
+    res.status(200).send();
+  } catch (e) {
+    res.status(500).send(`Error: ${e}`);
+  }
 });
 
 // PATCH main data -- modify most recently watched episode for a show (by index, 0-based)
 app.patch('/data', async(req: Request, res: Response): Promise<void> => {
   const {show, seasonNum, episodesWatched} = req.body;
-  await updateWatchStatus(dataFilePath, show, seasonNum, episodesWatched);
-  res.status(200).send();
+  try {
+    await updateWatchStatus(dataFilePath, show, seasonNum, episodesWatched);
+    res.status(200).send();
+  } catch (e) {
+    res.status(500).send(`Error: ${e}`);
+  }
 });
 
 // Start server
