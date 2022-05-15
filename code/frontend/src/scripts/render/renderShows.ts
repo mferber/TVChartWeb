@@ -1,8 +1,8 @@
-import parse from './parse';
+import parse from '../parse';
 import drawSeason from './drawSeason';
-import {Show, EpisodeCount, Marker} from './types';
-import {createElement} from './htmlUtils';
-import {createSeasonClickHandler} from './eventHandlers';
+import {Show, EpisodeCount, Marker} from '../types';
+import {createElement} from '../htmlUtils';
+import {createSeasonClickHandler} from '../eventHandlers';
 
 export default async function () {
   const container = document.body.querySelector('#content');

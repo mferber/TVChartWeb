@@ -1,4 +1,4 @@
-import {Show, EpisodeCount} from "./types";
+import {Show, EpisodeCount, Marker} from "./types";
 
 const reComment = new RegExp('//.*');
 
@@ -25,14 +25,14 @@ export default function parseShows(config: string): Show[] {
       continue lines;
     }
 
-    let seenThru = null;
+    let seenThru: Marker | null = null;
     if (fields[5] === '0' || fields[5] === 'unstarted') {
-      seenThru = { season: 0, episodesWatched: null };
+      seenThru = { season: 0, episodesWatched: 0 };
     } else {
       let seenThruMatch = /^(\d+)(?:\:(\d+))?$/.exec(fields[5]);
       if (seenThruMatch) {
         let season = Number(seenThruMatch[1]);
-        let episodesWatched: EpisodeCount = null;
+        let episodesWatched: EpisodeCount = 0;
         if (seenThruMatch[2] === undefined) {
           episodesWatched = 'all';
         } else {

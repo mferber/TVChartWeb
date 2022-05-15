@@ -1,6 +1,6 @@
 import { syncBuiltinESMExports } from 'module';
-import {Show} from './types';
-import Api from "./Api";
+import {Show} from '../types';
+import API from "../api/api";
 
 export function showSynopsisLoadingIndicator() {
   const container = synopsisContainer();
@@ -39,7 +39,7 @@ export function showSynopsis(
 
   container.querySelector('#synopsis-mark-watched')?.addEventListener('click', async e => {
     e.preventDefault();
-    await Api.updateShowStatus(show, seasonNum, episodeIndex + 1);
+    await API.updateShowStatus(show, seasonNum, episodeIndex + 1);
     location.reload();
   });
 

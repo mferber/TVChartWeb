@@ -1,0 +1,4 @@
+export const BOX_HEIGHT = 35;
+export const OUTER_STROKE_WIDTH = BOX_HEIGHT / 10;
+export const DIVIDER_STROKE_WIDTH = OUTER_STROKE_WIDTH / 2;
+export const INTER_SEGMENT_SPACING = BOX_HEIGHT * 2 / 3;

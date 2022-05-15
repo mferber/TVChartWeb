@@ -1,8 +1,8 @@
-import { boxHeight, interSegmentSpacing, outerStrokeWidth, dividerStrokeWidth } from './metrics';
-import { segmentWidth } from './drawSeason';
+import { BOX_HEIGHT, INTER_SEGMENT_SPACING, OUTER_STROKE_WIDTH, DIVIDER_STROKE_WIDTH } from './render/graphicsConstants';
+import { segmentWidth } from './render/drawSeason';
 import { Show } from './types';
-import { showSynopsis, showSynopsisLoadingIndicator } from './synopsis';
-import TVMazeApi from './TVMazeApi';
+import { showSynopsis, showSynopsisLoadingIndicator } from './render/synopsis';
+import TVMazeApi from './tvmaze/TVMazeApi';
 import metadataCache from './metadataCache';
 
 export function createSeasonClickHandler(show: Show, seasonNum: number): (_: MouseEvent) => void {
@@ -65,18 +65,18 @@ function toSVGPoint(svg: SVGGraphicsElement, x: number, y: number): DOMPoint | n
 };
 
 function svgPointToBoxIndex(point: DOMPoint, seasonMap: string): number | null {
-  const boxWidth = boxHeight - 2 * outerStrokeWidth;
+  const boxWidth = BOX_HEIGHT - 2 * OUTER_STROKE_WIDTH;
 
   let segmentOffset = 0;
   let boxCountOffset = 0;
   const segmentMaps = seasonMap.split('+');
   for (let segmentIndex = 0; segmentIndex < segmentMaps.length; segmentIndex++) {
     const segmentMap = segmentMaps[segmentIndex];
-    const boxIndex = Math.floor((point.x - segmentOffset - outerStrokeWidth) / (boxWidth + dividerStrokeWidth));
+    const boxIndex = Math.floor((point.x - segmentOffset - OUTER_STROKE_WIDTH) / (boxWidth + DIVIDER_STROKE_WIDTH));
     if (boxIndex >= 0 && boxIndex < segmentMap.length) {
       return boxIndex + boxCountOffset;
     }
-    segmentOffset += segmentWidth(segmentMap.length) + interSegmentSpacing;
+    segmentOffset += segmentWidth(segmentMap.length) + INTER_SEGMENT_SPACING;
     boxCountOffset += segmentMap.length;
   }
   return null;

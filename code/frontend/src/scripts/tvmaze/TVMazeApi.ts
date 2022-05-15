@@ -1,4 +1,4 @@
-import {Show} from "./types";
+import {Show} from "../types";
 
 export interface EpisodeMetadata {
   id: number;
@@ -8,11 +8,11 @@ export interface EpisodeMetadata {
   synopsis: string;
 }
 
-const tvMazeBaseUrl = 'https://api.tvmaze.com/';
+const TVMAZE_BASE_URL = 'https://api.tvmaze.com/';
 
 export default class {
   private static async fetch(relativeUri: string): Promise<Response> {
-    return fetch(tvMazeBaseUrl + relativeUri);
+    return fetch(TVMAZE_BASE_URL + relativeUri);
   }
 
   static async fetchEpisodesMetadata(show: Show, seasonNum: number): Promise<EpisodeMetadata[][]> {

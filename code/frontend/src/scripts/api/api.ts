@@ -1,7 +1,11 @@
-import { Show } from "./types";
+import { Show } from "../types";
 
 export default class {
-  static async updateShowStatus(show: Show, seasonNum: number, episodesWatched: number): Promise<void> {
+  static async fetchEnvironment(): Promise<Record<string, string>> {
+    return (await (await fetch('./env'))).json();
+  }
+
+  static async updateShowStatus(show: Show, seasonNum: number, episodesWatched: number): Promise < void> {
     const body = { show: show.title, seasonNum, episodesWatched };
     try {
       const r = await fetch('/data', {
@@ -13,4 +17,9 @@ export default class {
       console.log(`Error updating '${show.title} last watched to S${seasonNum} episode index ${episodesWatched}: ${e}`);
     }
   }
+
+  static async fetchRawData(): Promise<string> {
+    return await (await fetch('./data')).text();
+  }
+
 }

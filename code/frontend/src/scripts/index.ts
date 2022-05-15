@@ -1,7 +1,7 @@
-import renderShows from './renderShows';
-import showEnvironmentBanner from './showEnvironmentBanner';
-import { fetchRawData } from './fetch';
-import { dismissSynopsis } from './synopsis';
+import renderShows from './render/renderShows';
+import showEnvironmentBanner from './render/showEnvironmentBanner';
+import API from './api/api';
+import { dismissSynopsis } from './render/synopsis';
 
 export async function initializeMain() {
   document.addEventListener('click', () => dismissSynopsis());
@@ -33,7 +33,7 @@ export async function initializeEditData() {
     location.href = '/index.html';
   });
 
-  const data = await fetchRawData();
+  const data = await API.fetchRawData();
   if (editor) {
     editor.textContent = data;
   }

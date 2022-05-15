@@ -1,4 +1,4 @@
-import { EpisodeMetadata } from "./TVMazeApi";
+import { EpisodeMetadata } from "./tvmaze/TVMazeApi";
 
 const metadataCache: Record<string, EpisodeMetadata[][]> = {};
 

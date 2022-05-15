@@ -1,16 +1,14 @@
+import API from "../api/api";
+
 export default async function () {
   try {
-    const env = await fetchEnvironment();
+    const env = await API.fetchEnvironment();
     if (env.instance) {
       showBannerMessage(`Site instance: ${env.instance}`);
     }
   } catch (e) {
     showBannerMessage(`Error looking up site instance: ${e}`);
   }
-}
-
-async function fetchEnvironment(): Promise<Record<string, string>> {
-  return (await (await fetch('./env'))).json();
 }
 
 function showBannerMessage(message: string) {
