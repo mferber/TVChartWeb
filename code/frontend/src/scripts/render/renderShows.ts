@@ -12,7 +12,7 @@ export default async function () {
 }
 
 async function displayItems(): Promise<HTMLElement[]> {
-  const config = await parse(await (await fetch('/data')).text());
+  const config = await (await fetch('/data')).json();
   return sortShows(config).map(renderShow);
 }
 

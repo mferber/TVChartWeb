@@ -1,0 +1,226 @@
+[
+  {
+    "title": "Abbott Elementary",
+    "tvmazeId": "55350",
+    "location": "Hulu?",
+    "length": "½ hour",
+    "seasonMaps": [
+      "............."
+    ],
+    "seenThru": {
+      "season": 1,
+      "episodesWatched": 2
+    }
+  },
+  {
+    "title": "All Creatures Great & Small",
+    "tvmazeId": "42836",
+    "location": "PBS",
+    "length": "1 hour",
+    "seasonMaps": [
+      "......+S",
+      "......+S"
+    ],
+    "seenThru": {
+      "season": 2,
+      "episodesWatched": 6
+    }
+  },
+  {
+    "title": "Battlestar Galactica",
+    "tvmazeId": "166",
+    "location": "DVD",
+    "length": "1 hour",
+    "seasonMaps": [
+      "SS+.............",
+      "..........+..........",
+      "....................+S",
+      "..........+..........+S"
+    ],
+    "seenThru": {
+      "season": 3,
+      "episodesWatched": 1
+    }
+  },
+  {
+    "title": "Better Call Saul",
+    "tvmazeId": "618",
+    "location": "Netflix",
+    "length": "1 hour",
+    "seasonMaps": [
+      "..........",
+      "..........",
+      "..........",
+      "..........",
+      "..........",
+      "............."
+    ],
+    "seenThru": {
+      "season": 4,
+      "episodesWatched": 4
+    }
+  },
+  {
+    "title": "Better Off Ted",
+    "tvmazeId": "769",
+    "location": "Hulu",
+    "length": "½ hour",
+    "seasonMaps": [
+      ".............",
+      "............."
+    ],
+    "seenThru": {
+      "season": 2,
+      "episodesWatched": 3
+    }
+  },
+  {
+    "title": "BoJack Horseman",
+    "tvmazeId": "184",
+    "location": "Netflix",
+    "length": "½ hour",
+    "seasonMaps": [
+      "............",
+      "............",
+      "............",
+      "............",
+      "............",
+      "........+........"
+    ],
+    "seenThru": {
+      "season": 6,
+      "episodesWatched": 11
+    }
+  },
+  {
+    "title": "For All Mankind",
+    "tvmazeId": "41414",
+    "location": "Apple TV+",
+    "length": "1 hour",
+    "seasonMaps": [
+      "..........",
+      "..........",
+      ".........."
+    ],
+    "seenThru": {
+      "season": 2,
+      "episodesWatched": "all"
+    }
+  },
+  {
+    "title": "Foundation",
+    "tvmazeId": "35951",
+    "location": "Apple TV+",
+    "length": "1 hour",
+    "seasonMaps": [
+      "..........",
+      ".........."
+    ],
+    "seenThru": {
+      "season": 1,
+      "episodesWatched": "all"
+    }
+  },
+  {
+    "title": "Severance",
+    "tvmazeId": "44933",
+    "location": "Apple TV+",
+    "length": "duration TBD",
+    "seasonMaps": [
+      "........."
+    ],
+    "seenThru": {
+      "season": 0,
+      "episodesWatched": 0
+    }
+  },
+  {
+    "title": "Station Eleven",
+    "tvmazeId": "42845",
+    "location": "HBO",
+    "length": "1 hour",
+    "seasonMaps": [
+      ".........."
+    ],
+    "seenThru": {
+      "season": 1,
+      "episodesWatched": 9
+    }
+  },
+  {
+    "title": "Superstore",
+    "tvmazeId": "1864",
+    "location": "Hulu",
+    "length": "½ hour",
+    "seasonMaps": [
+      "...........",
+      ".....................",
+      "......................",
+      "......................",
+      ".....................",
+      "..............."
+    ],
+    "seenThru": {
+      "season": 4,
+      "episodesWatched": 12
+    }
+  },
+  {
+    "title": "Ted Lasso",
+    "tvmazeId": "44458",
+    "location": "Apple TV+",
+    "length": "½ hour",
+    "seasonMaps": [
+      "..........",
+      "............",
+      "............"
+    ],
+    "seenThru": {
+      "season": 2,
+      "episodesWatched": "all"
+    }
+  },
+  {
+    "title": "The Leftovers",
+    "tvmazeId": "138",
+    "location": "HBO",
+    "length": "1 hour",
+    "seasonMaps": [
+      "..........",
+      "..........",
+      "........"
+    ],
+    "seenThru": {
+      "season": 3,
+      "episodesWatched": 5
+    }
+  },
+  {
+    "title": "The Mandalorian",
+    "tvmazeId": "38963",
+    "location": "Disney+",
+    "length": "½-1 hour",
+    "seasonMaps": [
+      "........",
+      "........"
+    ],
+    "seenThru": {
+      "season": 2,
+      "episodesWatched": 3
+    }
+  },
+  {
+    "title": "The Other Two",
+    "tvmazeId": "39333",
+    "location": "HBO",
+    "length": "½ hour",
+    "seasonMaps": [
+      "..........",
+      ".........."
+    ],
+    "seenThru": {
+      "season": 1,
+      "episodesWatched": 9
+    }
+  }
+]

@@ -4,7 +4,7 @@ import {replaceDataFile, updateWatchStatus} from "./update";
 
 const app = express()
 const port = 8000
-const dataFilePath = '../data/shows.csv';
+const dataFilePath = '../data/data.json';
 
 app.use(express.text({type: 'text/plain'}));
 app.use(express.json({type: 'application/json'}));
@@ -25,8 +25,8 @@ app.get('/env', async (req: Request, res: Response): Promise<void> => {
 // GET main data
 app.get('/data', async (req: Request, res: Response): Promise<void> => {
   const timestamp = new Date().toISOString();
-  const filename = `shows-${timestamp}.csv`;
-  res.set('Content-Type', 'text/plain')
+  const filename = `shows-${timestamp}.json`;
+  res.set('Content-Type', 'application/json')
   res.set('Content-Disposition', `attachment; filename="${filename}"`);
   res.send(await fs.promises.readFile(dataFilePath, 'utf-8'));
 });
