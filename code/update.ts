@@ -7,17 +7,18 @@ export async function replaceDataFile(dataFilePath: string, text: string): Promi
 
 // Implements PATCH
 export async function updateWatchStatus(dataFilePath: string, showTitle: string, seasonNum: number, episodesWatched: number): Promise<void> {
-  const origLines = (await fs.promises.readFile(dataFilePath, 'utf-8')).split('\n');
-  const updatedLines = origLines.map(line => {
-    // Playing a little fast and loose here since this CSV-ish format is going to be
-    // replaced with JSON soon anyway
-    if (line.startsWith(showTitle)) {
-      const newMarker = `, ${seasonNum}:${episodesWatched}`;
-      return line.replace(/,\s*[^,]+$/, newMarker);
+  try {
+    const data = JSON.parse(await fs.promises.readFile(dataFilePath, 'utf-8'));
+    for (const show of data) {
+      if (show.title === showTitle) {
+        show.seenThru.episodesWatched = episodesWatched;
+        break;
+      }
     }
-    return line;
-  });
-  saveDataFile(dataFilePath, updatedLines.join('\n'));
+    saveDataFile(dataFilePath, JSON.stringify(data, null, 2));
+  } catch (e) {
+    console.log("ERROR updating data file:", e);
+  }
 }
 
 async function saveDataFile(dataFilePath: string, text: string) {

@@ -25,7 +25,7 @@ app.get('/env', async (req: Request, res: Response): Promise<void> => {
 // GET main data
 app.get('/data', async (req: Request, res: Response): Promise<void> => {
   const timestamp = new Date().toISOString();
-  const filename = `shows-${timestamp}.json`;
+  const filename = `data-${timestamp}.json`;
   try {
     res.set('Content-Type', 'application/json')
     res.set('Content-Disposition', `attachment; filename="${filename}"`);
