@@ -10,5 +10,5 @@ export interface Show {
 export type EpisodeCount = number | 'all';
 export interface Marker {
   season: number,
-  episode: EpisodeCount
+  episodesWatched: EpisodeCount
 };

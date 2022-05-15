@@ -39,7 +39,7 @@ export function showSynopsis(
 
   container.querySelector('#synopsis-mark-watched')?.addEventListener('click', async e => {
     e.preventDefault();
-    await Api.updateShowStatus(show, seasonNum, episodeIndex);
+    await Api.updateShowStatus(show, seasonNum, episodeIndex + 1);
     location.reload();
   });
 

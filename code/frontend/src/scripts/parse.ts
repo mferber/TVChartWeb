@@ -27,18 +27,18 @@ export default function parseShows(config: string): Show[] {
 
     let seenThru = null;
     if (fields[5] === '0' || fields[5] === 'unstarted') {
-      seenThru = { season: 0, episode: 0 };
+      seenThru = { season: 0, episodesWatched: null };
     } else {
-      let seenThruMatch = /^S(\d+)(?:E(\d+))?$/.exec(fields[5]);
+      let seenThruMatch = /^(\d+)(?:\:(\d+))?$/.exec(fields[5]);
       if (seenThruMatch) {
         let season = Number(seenThruMatch[1]);
-        let episode: EpisodeCount = 0;
+        let episodesWatched: EpisodeCount = null;
         if (seenThruMatch[2] === undefined) {
-          episode = 'all';
+          episodesWatched = 'all';
         } else {
-          episode = Number(seenThruMatch[2]) || 0
+          episodesWatched = Number(seenThruMatch[2]) || 0
         }
-        seenThru = { season: season, episode: episode };
+        seenThru = { season: season, episodesWatched: episodesWatched };
       } else {
         notifyInvalid(line);
         continue lines;

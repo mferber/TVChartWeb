@@ -119,10 +119,10 @@ function howManyEpisodesSeen(segmentMap: string, seasonNum: number, episodeCount
   } else if (seasonNum > seenThru.season) {
     return 0;
   } else {
-    if (seenThru.episode == 'all') {
+    if (seenThru.episodesWatched === 'all') {
       return segmentMap.length;
     } else {
-      return Math.min(Math.max(0, seenThru.episode as number - episodeCounterOffset), segmentMap.length);
+      return Math.min(Math.max(0, seenThru.episodesWatched as number - episodeCounterOffset), segmentMap.length);
     }
   }
 }

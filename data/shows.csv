@@ -4,27 +4,27 @@
 // season-map: seasons delimited by "|"; episodes indicated by "." for regular episode, "S"
 //   for a special; may be split into segments with "+" (if there are no specials, the number
 //   of episodes in a season or segment may be given as a number instead of a sequence of dots)
-// last-watched-episode: use S1E1 format; in compound seasons, count episodes
-//   from start of season. If unstarted, use '0', 'S0E0', or 'unstarted'.
+// last-watched-episode: format is S:E, where S is the season number and E is the number of
+//   episodes seen. In compound seasons, count episodes from start of season. If unstarted,
+//   use '0', '0:0', or 'unstarted'.
 //
 // Example:
-// BoJack Horseman, 1234, Netflix, ½ hour, 12|12|12|12|12|8+8, S6E9
+// BoJack Horseman, 1234, Netflix, ½ hour, 12|12|12|12|12|8+8, 6:9
 //
 // For TVmaze ids, see https://www.tvmaze.com/api
 
-Abbott Elementary, 55350, Hulu?, ½ hour, 13, S1E6
-All Creatures Great & Small, 42836, PBS, 1 hour, ......+S|......+S, S2E5
-Battlestar Galactica, 166, DVD, 1 hour, SS+.............|10+10|....................+SS|10+11, S2E17
-Better Call Saul, 618, Netflix, 1 hour, 10|10|10|10|10|13, S4E3
-Better Off Ted, 769, Hulu, ½ hour, 13|13, S1
-BoJack Horseman, 184, Netflix, ½ hour, 12|12|12|12|12|8+8, S6E16
-For All Mankind, 41414, Apple TV+, 1 hour, 10|10|10, S2
-Foundation, 35951, Apple TV+, 1 hour, 10|10, S1
+Abbott Elementary, 55350, Hulu?, ½ hour, 13, 1:2
+All Creatures Great & Small, 42836, PBS, 1 hour, ......+S|......+S, 2:6
+Battlestar Galactica, 166, DVD, 1 hour, SS+.............|10+10|....................+S|10+10+S, 3:1
+Better Call Saul, 618, Netflix, 1 hour, 10|10|10|10|10|13, 4:4
+Better Off Ted, 769, Hulu, ½ hour, 13|13, 2:3
+BoJack Horseman, 184, Netflix, ½ hour, 12|12|12|12|12|8+8, 6:11
+For All Mankind, 41414, Apple TV+, 1 hour, 10|10|10, 2
+Foundation, 35951, Apple TV+, 1 hour, 10|10, 1
 Severance, 44933, Apple TV+, duration TBD, 9, unstarted
-Station Eleven, 42845, HBO, 1 hour, 10, S1E7
-Superstore, 1864, Hulu, ½ hour, 11|21|22|22|21|15, S4E8
-Ted Lasso, 44458, Apple TV+, ½ hour, 10|12|12, S2
-The Leftovers, 138, HBO, 1 hour, 10|10|8, S3E1
-The Mandalorian, 38963, Disney+, ½-1 hour, 8|8.8, S2E3
-The Other Two, 39333, HBO, ½ hour, 10|10, S1E7
-Yellowjackets, 36672, Hulu+Showtime, 1 hour, 10, unstarted
+Station Eleven, 42845, HBO, 1 hour, 10, 1:9
+Superstore, 1864, Hulu, ½ hour, 11|21|22|22|21|15, 4:12
+Ted Lasso, 44458, Apple TV+, ½ hour, 10|12|12, 2
+The Leftovers, 138, HBO, 1 hour, 10|10|8, 3:5
+The Mandalorian, 38963, Disney+, ½-1 hour, 8|8.8, 2:3
+The Other Two, 39333, HBO, ½ hour, 10|10, 1:9
