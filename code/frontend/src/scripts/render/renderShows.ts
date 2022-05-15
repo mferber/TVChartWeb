@@ -1,4 +1,3 @@
-import parse from '../parse';
 import drawSeason from './drawSeason';
 import {Show, EpisodeCount, Marker} from '../types';
 import {createElement} from '../htmlUtils';
