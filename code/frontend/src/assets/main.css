@@ -83,3 +83,61 @@ body {
   max-height: 10em;
   overflow: scroll;
 }
+
+
+/* Form: edit show info */
+
+.edit-grid {
+  display: table;
+}
+
+.row {
+  display: table-row;
+}
+
+.edit-grid-label, .edit-grid-item {
+  display: table-cell;
+  white-space: nowrap;
+  padding-bottom: 0.75em;
+}
+
+.edit-grid-label {
+  font-weight: bold;
+  padding-right: 1em;
+  vertical-align: top;
+}
+
+.explanation {
+  font-size: 80%;
+}
+
+input[type=text] {
+  line-height: 1.25em;
+  min-width: 30em;
+  font-family: "Georgia", "serif";
+  font-size: 120%;
+  border: 1px solid #ccc;
+}
+
+input[type=text]:focus, textarea:focus {
+  outline: none;
+  background-color: #ffe;
+}
+
+textarea {
+  width: 30em;
+  height: 8em;
+  font-family: "Courier New", "monospace";
+  font-size: 120%;
+  border: 1px solid #ccc;
+}
+
+button {
+  font-family: "Georgia", "serif";
+  font-size: 120%;
+  padding: 0.25em;
+}
+
+button#submit {
+  padding: 0.5em;
+}
