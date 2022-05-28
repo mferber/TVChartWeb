@@ -1,10 +1,11 @@
 import renderShows from './render/renderShows';
 import showEnvironmentBanner from './render/showEnvironmentBanner';
 import API from './api/api';
+import { clickTVmazeGoButton } from './eventHandlers/editShowPage';
 import { dismissSynopsis } from './render/synopsis';
 
 export async function initializeMain() {
-  document.addEventListener('click', () => dismissSynopsis());
+  document.addEventListener('click', dismissSynopsis);
 
   // prevent events in the synopsis from affecting the main page
   const synopsis = document.querySelector('#synopsis-popup');
@@ -37,4 +38,12 @@ export async function initializeEditData() {
   if (editor) {
     editor.textContent = data;
   }
+}
+
+export async function initializeEditShow() {
+  const btn = document.getElementById("tvmaze-go") as HTMLButtonElement;
+  if (btn === null) {
+    return;
+  }
+  btn.addEventListener('click', clickTVmazeGoButton);
 }

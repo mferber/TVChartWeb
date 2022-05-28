@@ -6,6 +6,11 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <link rel="stylesheet" href="main.css">
   <script defer src="./tv-app-tools-bundle.js"></script>
+  <script>
+    window.addEventListener('DOMContentLoaded', async () => {
+      await tvTools.initializeEditShow();
+    });
+  </script>
 </head>
 
 <body>
@@ -63,8 +68,8 @@
       </div>
       <div class="edit-grid-item">
         <input type="text" name="tvmazeId" value="1">
-        <button>Refresh info</button>
-        <button>Go</button>
+        <button id="tvmaze-refresh">Refresh info</button>
+        <button id="tvmaze-go">Go</button>
       </div>
     </div>
 

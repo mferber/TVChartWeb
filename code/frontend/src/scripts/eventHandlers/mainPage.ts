@@ -1,9 +1,9 @@
-import { BOX_HEIGHT, INTER_SEGMENT_SPACING, OUTER_STROKE_WIDTH, DIVIDER_STROKE_WIDTH } from './render/graphicsConstants';
-import { segmentWidth } from './render/drawSeason';
-import { Show } from './types';
-import { showSynopsis, showSynopsisLoadingIndicator } from './render/synopsis';
-import TVMazeApi from './tvmaze/TVMazeApi';
-import metadataCache from './metadataCache';
+import { BOX_HEIGHT, INTER_SEGMENT_SPACING, OUTER_STROKE_WIDTH, DIVIDER_STROKE_WIDTH } from '../render/graphicsConstants';
+import { segmentWidth } from '../render/drawSeason';
+import { Show } from '../types';
+import { showSynopsis, showSynopsisLoadingIndicator } from '../render/synopsis';
+import TVMazeApi from '../tvmaze/TVMazeApi';
+import metadataCache from '../metadataCache';
 
 export function createSeasonClickHandler(show: Show, seasonNum: number): (_: MouseEvent) => void {
   return async (e: MouseEvent): Promise<void> => {
