@@ -1,7 +1,7 @@
 import renderShows from './render/renderShows';
 import showEnvironmentBanner from './render/showEnvironmentBanner';
 import API from './api/api';
-import { clickTVmazeGoButton } from './eventHandlers/editShowPage';
+import { clickTVmazeGoButton, clickTVmazeRefreshButton } from './eventHandlers/editShowPage';
 import { dismissSynopsis } from './render/synopsis';
 
 export async function initializeMain() {
@@ -41,9 +41,13 @@ export async function initializeEditData() {
 }
 
 export async function initializeEditShow() {
-  const btn = document.getElementById("tvmaze-go") as HTMLButtonElement;
-  if (btn === null) {
-    return;
+  let btn = document.getElementById('tvmaze-go') as HTMLButtonElement;
+  if (btn !== null) {
+    btn.addEventListener('click', clickTVmazeGoButton);
   }
-  btn.addEventListener('click', clickTVmazeGoButton);
+
+  btn = document.getElementById('tvmaze-refresh') as HTMLButtonElement;
+  if (btn !== null) {
+    btn.addEventListener('click', clickTVmazeRefreshButton);
+  }
 }

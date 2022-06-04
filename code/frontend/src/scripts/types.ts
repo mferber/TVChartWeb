@@ -12,3 +12,11 @@ export interface Marker {
   season: number,
   episodesWatched: EpisodeCount
 };
+
+export interface EpisodeMetadata {
+  id: number;
+  episode: number | null; // null for specials
+  title: string;
+  length: string;
+  synopsis: string;
+}

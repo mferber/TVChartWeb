@@ -1,7 +1,7 @@
 <html>
 
 <head>
-  <title>Edit: Station Eleven</title>
+  <title>Edit show</title>
   <link rel="icon" href="/favicon.png" type="image/png">
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <link rel="stylesheet" href="main.css">
@@ -14,7 +14,7 @@
 </head>
 
 <body>
-  <h1>Edit: Station Eleven</h1>
+  <h1>Edit: <span id="header-show-title"></span></h1>
 
   <div class="edit-grid">
 
@@ -23,7 +23,7 @@
         <label for="title">Title</label>
       </div>
       <div class="edit-grid-item">
-        <input type="text" name="title" value="Station Eleven">
+        <input type="text" name="title">
       </div>
     </div>
 
@@ -32,7 +32,7 @@
         <label for="source">Source</label>
       </div>
       <div class="edit-grid-item">
-        <input type="text" name="source" value="HBO">
+        <input type="text" name="source">
         <div class="explanation">Network, streaming service, etc.</div>
       </div>
     </div>
@@ -42,7 +42,7 @@
         <label>Episode length</label>
       </div>
       <div class="edit-grid-item">
-        <input type="text" name="episodeduration" value="1 hour">
+        <input type="text" name="episodeduration">
         <div class="explanation">Typical episode length</div>
       </div>
     </div>
@@ -52,7 +52,7 @@
         <label>Episode map</label>
       </div>
       <div class="edit-grid-item">
-        <textarea>..........</textarea>
+        <textarea name="season-maps"></textarea>
         <div class="explanation">
           <div>1 row per season. Symbols:</div>
           <div>&nbsp;&nbsp;&nbsp;<b>.</b> = normal episode</div>
@@ -67,7 +67,7 @@
         <label for="tvmazeId"><a href="https://tvmaze.com" target="_blank">TVmaze</a> ID</label>
       </div>
       <div class="edit-grid-item">
-        <input type="text" name="tvmazeId" value="1">
+        <input type="text" name="tvmazeId">
         <button id="tvmaze-refresh">Refresh info</button>
         <button id="tvmaze-go">Go</button>
       </div>

@@ -87,6 +87,10 @@ body {
 
 /* Form: edit show info */
 
+#header-show-title {
+  font-style: italic;
+}
+
 .edit-grid {
   display: table;
 }
@@ -126,7 +130,7 @@ input[type=text]:focus, textarea:focus {
 
 textarea {
   width: 30em;
-  height: 8em;
+  height: 12em;
   font-family: "Courier New", "monospace";
   font-size: 120%;
   border: 1px solid #ccc;
