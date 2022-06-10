@@ -11,6 +11,7 @@ export async function updateWatchStatus(dataFilePath: string, showTitle: string,
     const data = JSON.parse(await fs.promises.readFile(dataFilePath, 'utf-8'));
     for (const show of data) {
       if (show.title === showTitle) {
+        show.seenThru.season = seasonNum;
         show.seenThru.episodesWatched = episodesWatched;
         break;
       }
