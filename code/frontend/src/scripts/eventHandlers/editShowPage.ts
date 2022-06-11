@@ -36,7 +36,33 @@ function refreshShowInfo(show: Show) {
 
   setShowField('title', show.title);
   setShowField('episodeduration', show.length);
-  setShowField('season-maps', show.seasonMaps.join('\n'));
+  
+  const seasonMaps = reconcileSeasonMaps(show.seasonMaps);
+  setShowField('season-maps', seasonMaps.join('\n'));
+}
+
+// Because season separators are unique to this app, entered by the user, and
+// not included in the TVmaze data, we will preserve them where they're the only
+// difference between what's currently in the field and what we got from TVmaze.
+function reconcileSeasonMaps(seasonMaps: string[]): string[] {
+  const textarea = document.querySelector('textarea[name=season-maps]') as HTMLTextAreaElement;
+  if (!textarea) {
+    return seasonMaps;
+  }
+  const currentMaps = textarea.value.split('\n');
+
+  let reconciledMaps = [];
+  for (let i = 0; i < seasonMaps.length; i++) {
+    if (i < currentMaps.length && currentMaps[i].includes('+'))  {
+      const stripped = currentMaps[i].replaceAll('+', '');
+      if (stripped === seasonMaps[i]) {
+        reconciledMaps[i] = currentMaps[i];
+        continue;
+      }
+    }
+    reconciledMaps[i] = seasonMaps[i];
+  }
+  return reconciledMaps;
 }
 
 function setShowField(fieldName: string, value: string) {
