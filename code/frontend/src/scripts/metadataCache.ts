@@ -1,5 +1,5 @@
-import { EpisodeMetadata } from "./tvmaze/TVMazeApi";
+import { Episode } from "./types";
 
-const metadataCache: Record<string, EpisodeMetadata[][]> = {};
+const metadataCache: Record<string, Episode[][]> = {};
 
 export default metadataCache;

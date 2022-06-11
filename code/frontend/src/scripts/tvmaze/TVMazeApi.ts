@@ -97,7 +97,7 @@ export default class {
       const summary = ((ep.summary as string) || '').replace(/<.*?>/g, '');
       
       const epMetadata: Episode = {
-        id, 
+        tvmazeId: id.toString(), 
         episode,
         title: name as string,
         length: `${runtime} min.`,
