@@ -20,9 +20,7 @@ export default function (seasonMap: string, seasonNum: number, seenThru: Marker)
     let [drawnSegment, endX] = drawAppendedSegment(segmentMap, episodeCounterOffset, x, seasonNum, seenThru);
     components.push(drawnSegment);
 
-    const specialEpisodes = [...segmentMap].filter(c => c === 'S').length;
-    episodeCounterOffset += segmentMap.length - specialEpisodes;
-
+    episodeCounterOffset += segmentMap.length;
     x = endX;
   });
 
