@@ -54,7 +54,7 @@ function reconcileSeasonMaps(seasonMaps: string[]): string[] {
   let reconciledMaps = [];
   for (let i = 0; i < seasonMaps.length; i++) {
     if (i < currentMaps.length && currentMaps[i].includes('+'))  {
-      const stripped = currentMaps[i].replaceAll('+', '');
+      const stripped = currentMaps[i].replace(/\+/g, '');
       if (stripped === seasonMaps[i]) {
         reconciledMaps[i] = currentMaps[i];
         continue;
