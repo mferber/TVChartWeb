@@ -1,5 +1,5 @@
 export interface Show {
-  id: string,
+  id: number,
   tvmazeId: string,
   title: string,
   location: string,
@@ -13,11 +13,3 @@ export interface Marker {
   season: number,
   episodesWatched: EpisodeCount
 };
-
-export interface Episode {
-  tvmazeId: string;
-  episode: number | null; // null for specials
-  title: string;
-  length: string;
-  synopsis: string;
-}

@@ -27,7 +27,7 @@ export default class {
     return fetch(TVMAZE_BASE_URL + relativeUri);
   }
 
-  static async fetchShowMetadata(tvmazeId: string): Promise<Show> {
+  static async fetchShowMetadata(tvmazeId: string): Promise<Partial<Show>> {
     let showMetadata: TvMazeShow;
     let episodesMetadata: TvMazeEpisode[];
 

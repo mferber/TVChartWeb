@@ -2,6 +2,7 @@ import drawSeason from './drawSeason';
 import {Show, EpisodeCount, Marker} from '../types';
 import {createElement} from '../htmlUtils';
 import {createSeasonClickHandler} from '../eventHandlers/mainPage';
+import API from '../api/api';
 
 export default async function () {
   const container = document.body.querySelector('#content');
@@ -11,8 +12,8 @@ export default async function () {
 }
 
 async function displayItems(): Promise<HTMLElement[]> {
-  const config = await (await fetch('/data')).json();
-  return sortShows(config).map(renderShow);
+  const shows = await API.fetchShows();
+  return sortShows(shows).map(renderShow);
 }
 
 function sortShows(shows: Show[]): Show[] {

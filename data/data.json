@@ -10,7 +10,8 @@
     "seenThru": {
       "season": 1,
       "episodesWatched": 2
-    }
+    },
+    "id": 1
   },
   {
     "title": "All Creatures Great & Small",
@@ -24,7 +25,8 @@
     "seenThru": {
       "season": 2,
       "episodesWatched": 6
-    }
+    },
+    "id": 2
   },
   {
     "title": "Battlestar Galactica",
@@ -40,7 +42,8 @@
     "seenThru": {
       "season": 3,
       "episodesWatched": 1
-    }
+    },
+    "id": 3
   },
   {
     "title": "Better Call Saul",
@@ -58,7 +61,8 @@
     "seenThru": {
       "season": 4,
       "episodesWatched": 4
-    }
+    },
+    "id": 4
   },
   {
     "title": "Better Off Ted",
@@ -72,7 +76,8 @@
     "seenThru": {
       "season": 2,
       "episodesWatched": 3
-    }
+    },
+    "id": 5
   },
   {
     "title": "BoJack Horseman",
@@ -90,7 +95,8 @@
     "seenThru": {
       "season": 6,
       "episodesWatched": 11
-    }
+    },
+    "id": 6
   },
   {
     "title": "For All Mankind",
@@ -105,7 +111,8 @@
     "seenThru": {
       "season": 2,
       "episodesWatched": "all"
-    }
+    },
+    "id": 7
   },
   {
     "title": "Foundation",
@@ -119,7 +126,23 @@
     "seenThru": {
       "season": 1,
       "episodesWatched": "all"
-    }
+    },
+    "id": 8
+  },
+  {
+    "title": "Hacks",
+    "tvmazeId": "54914",
+    "location": "HBO",
+    "length": "½ hour",
+    "seasonMaps": [
+      "..........",
+      "........"
+    ],
+    "seenThru": {
+      "season": 1,
+      "episodesWatched": 6
+    },
+    "id": 9
   },
   {
     "title": "Severance",
@@ -132,7 +155,8 @@
     "seenThru": {
       "season": 0,
       "episodesWatched": 0
-    }
+    },
+    "id": 10
   },
   {
     "title": "Station Eleven",
@@ -145,7 +169,8 @@
     "seenThru": {
       "season": 1,
       "episodesWatched": 9
-    }
+    },
+    "id": 11
   },
   {
     "title": "Superstore",
@@ -163,7 +188,8 @@
     "seenThru": {
       "season": 4,
       "episodesWatched": 12
-    }
+    },
+    "id": 12
   },
   {
     "title": "Ted Lasso",
@@ -178,7 +204,8 @@
     "seenThru": {
       "season": 2,
       "episodesWatched": "all"
-    }
+    },
+    "id": 13
   },
   {
     "title": "The Leftovers",
@@ -193,7 +220,8 @@
     "seenThru": {
       "season": 3,
       "episodesWatched": 5
-    }
+    },
+    "id": 14
   },
   {
     "title": "The Mandalorian",
@@ -207,7 +235,8 @@
     "seenThru": {
       "season": 2,
       "episodesWatched": 3
-    }
+    },
+    "id": 15
   },
   {
     "title": "The Other Two",
@@ -221,6 +250,7 @@
     "seenThru": {
       "season": 1,
       "episodesWatched": 9
-    }
+    },
+    "id": 16
   }
 ]

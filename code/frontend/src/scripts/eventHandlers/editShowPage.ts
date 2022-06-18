@@ -26,19 +26,25 @@ export async function clickTVmazeRefreshButton() {
   }
 }
 
-function refreshShowInfo(show: Show) {
+function refreshShowInfo(show: Partial<Show>) {
   document.title = `Edit: ${show.title}`;
   
-  const headerShowTitle = document.querySelector('#header-show-title');
-  if (headerShowTitle) {
-    headerShowTitle.textContent = show.title;
-  }
+  if (show.title) {
+    const headerShowTitle = document.querySelector('#header-show-title');
+    if (headerShowTitle) {
+      headerShowTitle.textContent = show.title;
+    }
 
-  setShowField('title', show.title);
-  setShowField('episodeduration', show.length);
+    setShowField('title', show.title);
+  }
+  if (show.length) {
+    setShowField('episodeduration', show.length);
+  }
   
-  const seasonMaps = reconcileSeasonMaps(show.seasonMaps);
-  setShowField('season-maps', seasonMaps.join('\n'));
+  if (show.seasonMaps) {
+    const seasonMaps = reconcileSeasonMaps(show.seasonMaps);
+    setShowField('season-maps', seasonMaps.join('\n'));
+  }
 }
 
 // Because season separators are unique to this app, entered by the user, and

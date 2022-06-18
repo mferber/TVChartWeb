@@ -23,20 +23,19 @@ export async function initializeEditData() {
   
   submitBtn?.addEventListener('click', (e) => {
     e.preventDefault();
-    fetch('/data', {
-      method: 'PUT',
-      headers: { 'Content-Type': 'text/plain' },
-      body: editor?.value
-    }).then(() => location.href = '/'); // FIXME: validate the server response
+    const text = editor?.value || '';
+    API.storeShows(JSON.parse(text))
+      .then(() => location.href = '/');
   });
+
   cancelBtn?.addEventListener('click', (e) => {
     e.preventDefault();
     location.href = '/index.html';
   });
 
-  const data = await API.fetchRawData();
+  const shows = await API.fetchShows();
   if (editor) {
-    editor.textContent = data;
+    editor.textContent = JSON.stringify(shows, null, 2);
   }
 }
 
