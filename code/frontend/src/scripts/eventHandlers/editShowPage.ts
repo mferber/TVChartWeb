@@ -1,22 +1,59 @@
-import TVMazeApi from "../tvmaze/TVMazeApi";
-import { Show } from "../types";
+import API from '../api/api';
+import TVMazeApi from '../tvmaze/TVMazeApi';
+import { Show } from '../types';
+
+export async function initialize() {
+  try {
+    const params = new URLSearchParams(location.search);
+    const id = params.get('id');
+    if (id === null) {
+      throw new Error(`Invalid id: ${id}`);
+    }
+    const idNum = parseInt(id);
+    if (Number.isNaN(idNum)) {
+      throw new Error(`Invalid id: ${id}`);
+    }
+    const show = await API.fetchShow(idNum);
+    populateFields(show);
+  } catch (e) {
+    console.error(`Error initializing page: ${e}`);
+  }
+
+  let btn = document.getElementById('tvmaze-go') as HTMLButtonElement;
+  if (btn !== null) {
+    btn.addEventListener('click', clickTVmazeGoButton);
+  }
+
+  btn = document.getElementById('tvmaze-refresh') as HTMLButtonElement;
+  if (btn !== null) {
+    btn.addEventListener('click', clickTVmazeRefreshButton);
+  }
+}
+
+function populateFields(show: Show) {
+  // most fields can be populated as if this were new data from TVmaze
+  refreshShowInfo(show);
+
+  // fields not included in TVmaze data
+  setShowField('source', show.location); 
+}
 
 export function clickTVmazeGoButton() {
-  const idFld = document.querySelector('input[name=tvmazeId]');
-  if (idFld === null) {
+  const tvmazeIdFld = document.querySelector('input[name=tvmazeId]');
+  if (tvmazeIdFld === null) {
     return;
   }
-  const id = (idFld as HTMLInputElement).value;
+  const id = (tvmazeIdFld as HTMLInputElement).value;
   const url = 'https://tvmaze.com/shows/' + encodeURIComponent(id);
   window.open(url, "_blank");
 }
 
 export async function clickTVmazeRefreshButton() {
-  const idFld = document.querySelector('input[name=tvmazeId]') as HTMLInputElement;
-  if (!idFld) {
+  const tvmazeIdFld = document.querySelector('input[name=tvmazeId]') as HTMLInputElement;
+  if (!tvmazeIdFld) {
     return;
   }
-  const id = idFld.value;
+  const id = tvmazeIdFld.value;
 
   try {
     const show = await TVMazeApi.fetchShowMetadata(id);
@@ -27,8 +64,11 @@ export async function clickTVmazeRefreshButton() {
 }
 
 function refreshShowInfo(show: Partial<Show>) {
+  if (show.tvmazeId !== undefined) {
+    setShowField('tvmazeId', show.tvmazeId);
+  }
+
   document.title = `Edit: ${show.title}`;
-  
   if (show.title) {
     const headerShowTitle = document.querySelector('#header-show-title');
     if (headerShowTitle) {

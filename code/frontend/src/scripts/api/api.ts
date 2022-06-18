@@ -6,27 +6,41 @@ export default class {
   }
 
   static async fetchShows(): Promise<Show[]> {
-    return await (await fetch('/shows')).json();
+    const rsp = await fetch('/shows');
+    if (!rsp.ok) {
+      throw new Error(`Error fetching show: ${rsp.statusText}`);
+    }
+    return await rsp.json();
+  }
+
+  static async fetchShow(id: number): Promise<Show> {
+    const rsp = await fetch(`/shows/${encodeURIComponent(id)}`);
+    if (!rsp.ok) {
+      throw new Error(`Error fetching show: ${rsp.statusText}`);
+    }
+    return await rsp.json();
   }
 
   static async storeShows(shows: Show[]): Promise<void> {
-    await fetch('/data', {
+    const rsp = await fetch('/data', {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(shows)
     });
+    if (!rsp.ok) {
+      throw new Error(`Error fetching show: ${rsp.statusText}`);
+    }
   }
 
-  static async updateShowStatus(show: Show, season: number, episodesWatched: number): Promise < void> {
+  static async updateShowStatus(show: Show, season: number, episodesWatched: number): Promise <void> {
     const body = {seenThru: { season, episodesWatched }};
-    try {
-      const r = await fetch(`/shows/${show.id}`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body)
-      });
-    } catch (e) {
-      console.log(`Error updating '${show.title} last watched to S${season} episode count ${episodesWatched}: ${e}`);
+    const rsp = await fetch(`/shows/${show.id}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    });
+    if (!rsp.ok) {
+      throw new Error(`Error updating '${show.title} last watched to S${season} episode count ${episodesWatched}: ${e}`);
     }
   }
 }

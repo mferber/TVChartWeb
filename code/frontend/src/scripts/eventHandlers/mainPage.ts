@@ -2,8 +2,19 @@ import { BOX_HEIGHT, INTER_SEGMENT_SPACING, OUTER_STROKE_WIDTH, DIVIDER_STROKE_W
 import { segmentWidth } from '../render/drawSeason';
 import { Show } from '../types';
 import { showSynopsis, showSynopsisLoadingIndicator } from '../render/synopsis';
+import { dismissSynopsis } from '../render/synopsis';
 import TVMazeApi from '../tvmaze/TVMazeApi';
 import metadataCache from '../metadataCache';
+
+export function initialize() {
+  document.addEventListener('click', dismissSynopsis);
+
+  // prevent events in the synopsis from affecting the main page
+  const synopsis = document.querySelector('#synopsis-popup');
+  if (synopsis) {
+    synopsis.addEventListener('click', e => e.stopPropagation());
+  }
+}
 
 export function createSeasonClickHandler(show: Show, seasonNum: number): (_: MouseEvent) => void {
   return async (e: MouseEvent): Promise<void> => {
