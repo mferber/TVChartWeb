@@ -27,6 +27,7 @@ app.get('/shows', async (req: Request, res: Response): Promise<void> => {
     res.set('Content-Type', 'application/json')
     res.send(shows);
   } catch (e) {
+    console.error(e);
     res.status(500).send(`Error: ${e}`);
   }
 });
@@ -39,6 +40,7 @@ app.get('/shows/:id', async (req: Request, res: Response): Promise<void> => {
     res.set('Content-Type', 'application/json')
     res.send(show);
   } catch (e) {
+    console.error(e);
     if (e instanceof storage.ShowNotFoundError) {
       res.status(404).send(`Show not found with id ${id}`);
     } else {
@@ -54,6 +56,7 @@ app.patch('/shows/:id', async (req: Request, res: Response): Promise<void> => {
     await storage.patchShow(id, req.body);
     res.status(204).send();
   } catch (e) {
+    console.error(e);
     if (e instanceof storage.ShowNotFoundError) {
       res.status(404).send(`Show not found with id ${id}`);
     } else {
@@ -71,6 +74,7 @@ app.get('/data', async (req: Request, res: Response): Promise<void> => {
     res.set('Content-Disposition', `attachment; filename="${filename}"`);
     res.send(await storage.fetchShows());
   } catch (e) {
+    console.error(e);
     res.status(500).send(`Error: ${e}`);
   }
 });
@@ -81,6 +85,7 @@ app.put('/data', async (req: Request, res: Response): Promise<void> => {
     await storage.storeShows(req.body);
     res.status(200).send();
   } catch (e) {
+    console.error(e);
     res.status(500).send(`Error: ${e}`);
   }
 });

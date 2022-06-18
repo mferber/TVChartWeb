@@ -4,19 +4,15 @@ import * as fs from 'fs';
 const dataFilePath = '../data/data.json';
 
 export class StorageError extends Error {
-  message: string;
-  orig: Error | undefined;
-
-  constructor(message: string, orig?: Error) {
-    super();
-    this.message = message
-    this.orig = orig;
+  constructor(message: string) {
+    super(message);
+    this.name = 'StorageError';
   }
 }
 
 export class ShowNotFoundError extends StorageError {
   constructor(id: number) {
-    super(`Show not found with id ${id}`, undefined);
+    super(`Show not found with id ${id}`);
   }
 }
 
@@ -25,7 +21,7 @@ export async function fetchShows(): Promise<Show[]> {
     return JSON.parse(await readDataFile());
   } catch (e) {
     let orig: Error = e instanceof Error ? e as Error : new Error(String(e));
-    throw new StorageError('Error reading data file', orig);
+    throw new StorageError('Error reading data file');
   }
 }
 
@@ -34,7 +30,7 @@ export async function storeShows(shows: Show[]) {
     await writeDataFile(JSON.stringify(shows, null, 2)); // pretty-print for readability
   } catch (e) {
     let orig: Error = e instanceof Error ? e as Error : new Error(String(e));
-    throw new StorageError('Error writing data file', orig);
+    throw new StorageError('Error writing data file');
   }
 }
 
