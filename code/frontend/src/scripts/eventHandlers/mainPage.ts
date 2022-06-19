@@ -26,7 +26,7 @@ export function createSeasonClickHandler(show: Show, seasonNum: number): (_: Mou
     showSynopsisLoadingIndicator();
 
     if (!metadataCache.hasOwnProperty(show.title)) {
-      metadataCache[show.title] = await TVMazeApi.fetchEpisodesMetadata(show, seasonNum);
+      metadataCache[show.title] = await TVMazeApi.fetchSeasonDetails(show, seasonNum);
     }
 
     const metadata = metadataCache[show.title][seasonNum][boxIndex];

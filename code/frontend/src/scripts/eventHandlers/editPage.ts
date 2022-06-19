@@ -1,33 +1,85 @@
 import API from '../api/api';
 import TVMazeApi from '../tvmaze/TVMazeApi';
 import { Show } from '../types';
-import { getFieldValue, setField } from '../htmlUtils';
+import { getFieldValue, setField, createElement } from '../htmlUtils';
 
 export async function initialize() {
   try {
     const showId = showIdFromQueryString(location.search);
+    if (showId === null) {
+      await initializeAddShow();
+    } else {
+      await initializeEditShow(showId);
+    }
 
-    const show = await API.fetchShow(showId);
-    populateFields(show);
+    updateLookUpEnabled();
+    for (const fldName of ['title', 'tvmazeId']) {
+      const field = document.querySelector(`input[name=${fldName}]`) as HTMLInputElement;
+      field.addEventListener('input', updateLookUpEnabled);
+    }
 
-    let btn = document.getElementById('tvmaze-go') as HTMLButtonElement;
-    btn.addEventListener('click', clickTVmazeGoButton);
-
-    btn = document.getElementById('tvmaze-refresh') as HTMLButtonElement;
-    btn.addEventListener('click', clickTVmazeRefreshButton);
-
-    btn = document.getElementById('submit') as HTMLButtonElement;
-    btn.addEventListener('click', clickSubmitButton);
+    updateTVmazeButtonsEnabled();
+    const field = document.querySelector('input[name=tvmazeId]') as HTMLInputElement;
+    field.addEventListener('input', updateTVmazeButtonsEnabled);
   } catch (e) {
     console.error(`Error initializing page: ${e}`);
   }
 }
 
-function showIdFromQueryString(qs: string): number {
+async function initializeAddShow() {
+  const header = document.querySelector('#header');;
+  if (header) {
+    header.textContent = 'Add new show';
+  }
+  initializeButtons();
+}
+
+async function initializeEditShow(showId: number) {
+  const show = await API.fetchShow(showId);
+  populateFields(show);
+  initializeButtons();
+}
+
+function initializeButtons() {
+  let btn = document.getElementById('tvmaze-singlesearch') as HTMLButtonElement;
+  btn.addEventListener('click', clickLookUpShowButton);
+
+  btn = document.getElementById('tvmaze-go') as HTMLButtonElement;
+  btn.addEventListener('click', clickTVmazeGoButton);
+
+  btn = document.getElementById('tvmaze-refresh') as HTMLButtonElement;
+  btn.addEventListener('click', clickTVmazeRefreshButton);
+
+  btn = document.getElementById('submit') as HTMLButtonElement;
+  btn.addEventListener('click', clickSubmitButton);
+
+  btn = document.getElementById('cancel') as HTMLButtonElement;
+  btn.addEventListener('click', clickCancelButton);
+}
+
+function updateLookUpEnabled() {
+  const titleField = document.querySelector('input[name=title]') as HTMLInputElement;
+  const tvmazeIdField = document.querySelector('input[name=tvmazeId]') as HTMLInputElement;
+  const lookUpShowButton = document.querySelector('button#tvmaze-singlesearch') as HTMLButtonElement;
+  
+  // disable button if there's already a TVmaze id, or there's not title to look up
+  lookUpShowButton.disabled = tvmazeIdField.value !== '' || titleField.value === '';
+}
+
+function updateTVmazeButtonsEnabled() {
+  const field = document.querySelector('input[name=tvmazeId]') as HTMLInputElement;
+  const disabled = field.value === '';
+
+  for (const id of ['tvmaze-refresh', 'tvmaze-go']) {
+    (document.querySelector(`button#${id}`) as HTMLButtonElement).disabled = disabled;
+  }
+}
+
+function showIdFromQueryString(qs: string): number | null {
   const params = new URLSearchParams(location.search);
   const id = params.get('id');
   if (id === null) {
-    throw new Error(`Show id missing`);
+    return null;
   }
   const idNum = parseInt(id);
   if (Number.isNaN(idNum)) {
@@ -44,7 +96,21 @@ function populateFields(show: Show) {
   setField('source', show.location); 
 }
 
-export function clickTVmazeGoButton() {
+async function clickLookUpShowButton() {
+  const query = getFieldValue('title');
+  if (query !== null) {
+    try {
+      const result = await TVMazeApi.fetchShowInfoBySingleSearch(query);
+      refreshShowInfo(result);
+      updateLookUpEnabled();
+      updateTVmazeButtonsEnabled();
+    } catch (e) {
+      console.error(e);
+    }
+  }
+}
+
+function clickTVmazeGoButton() {
   const tvmazeIdFld = document.querySelector('input[name=tvmazeId]');
   if (tvmazeIdFld === null) {
     return;
@@ -54,7 +120,7 @@ export function clickTVmazeGoButton() {
   window.open(url, "_blank");
 }
 
-export async function clickTVmazeRefreshButton() {
+async function clickTVmazeRefreshButton() {
   const tvmazeIdFld = document.querySelector('input[name=tvmazeId]') as HTMLInputElement;
   if (!tvmazeIdFld) {
     return;
@@ -62,7 +128,7 @@ export async function clickTVmazeRefreshButton() {
   const id = tvmazeIdFld.value;
 
   try {
-    const show = await TVMazeApi.fetchShowMetadata(id);
+    const show = await TVMazeApi.fetchShowInfo(id);
     refreshShowInfo(show);
   } catch (e) {
     console.error(e);
@@ -74,13 +140,9 @@ function refreshShowInfo(show: Partial<Show>) {
     setField('tvmazeId', show.tvmazeId);
   }
 
-  document.title = `Edit: ${show.title}`;
+  document.title = `${show.id === undefined ? 'Add' : 'Edit'}: ${show.title}`;
   if (show.title) {
-    const headerShowTitle = document.querySelector('#header-show-title');
-    if (headerShowTitle) {
-      headerShowTitle.textContent = show.title;
-    }
-
+    populateHeader(show);
     setField('title', show.title);
   }
   if (show.length) {
@@ -90,6 +152,18 @@ function refreshShowInfo(show: Partial<Show>) {
   if (show.seasonMaps) {
     const seasonMaps = reconcileSeasonMaps(show.seasonMaps);
     setField('season-maps', seasonMaps.join('\n'));
+  }
+}
+
+function populateHeader(show: Partial<Show>) {
+  const verb = show.id === undefined ? 'Add' : 'Edit';
+  const header = document.querySelector('#header');;
+  if (header) {
+    while (header.firstChild) {
+      header.removeChild(header.firstChild);
+    }
+    header.appendChild(document.createTextNode(verb + ' '));
+    header.appendChild(createElement('span', 'title', [document.createTextNode(show.title || '')]));
   }
 }
 
@@ -117,21 +191,31 @@ function reconcileSeasonMaps(seasonMaps: string[]): string[] {
   return reconciledMaps;
 }
 
-export async function clickSubmitButton() {
-  const patch: Partial<Show> = {};
-  patch.title = getFieldValue('title') || '';
-  patch.location = getFieldValue('source') || '';
-  patch.length = getFieldValue('episodeduration') || '';
-  patch.tvmazeId = getFieldValue('tvmazeId') || '';
-
-  const seasonMaps = getFieldValue('season-maps') || '';
-  patch.seasonMaps = seasonMaps.split('\n');
-  
+async function clickSubmitButton() {
+  let id: number | null = null;
   try {
-    const id = showIdFromQueryString(location.search);
-    await API.patchShow(id, patch);
+    id = showIdFromQueryString(location.search);
+    const patch: Partial<Show> = {};
+    patch.title = getFieldValue('title') || '';
+    patch.location = getFieldValue('source') || '';
+    patch.length = getFieldValue('episodeduration') || '';
+    patch.tvmazeId = getFieldValue('tvmazeId') || '';
+
+    const seasonMaps = getFieldValue('season-maps') || '';
+    patch.seasonMaps = seasonMaps.split('\n');
+
+    if (id === null) {
+      await API.putShow(patch);
+    } else {
+      await API.patchShow(id, patch);
+    }
     location.href = '../';
   } catch (e) {
-    console.error(`Error updating show: ${e}`);
+    const verbing = id === null ? 'adding' : 'updating';
+    console.error(`Error ${verbing} show: ${e}`);
   }
+}
+
+async function clickCancelButton() {
+  history.back();
 }

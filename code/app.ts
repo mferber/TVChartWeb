@@ -1,5 +1,6 @@
 import express, {Request, Response} from "express";
 import * as storage from './storage';
+import { Show } from './types';
 
 const app = express()
 const port = 8000
@@ -64,6 +65,19 @@ app.patch('/shows/:id', async (req: Request, res: Response): Promise<void> => {
     }
   }
 });
+
+// PUT single show
+app.put('/shows', async (req: Request, res: Response): Promise<void> => {
+  try {
+    const newShow: Partial<Show> = req.body;
+    const show = await storage.storeShow(newShow);
+    res.send(show);
+  } catch (e) {
+    console.error(e);
+    res.status(500).send(`Error: ${e}`);
+  }
+});
+
 
 // GET data file in its entirety for editing or backing up
 app.get('/data', async (req: Request, res: Response): Promise<void> => {

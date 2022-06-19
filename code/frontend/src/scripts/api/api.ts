@@ -21,6 +21,20 @@ export default class {
     return await rsp.json();
   }
 
+  static async putShow(show: Partial<Show>) {
+    if (!show.title) {
+      throw new Error("Can't add new show: title must be provided");
+    }
+    const rsp = await fetch('/shows', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(show)
+    });
+    if (!rsp.ok) {
+      throw new Error(`Error adding show: ${rsp.statusText}`);
+    }
+  }
+
   static async patchShow(id: number, patch: Partial<Show>) {
     const rsp = await fetch(`/shows/${encodeURIComponent(id)}`, {
       method: 'PATCH',

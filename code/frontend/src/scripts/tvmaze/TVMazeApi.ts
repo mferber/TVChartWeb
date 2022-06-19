@@ -1,5 +1,7 @@
 import {Show, Episode} from "../types";
 
+const TVMAZE_BASE_URL = 'https://api.tvmaze.com/';
+
 interface TvMazeShow {
   id: number;
   name: string;
@@ -20,26 +22,61 @@ interface FullTvMazeEpisode extends TvMazeEpisode {
   summary: string;
 }
 
-const TVMAZE_BASE_URL = 'https://api.tvmaze.com/';
+export class TVmazeAPIError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = 'TVmazeAPIError';
+  }
+}
+
+export class TVmazeSearchFailedError extends TVmazeAPIError {
+  constructor(message: string) {
+    super(message);
+    this.name = 'TVmazeSearchFailedError';
+  }
+}
 
 export default class {
   private static async fetch(relativeUri: string): Promise<Response> {
     return fetch(TVMAZE_BASE_URL + relativeUri);
   }
 
-  static async fetchShowMetadata(tvmazeId: string): Promise<Partial<Show>> {
-    let showMetadata: TvMazeShow;
-    let episodesMetadata: TvMazeEpisode[];
+  static async fetchShowInfo(tvmazeId: string): Promise<Partial<Show>> {
+    let tvmazeShow: TvMazeShow;
+    let tvmazeEpisodes: TvMazeEpisode[];
 
-    [showMetadata, episodesMetadata] = await Promise.all([
+    [tvmazeShow, tvmazeEpisodes] = await Promise.all([
       (await this.fetch(`shows/${encodeURIComponent(tvmazeId)}`)).json(),
       (await this.fetch(`shows/${encodeURIComponent(tvmazeId)}/episodes?specials=1`)).json()
     ]);
     
-    const { id, name, runtime, averageRuntime } = showMetadata;
+    return this.constructShow(tvmazeShow, tvmazeEpisodes);
+  }
+
+  // FIXME: to be replaced with a more robust search that handle multiple matches
+  static async fetchShowInfoBySingleSearch(query: string): Promise<Partial<Show>> {
+    const result = await this.fetch(`singlesearch/shows?q=${encodeURIComponent(query)}`);
+    if (result.status === 404) {
+      throw new TVmazeSearchFailedError(`No show titles matched query: ${query}`);
+    }
+    if (!result.ok) {
+      throw new TVmazeSearchFailedError(result.statusText);
+    }
+    const tvmazeShow = await result.json() as TvMazeShow;
+    const tvmazeId = tvmazeShow.id;
+    if (tvmazeId === undefined) {
+      throw new TVmazeAPIError('No TVmaze ID provided for this show');
+    }
+    const tvmazeEpisodes = await (await this.fetch(`shows/${encodeURIComponent(tvmazeId)}/episodes?specials=1`)).json()
+
+    return this.constructShow(tvmazeShow, tvmazeEpisodes);
+  }
+
+  private static constructShow(tvmazeShow: TvMazeShow, episodes: TvMazeEpisode[]): Partial<Show> {
+    const { id, name, runtime, averageRuntime } = tvmazeShow;
     const length = runtime ? runtime : averageRuntime;
     const lengthStr = length ? `${length} min.` : 'n/a';
-    const seasonMaps = this.constructSeasonMaps(episodesMetadata);
+    const seasonMaps = this.constructSeasonMaps(episodes);
 
     return {
       title: name,
@@ -56,6 +93,7 @@ export default class {
     for (const ep of episodesMetadata) {
       this.appendSeasonMapSymbol(maps, ep);
     }
+
     // fill in any "holes" in the list of seasons due to bad input data (in case
     // a show lists episodes only in seasons 1 and 3, say)
     for (let i = 0; i < maps.length; i++) {
@@ -79,7 +117,7 @@ export default class {
     }
   }
 
-  static async fetchEpisodesMetadata(show: Show, seasonNum: number): Promise<Episode[][]> {
+  static async fetchSeasonDetails(show: Show, seasonNum: number): Promise<Episode[][]> {
     const response = await this.fetch(`shows/${encodeURIComponent(show.tvmazeId)}/episodes?specials=1`);
     const tvmazeResult: FullTvMazeEpisode[] = await response.json();
 

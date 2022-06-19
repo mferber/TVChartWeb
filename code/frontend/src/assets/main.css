@@ -38,10 +38,6 @@ img.edit {
   visibility: hidden;
 }
 
-img.edit.visible {
-  visibility: visible;
-}
-
 .show-desc {
   font-size: 1em;
   white-space: nowrap;
@@ -96,9 +92,9 @@ img.edit.visible {
 }
 
 
-/* Form: edit show info */
+/* Form: edit/add show info */
 
-#header-show-title {
+#header .title {
   font-style: italic;
 }
 
@@ -139,6 +135,10 @@ input[type=text]:focus, textarea:focus {
   background-color: #ffe;
 }
 
+input[type=text][name=title], input[type=text][name=tvmazeId] {
+  min-width: 15em;
+}
+
 textarea {
   width: 30em;
   height: 12em;
@@ -148,11 +148,6 @@ textarea {
 }
 
 button {
-  font-family: "Georgia", "serif";
-  font-size: 120%;
-  padding: 0.25em;
-}
-
-button#submit {
-  padding: 0.5em;
+  font-size: 100%;
+  padding: 0.3em;
 }

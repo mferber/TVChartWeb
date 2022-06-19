@@ -73,13 +73,13 @@ function mouseEnterShowIcons(evt: MouseEvent) {
   const target = evt.currentTarget as HTMLElement;
   if (target) {
     const icons = target.querySelectorAll('img.edit');
-    icons.forEach(i => i.classList.add('visible'));
+    icons.forEach(i => (i as HTMLElement).style.visibility = 'visible');
   }
 }
 function mouseLeaveHideIcons(evt: MouseEvent) {
   const target = evt.currentTarget as HTMLElement;
   if (target) {
     const icons = target.querySelectorAll('img.edit');
-    icons.forEach(i => i.classList.remove('visible'));
+    icons.forEach(i => (i as HTMLElement).style.visibility = 'hidden');
   }
 }

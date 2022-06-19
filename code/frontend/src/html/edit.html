@@ -14,7 +14,7 @@
 </head>
 
 <body>
-  <h1>Edit: <span id="header-show-title"></span></h1>
+  <h1 id="header"></h1>
 
   <div class="edit-grid">
 
@@ -24,6 +24,20 @@
       </div>
       <div class="edit-grid-item">
         <input type="text" name="title">
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="edit-grid-label input-label">
+        <label for="tvmazeId"><a href="https://tvmaze.com" target="_blank">TVmaze</a> show ID</label>
+      </div>
+      <div class="edit-grid-item">
+        <input id="tvmazeId" type="text" name="tvmazeId">
+        <button id="tvmaze-singlesearch">Look up by name</button>
+        <div>
+          <button id="tvmaze-refresh">Refresh info from TVmaze</button>
+          <button id="tvmaze-go">Go to show</button>
+        </div>
       </div>
     </div>
 
@@ -63,20 +77,10 @@
     </div>
 
     <div class="row">
-      <div class="edit-grid-label input-label">
-        <label for="tvmazeId"><a href="https://tvmaze.com" target="_blank">TVmaze</a> show ID</label>
-      </div>
-      <div class="edit-grid-item">
-        <input type="text" name="tvmazeId">
-        <button id="tvmaze-refresh">Refresh info</button>
-        <button id="tvmaze-go">Go to show</button>
-      </div>
-    </div>
-
-    <div class="row">
       <div class="edit-grid-label input-label"></div>
       <div class="edit-grid-item">
         <button id="submit">Submit</button>
+        <button id="cancel">Cancel</button>
       </div>
     </div>
 

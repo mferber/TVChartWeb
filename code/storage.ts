@@ -42,6 +42,34 @@ export async function fetchShow(id: number): Promise<Show> {
   throw new ShowNotFoundError(id);
 }
 
+export async function storeShow(show: Partial<Show>): Promise<Show> {
+  if (show.title === null) {
+    throw new StorageError("Can't add show: title not provided");
+  }
+
+  try {
+    const shows = await fetchShows();
+    const maxId = shows.reduce<number>((id, show) => Math.max(id, show.id), 0);
+    const newShow: Show = {
+      id: maxId + 1,
+      tvmazeId: show.tvmazeId || '',
+      title: show.title || '?',
+      length: show.length || '',
+      location: show.location || '',
+      seasonMaps: show.seasonMaps || [],
+      seenThru: show.seenThru || { season: 1, episodesWatched: 0 }
+    };
+    shows.push(newShow);
+    await storeShows(shows);
+    return newShow;
+  } catch (e) {
+    // let orig: Error = e instanceof Error ? e as Error : new Error(String(e));
+    throw new StorageError(`Error adding show: ${e}`);
+  }
+}
+
+
+
 export async function patchShow(id: number, patch: Partial<Show>) {
   let patched = false;
   const allShows = await fetchShows();
