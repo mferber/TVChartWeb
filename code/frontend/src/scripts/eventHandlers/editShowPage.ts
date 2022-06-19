@@ -1,33 +1,40 @@
 import API from '../api/api';
 import TVMazeApi from '../tvmaze/TVMazeApi';
 import { Show } from '../types';
+import { getFieldValue, setField } from '../htmlUtils';
+
 
 export async function initialize() {
   try {
-    const params = new URLSearchParams(location.search);
-    const id = params.get('id');
-    if (id === null) {
-      throw new Error(`Invalid id: ${id}`);
-    }
-    const idNum = parseInt(id);
-    if (Number.isNaN(idNum)) {
-      throw new Error(`Invalid id: ${id}`);
-    }
-    const show = await API.fetchShow(idNum);
+    const showId = showIdFromQueryString(location.search);
+
+    const show = await API.fetchShow(showId);
     populateFields(show);
+
+    let btn = document.getElementById('tvmaze-go') as HTMLButtonElement;
+    btn.addEventListener('click', clickTVmazeGoButton);
+
+    btn = document.getElementById('tvmaze-refresh') as HTMLButtonElement;
+    btn.addEventListener('click', clickTVmazeRefreshButton);
+
+    btn = document.getElementById('submit') as HTMLButtonElement;
+    btn.addEventListener('click', clickSubmitButton);
   } catch (e) {
     console.error(`Error initializing page: ${e}`);
   }
+}
 
-  let btn = document.getElementById('tvmaze-go') as HTMLButtonElement;
-  if (btn !== null) {
-    btn.addEventListener('click', clickTVmazeGoButton);
+function showIdFromQueryString(qs: string): number {
+  const params = new URLSearchParams(location.search);
+  const id = params.get('id');
+  if (id === null) {
+    throw new Error(`Show id missing`);
   }
-
-  btn = document.getElementById('tvmaze-refresh') as HTMLButtonElement;
-  if (btn !== null) {
-    btn.addEventListener('click', clickTVmazeRefreshButton);
+  const idNum = parseInt(id);
+  if (Number.isNaN(idNum)) {
+    throw new Error(`Invalid id (not a number): ${id}`);
   }
+  return idNum;
 }
 
 function populateFields(show: Show) {
@@ -35,7 +42,7 @@ function populateFields(show: Show) {
   refreshShowInfo(show);
 
   // fields not included in TVmaze data
-  setShowField('source', show.location); 
+  setField('source', show.location); 
 }
 
 export function clickTVmazeGoButton() {
@@ -65,7 +72,7 @@ export async function clickTVmazeRefreshButton() {
 
 function refreshShowInfo(show: Partial<Show>) {
   if (show.tvmazeId !== undefined) {
-    setShowField('tvmazeId', show.tvmazeId);
+    setField('tvmazeId', show.tvmazeId);
   }
 
   document.title = `Edit: ${show.title}`;
@@ -75,15 +82,15 @@ function refreshShowInfo(show: Partial<Show>) {
       headerShowTitle.textContent = show.title;
     }
 
-    setShowField('title', show.title);
+    setField('title', show.title);
   }
   if (show.length) {
-    setShowField('episodeduration', show.length);
+    setField('episodeduration', show.length);
   }
   
   if (show.seasonMaps) {
     const seasonMaps = reconcileSeasonMaps(show.seasonMaps);
-    setShowField('season-maps', seasonMaps.join('\n'));
+    setField('season-maps', seasonMaps.join('\n'));
   }
 }
 
@@ -111,11 +118,21 @@ function reconcileSeasonMaps(seasonMaps: string[]): string[] {
   return reconciledMaps;
 }
 
-function setShowField(fieldName: string, value: string) {
-  const fld = 
-    document.querySelector(`input[name=${fieldName}]`) as HTMLInputElement
-    || document.querySelector(`textarea[name=${fieldName}]`) as HTMLTextAreaElement;
-  if (fld) {
-    fld.value = value;
+export async function clickSubmitButton() {
+  const patch: Partial<Show> = {};
+  patch.title = getFieldValue('title') || '';
+  patch.location = getFieldValue('source') || '';
+  patch.length = getFieldValue('episodeduration') || '';
+  patch.tvmazeId = getFieldValue('tvmazeId') || '';
+
+  const seasonMaps = getFieldValue('season-maps') || '';
+  patch.seasonMaps = seasonMaps.split('\n');
+  
+  try {
+    const id = showIdFromQueryString(location.search);
+    await API.patchShow(id, patch);
+    location.href = '../';
+  } catch (e) {
+    console.error(`Error updating show: ${e}`);
   }
 }

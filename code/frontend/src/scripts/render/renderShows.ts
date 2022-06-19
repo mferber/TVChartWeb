@@ -28,15 +28,30 @@ function withSortableTitle(show: Show): [string, Show] {
 }
 
 function renderShow(show: Show): HTMLElement {
-  const title = renderTitle(show.title);
+  const title = renderTitle(show.title, show.id);
   const descr = renderDescription(show.location, show.length);
   const seasons = renderSeasons(show, show.seenThru);
+  const showDiv = createElement('div', 'show', [title, descr, seasons]);
 
-  return createElement('div', 'show', [title, descr, seasons]);
+  showDiv.addEventListener('mouseenter', mouseEnterShowIcons);
+  showDiv.addEventListener('mouseleave', mouseLeaveHideIcons);
+
+  return showDiv;
 }
 
-function renderTitle(title: string): HTMLElement {
-  return createElement('div', 'show-title', [document.createTextNode(title)]);
+function renderTitle(title: string, id: number): HTMLElement {
+  const editIcon = createElement('img', 'edit', []);
+  editIcon.setAttribute('src', 'pen-to-square-regular.svg');
+  editIcon.addEventListener('click', () => { location.href = `editShow.html?id=${id}`; });
+  
+  const trashIcon = createElement('img', 'edit', []);
+  trashIcon.setAttribute('src', 'trash-can-regular.svg');
+
+  return createElement('div', 'show-heading', [
+    createElement('span', 'show-title', [document.createTextNode(title)]),
+    editIcon,
+    trashIcon
+  ]);
 }
 
 function renderDescription(location: string, length: string): HTMLElement {
@@ -52,4 +67,19 @@ function renderSeasons(show: Show, seenThru: Marker): HTMLElement {
 
   const divs = seasonSVGs.map(svg => createElement('div', 'show-season', [svg]));
   return createElement('div', 'show-seasons', divs);
+}
+
+function mouseEnterShowIcons(evt: MouseEvent) {
+  const target = evt.currentTarget as HTMLElement;
+  if (target) {
+    const icons = target.querySelectorAll('img.edit');
+    icons.forEach(i => i.classList.add('visible'));
+  }
+}
+function mouseLeaveHideIcons(evt: MouseEvent) {
+  const target = evt.currentTarget as HTMLElement;
+  if (target) {
+    const icons = target.querySelectorAll('img.edit');
+    icons.forEach(i => i.classList.remove('visible'));
+  }
 }

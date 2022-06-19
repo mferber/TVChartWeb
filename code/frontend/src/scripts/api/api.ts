@@ -21,6 +21,17 @@ export default class {
     return await rsp.json();
   }
 
+  static async patchShow(id: number, patch: Partial<Show>) {
+    const rsp = await fetch(`/shows/${encodeURIComponent(id)}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(patch)
+    });
+    if (!rsp.ok) {
+      throw new Error(`Error updating show: ${rsp.statusText}`);
+    }
+  }
+
   static async storeShows(shows: Show[]): Promise<void> {
     const rsp = await fetch('/data', {
       method: 'PUT',
@@ -40,7 +51,7 @@ export default class {
       body: JSON.stringify(body)
     });
     if (!rsp.ok) {
-      throw new Error(`Error updating '${show.title} last watched to S${season} episode count ${episodesWatched}: ${e}`);
+      throw new Error(`Error updating '${show.title} last watched to S${season} episode count ${episodesWatched}: ${rsp.statusText}`);
     }
   }
 }

@@ -1,5 +1,5 @@
 export interface Show {
-  id: string,
+  id: number,
   tvmazeId: string,
   title: string,
   location: string,

@@ -16,3 +16,19 @@ function populateElement(elt: Element, className: string | null, children: Node[
   }
   children.forEach(c => elt.appendChild(c));
 }
+
+export function setField(fieldName: string, value: string) {
+  const fld = 
+    document.querySelector(`input[name=${fieldName}]`) as HTMLInputElement
+    || document.querySelector(`textarea[name=${fieldName}]`) as HTMLTextAreaElement;
+  if (fld) {
+    fld.value = value;
+  }
+}
+
+export function getFieldValue(fieldName: string): string | null {
+  const fld = 
+    document.querySelector(`input[name=${fieldName}]`) as HTMLInputElement
+    || document.querySelector(`textarea[name=${fieldName}]`) as HTMLTextAreaElement;
+  return fld?.value;
+}

@@ -28,7 +28,18 @@ body {
   font-size: 1.5em;
   font-weight: bold;
   white-space: nowrap;
-  margin: 0;
+  margin: 0 0.75em 0 0;
+}
+
+img.edit {
+  height: 1em;
+  margin: 0 0.25em;
+  cursor: pointer;
+  visibility: hidden;
+}
+
+img.edit.visible {
+  visibility: visible;
 }
 
 .show-desc {

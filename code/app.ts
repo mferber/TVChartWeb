@@ -92,5 +92,5 @@ app.put('/data', async (req: Request, res: Response): Promise<void> => {
 
 // Start server
 app.listen(port, () => {
-  console.log(`TV app listening on port ${port}`)
+  console.info(`TV app listening on port ${port}`)
 });

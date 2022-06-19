@@ -9,10 +9,10 @@ export async function initializeMain() {
   return Promise.all([showEnvironmentBanner(), renderShows()]);
 }
 
-export function initializeEditData() {
-  EditDataPage.initialize();
-}
-
 export async function initializeEditShow() {
    await EditShowPage.initialize();
+}
+
+export function initializeEditData() {
+  EditDataPage.initialize();
 }

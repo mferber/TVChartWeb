@@ -26,8 +26,7 @@ module.exports = {
     new CopyPlugin({
       patterns: [
         {from: '**/*.html', context: 'src/html'},
-        {from: '**/*.(css|png)', context: 'src/assets'}
-
+        {from: '**/*.(css|png|svg)', context: 'src/assets'}
       ],
     }),
   ]
