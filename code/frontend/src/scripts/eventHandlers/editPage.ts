@@ -3,7 +3,6 @@ import TVMazeApi from '../tvmaze/TVMazeApi';
 import { Show } from '../types';
 import { getFieldValue, setField } from '../htmlUtils';
 
-
 export async function initialize() {
   try {
     const showId = showIdFromQueryString(location.search);

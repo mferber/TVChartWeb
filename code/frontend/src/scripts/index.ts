@@ -1,7 +1,7 @@
 import renderShows from './render/renderShows';
 import showEnvironmentBanner from './render/showEnvironmentBanner';
 import * as MainPage from './eventHandlers/mainPage';
-import * as EditShowPage from './eventHandlers/editShowPage';
+import * as EditPage from './eventHandlers/editPage';
 import * as EditDataPage from './eventHandlers/editDataPage';
 
 export async function initializeMain() {
@@ -9,8 +9,8 @@ export async function initializeMain() {
   return Promise.all([showEnvironmentBanner(), renderShows()]);
 }
 
-export async function initializeEditShow() {
-   await EditShowPage.initialize();
+export async function initializeEdit() {
+   await EditPage.initialize();
 }
 
 export function initializeEditData() {

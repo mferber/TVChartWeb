@@ -42,7 +42,7 @@ function renderShow(show: Show): HTMLElement {
 function renderTitle(title: string, id: number): HTMLElement {
   const editIcon = createElement('img', 'edit', []);
   editIcon.setAttribute('src', 'pen-to-square-regular.svg');
-  editIcon.addEventListener('click', () => { location.href = `editShow.html?id=${id}`; });
+  editIcon.addEventListener('click', () => { location.href = `edit.html?id=${id}`; });
   
   const trashIcon = createElement('img', 'edit', []);
   trashIcon.setAttribute('src', 'trash-can-regular.svg');
