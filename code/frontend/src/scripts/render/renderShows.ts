@@ -11,7 +11,16 @@ export default async function () {
   }
 }
 
-export function renderShow(show: Show): HTMLElement {
+export function rerenderShow(show: Show) {
+  const oldElement = document.querySelector(`#show-${show.id}`) as HTMLElement | null;
+  if (oldElement) {
+    const newElement = renderShow(show);
+    removeShowEventListeners(oldElement);
+    oldElement.replaceWith(newElement);
+  }
+}
+
+function renderShow(show: Show): HTMLElement {
   const title = renderTitle(show.title, show.id);
   const descr = renderDescription(show.location, show.length);
   const seasons = renderSeasons(show, show.seenThru);
@@ -27,7 +36,7 @@ function addShowEventListeners(showDiv: HTMLElement) {
   showDiv.addEventListener('mouseleave', mouseLeaveHideIcons);
 }
 
-export function removeShowEventListeners(showDiv: HTMLElement) {
+function removeShowEventListeners(showDiv: HTMLElement) {
   showDiv.removeEventListener('mouseenter', mouseEnterShowIcons);
   showDiv.removeEventListener('mouseleave', mouseLeaveHideIcons);
 }

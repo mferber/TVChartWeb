@@ -1,4 +1,4 @@
-import { renderShow, removeShowEventListeners } from "./renderShows";
+import { rerenderShow } from "./renderShows";
 import { Show } from '../types';
 import API from "../api/api";
 
@@ -48,6 +48,18 @@ export function showSynopsis(
   setPopupVisible(container, true);
 }
 
+export function dismissSynopsis() {
+  const container = synopsisContainer();
+  if (!container) {
+    return;
+  }
+  
+  setLoadingIndicatorVisible(container, false);
+  setContentVisible(container, false);
+  setPopupVisible(container, false);
+  removeMarkWatchedListener(container);
+}
+
 function populate(container: HTMLElement, selector: string, value: string) {
   const elt = container.querySelector(selector);
   if (elt) {
@@ -61,12 +73,7 @@ function addMarkWatchedListener(container: HTMLElement, show: Show, seasonNum: n
     markWatchedListener = async e => {
       e.preventDefault();
       const updatedShow = await API.updateShowStatus(show, seasonNum, episodeIndex + 1);
-      const updatedElement = renderShow(updatedShow);
-      const showDiv = document.querySelector(`#show-${show.id}`) as HTMLElement | null;
-      if (showDiv) {
-        removeShowEventListeners(showDiv);
-        showDiv.replaceWith(updatedElement);
-      }
+      rerenderShow(updatedShow);
     };
     link.addEventListener('click', markWatchedListener);
   }
@@ -78,18 +85,6 @@ function removeMarkWatchedListener(container: HTMLElement) {
     link?.removeEventListener('click', markWatchedListener);
     markWatchedListener = null;
   }
-}
-
-export function dismissSynopsis() {
-  const container = synopsisContainer();
-  if (!container) {
-    return;
-  }
-  
-  setLoadingIndicatorVisible(container, false);
-  setContentVisible(container, false);
-  setPopupVisible(container, false);
-  removeMarkWatchedListener(container);
 }
 
 function setContentVisible(container: Element, visible: boolean) {
