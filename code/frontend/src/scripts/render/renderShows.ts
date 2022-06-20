@@ -1,7 +1,7 @@
 import drawSeason from './drawSeason';
-import {Show, EpisodeCount, Marker} from '../types';
-import {createElement} from '../htmlUtils';
-import {createSeasonClickHandler} from '../eventHandlers/mainPage';
+import { Show, EpisodeCount, Marker } from '../types';
+import { createElement } from '../htmlUtils';
+import { createSeasonClickHandler } from '../eventHandlers/mainPage';
 import API from '../api/api';
 
 export default async function () {
@@ -9,6 +9,27 @@ export default async function () {
   for (let element of await displayItems()) {
     document.querySelector('#content')?.appendChild(element);
   }
+}
+
+export function renderShow(show: Show): HTMLElement {
+  const title = renderTitle(show.title, show.id);
+  const descr = renderDescription(show.location, show.length);
+  const seasons = renderSeasons(show, show.seenThru);
+
+  const showDiv = createElement('div', 'show', [title, descr, seasons]);
+  showDiv.id = `show-${show.id}`;
+  addShowEventListeners(showDiv);
+  return showDiv;
+}
+
+function addShowEventListeners(showDiv: HTMLElement) {
+  showDiv.addEventListener('mouseenter', mouseEnterShowIcons);
+  showDiv.addEventListener('mouseleave', mouseLeaveHideIcons);
+}
+
+export function removeShowEventListeners(showDiv: HTMLElement) {
+  showDiv.removeEventListener('mouseenter', mouseEnterShowIcons);
+  showDiv.removeEventListener('mouseleave', mouseLeaveHideIcons);
 }
 
 async function displayItems(): Promise<HTMLElement[]> {
@@ -25,18 +46,6 @@ function sortShows(shows: Show[]): Show[] {
 function withSortableTitle(show: Show): [string, Show] {
   const sortableTitle = show.title.toLocaleLowerCase().replace(/^(an?|the)\s/, '');
   return [sortableTitle, show];
-}
-
-function renderShow(show: Show): HTMLElement {
-  const title = renderTitle(show.title, show.id);
-  const descr = renderDescription(show.location, show.length);
-  const seasons = renderSeasons(show, show.seenThru);
-  const showDiv = createElement('div', 'show', [title, descr, seasons]);
-
-  showDiv.addEventListener('mouseenter', mouseEnterShowIcons);
-  showDiv.addEventListener('mouseleave', mouseLeaveHideIcons);
-
-  return showDiv;
 }
 
 function renderTitle(title: string, id: number): HTMLElement {

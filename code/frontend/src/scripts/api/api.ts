@@ -57,9 +57,9 @@ export default class {
     }
   }
 
-  static async updateShowStatus(show: Show, season: number, episodesWatched: number): Promise <void> {
+  static async updateShowStatus(show: Show, season: number, episodesWatched: number): Promise<Show> {
     const body = {seenThru: { season, episodesWatched }};
-    const rsp = await fetch(`/shows/${show.id}`, {
+    const rsp = await fetch(`/shows/${encodeURIComponent(show.id)}`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body)
@@ -67,5 +67,6 @@ export default class {
     if (!rsp.ok) {
       throw new Error(`Error updating '${show.title} last watched to S${season} episode count ${episodesWatched}: ${rsp.statusText}`);
     }
+    return await rsp.json();
   }
 }

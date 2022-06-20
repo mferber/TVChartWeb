@@ -50,12 +50,12 @@ app.get('/shows/:id', async (req: Request, res: Response): Promise<void> => {
   }
 });
 
-// PATCH single show
+// PATCH single show; returns patched show
 app.patch('/shows/:id', async (req: Request, res: Response): Promise<void> => {
   const id = Number(req.params.id);
   try {
-    await storage.patchShow(id, req.body);
-    res.status(204).send();
+    const patched = await storage.patchShow(id, req.body);
+    res.send(patched);
   } catch (e) {
     console.error(e);
     if (e instanceof storage.ShowNotFoundError) {

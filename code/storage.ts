@@ -21,7 +21,7 @@ export async function fetchShows(): Promise<Show[]> {
     return JSON.parse(await readDataFile());
   } catch (e) {
     let orig: Error = e instanceof Error ? e as Error : new Error(String(e));
-    throw new StorageError('Error reading data file');
+    throw new StorageError(`Error reading data file (${e})`);
   }
 }
 
@@ -30,7 +30,7 @@ export async function storeShows(shows: Show[]) {
     await writeDataFile(JSON.stringify(shows, null, 2)); // pretty-print for readability
   } catch (e) {
     let orig: Error = e instanceof Error ? e as Error : new Error(String(e));
-    throw new StorageError('Error writing data file');
+    throw new StorageError(`Error writing data file: (${e})`);
   }
 }
 
@@ -68,19 +68,18 @@ export async function storeShow(show: Partial<Show>): Promise<Show> {
   }
 }
 
-
-
 export async function patchShow(id: number, patch: Partial<Show>) {
-  let patched = false;
+  let patched: Show | null = null;
   const allShows = await fetchShows();
   for (let show of allShows) {
     if (show.id === id) {
       Object.assign(show, patch);
-      patched = true;
+      patched = show;
     }
   }
   if (patched) {
     await storeShows(allShows);
+    return patched;
   } else {
     throw new ShowNotFoundError(id);
   }

@@ -1,6 +1,9 @@
-import { syncBuiltinESMExports } from 'module';
-import {Show} from '../types';
+import { renderShow, removeShowEventListeners } from "./renderShows";
+import { Show } from '../types';
 import API from "../api/api";
+
+// store currently active "Mark watched" click event handler, for future removal
+var markWatchedListener: ((this: HTMLElement, ev: MouseEvent) => any) | null = null;
 
 export function showSynopsisLoadingIndicator() {
   const container = synopsisContainer();
@@ -27,6 +30,8 @@ export function showSynopsis(
     return;
   }
 
+  removeMarkWatchedListener(container);
+
   let episodeIdentifier = episodeNum ? `S${seasonNum}E${episodeNum}` : `S${seasonNum} — Special`;
   
   populate(container, '#synopsis-show-title', show.title);
@@ -37,12 +42,7 @@ export function showSynopsis(
 
   container.querySelector('#synopsis-body')?.scrollTo(0, 0);
 
-  container.querySelector('#synopsis-mark-watched')?.addEventListener('click', async e => {
-    e.preventDefault();
-    await API.updateShowStatus(show, seasonNum, episodeIndex + 1);
-    location.reload();
-  });
-
+  addMarkWatchedListener(container, show, seasonNum, episodeIndex);
   setLoadingIndicatorVisible(container, false);
   setContentVisible(container, true);
   setPopupVisible(container, true);
@@ -55,6 +55,31 @@ function populate(container: HTMLElement, selector: string, value: string) {
   }
 }
 
+function addMarkWatchedListener(container: HTMLElement, show: Show, seasonNum: number, episodeIndex: number) {
+  const link = container.querySelector('#synopsis-mark-watched-link') as HTMLElement | null;
+  if (link) {
+    markWatchedListener = async e => {
+      e.preventDefault();
+      const updatedShow = await API.updateShowStatus(show, seasonNum, episodeIndex + 1);
+      const updatedElement = renderShow(updatedShow);
+      const showDiv = document.querySelector(`#show-${show.id}`) as HTMLElement | null;
+      if (showDiv) {
+        removeShowEventListeners(showDiv);
+        showDiv.replaceWith(updatedElement);
+      }
+    };
+    link.addEventListener('click', markWatchedListener);
+  }
+}
+
+function removeMarkWatchedListener(container: HTMLElement) {
+  if (markWatchedListener) {
+    const link = container.querySelector('#synopsis-mark-watched-link') as HTMLElement | null;
+    link?.removeEventListener('click', markWatchedListener);
+    markWatchedListener = null;
+  }
+}
+
 export function dismissSynopsis() {
   const container = synopsisContainer();
   if (!container) {
@@ -64,6 +89,7 @@ export function dismissSynopsis() {
   setLoadingIndicatorVisible(container, false);
   setContentVisible(container, false);
   setPopupVisible(container, false);
+  removeMarkWatchedListener(container);
 }
 
 function setContentVisible(container: Element, visible: boolean) {
