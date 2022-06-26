@@ -15,7 +15,7 @@ export function rerenderShow(show: Show) {
   const oldElement = document.querySelector(`#show-${show.id}`) as HTMLElement | null;
   if (oldElement) {
     const newElement = renderShow(show);
-    removeShowEventListeners(oldElement);
+    removeIconEventListeners(oldElement);
     oldElement.replaceWith(newElement);
   }
 }
@@ -27,18 +27,24 @@ function renderShow(show: Show): HTMLElement {
 
   const showDiv = createElement('div', 'show', [title, descr, seasons]);
   showDiv.id = `show-${show.id}`;
-  addShowEventListeners(showDiv);
+  addIconEventListeners(showDiv);
   return showDiv;
 }
 
-function addShowEventListeners(showDiv: HTMLElement) {
-  showDiv.addEventListener('mouseenter', mouseEnterShowIcons);
-  showDiv.addEventListener('mouseleave', mouseLeaveHideIcons);
+function addIconEventListeners(showDiv: HTMLElement) {
+  showDiv.querySelectorAll('img.edit').forEach(elt => {
+    const icon = elt as HTMLElement;
+    icon.addEventListener('mouseenter', mouseEnterIcon);
+    icon.addEventListener('mouseleave', mouseLeaveIcon);
+  });
 }
 
-function removeShowEventListeners(showDiv: HTMLElement) {
-  showDiv.removeEventListener('mouseenter', mouseEnterShowIcons);
-  showDiv.removeEventListener('mouseleave', mouseLeaveHideIcons);
+function removeIconEventListeners(showDiv: HTMLElement) {
+  showDiv.querySelectorAll('img.edit').forEach(elt => {
+    const icon = elt as HTMLElement;
+    icon.removeEventListener('mouseenter', mouseEnterIcon);
+    icon.removeEventListener('mouseleave', mouseLeaveIcon);
+  });
 }
 
 async function displayItems(): Promise<HTMLElement[]> {
@@ -60,10 +66,17 @@ function withSortableTitle(show: Show): [string, Show] {
 function renderTitle(title: string, id: number): HTMLElement {
   const editIcon = createElement('img', 'edit', []);
   editIcon.setAttribute('src', 'pen-to-square-regular.svg');
-  editIcon.addEventListener('click', () => { location.href = `edit.html?id=${id}`; });
+  editIcon.addEventListener('click', () => {
+    unhighlightIcon(editIcon);
+    location.href = `edit.html?id=${id}`;
+  });
   
   const trashIcon = createElement('img', 'edit', []);
   trashIcon.setAttribute('src', 'trash-can-regular.svg');
+  trashIcon.addEventListener('click', () => {
+    unhighlightIcon(trashIcon);
+    // TODO: delete the selected show
+  });
 
   return createElement('div', 'show-heading', [
     createElement('span', 'show-title', [document.createTextNode(title)]),
@@ -87,17 +100,23 @@ function renderSeasons(show: Show, seenThru: Marker): HTMLElement {
   return createElement('div', 'show-seasons', divs);
 }
 
-function mouseEnterShowIcons(evt: MouseEvent) {
+function mouseEnterIcon(evt: MouseEvent) {
   const target = evt.currentTarget as HTMLElement;
   if (target) {
-    const icons = target.querySelectorAll('img.edit');
-    icons.forEach(i => (i as HTMLElement).style.visibility = 'visible');
+    highlightIcon(target);
   }
 }
-function mouseLeaveHideIcons(evt: MouseEvent) {
+function mouseLeaveIcon(evt: MouseEvent) {
   const target = evt.currentTarget as HTMLElement;
   if (target) {
-    const icons = target.querySelectorAll('img.edit');
-    icons.forEach(i => (i as HTMLElement).style.visibility = 'hidden');
+    unhighlightIcon(target);
   }
+}
+
+function highlightIcon(icon: HTMLElement) {
+  icon.classList.add('highlight');
+}
+
+function unhighlightIcon(icon: HTMLElement) {
+  icon.classList.remove('highlight');
 }
