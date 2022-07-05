@@ -34,8 +34,12 @@ body {
 img.edit {
   height: 1em;
   margin: 0 0.25em;
+  opacity: 0.3;
   cursor: pointer;
-  visibility: hidden;
+}
+
+img.edit.highlight {
+  opacity: 1.0;
 }
 
 .show-desc {
