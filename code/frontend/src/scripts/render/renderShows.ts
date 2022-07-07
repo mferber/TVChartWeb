@@ -1,5 +1,5 @@
 import drawSeason from './drawSeason';
-import { Show, EpisodeCount, Marker } from '../types';
+import { Show, Marker } from '../types';
 import { createElement } from '../htmlUtils';
 import { createSeasonClickHandler } from '../eventHandlers/mainPage';
 import API from '../api/api';

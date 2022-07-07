@@ -1,4 +1,4 @@
-import { Show, Marker } from "../types";
+import { Marker } from "../types";
 import { createElementNS } from '../htmlUtils';
 import { BOX_HEIGHT, INTER_SEGMENT_SPACING, OUTER_STROKE_WIDTH, DIVIDER_STROKE_WIDTH } from './graphicsConstants';
 
