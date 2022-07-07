@@ -1,7 +1,9 @@
 import API from '../api/api';
 import TVMazeApi from '../tvmaze/TVMazeApi';
 import { Show } from '../types';
-import { getFieldValue, setField, createElement } from '../htmlUtils';
+import { getFieldValue, setField, createElement, removePrecedingWhitespace } from '../htmlUtils';
+
+let editingTVmazeId: string | null = null;
 
 export async function initialize() {
   try {
@@ -26,8 +28,21 @@ export async function initialize() {
   }
 }
 
+function showIdFromQueryString(qs: string): number | null {
+  const params = new URLSearchParams(location.search);
+  const id = params.get('id');
+  if (id === null) {
+    return null;
+  }
+  const idNum = parseInt(id);
+  if (Number.isNaN(idNum)) {
+    throw new Error(`Invalid id (not a number): ${id}`);
+  }
+  return idNum;
+}
+
 async function initializeAddShow() {
-  const header = document.querySelector('#header');;
+  const header = document.querySelector('#header');
   if (header) {
     header.textContent = 'Add new show';
   }
@@ -36,6 +51,22 @@ async function initializeAddShow() {
 
 async function initializeEditShow(showId: number) {
   const show = await API.fetchShow(showId);
+  editingTVmazeId = show.tvmazeId;
+
+  const tvmazeIdDisplayText = `: ${editingTVmazeId}`;
+
+  let input = document.querySelector('input#tvmazeid') as HTMLElement;
+  const label = document.querySelector('label[for=tvmazeId') as HTMLElement;
+  label.style.display = 'inline';
+  const text = document.createTextNode(tvmazeIdDisplayText);
+  input.replaceWith(text);
+  removePrecedingWhitespace(text);
+
+  (document.getElementById('tvmaze-singlesearch') as HTMLButtonElement).style.display = 'none';
+  
+  let titleSection = document.getElementById('title-section') as HTMLElement;
+  titleSection.style.display = 'none';
+
   populateFields(show);
   initializeButtons();
 }
@@ -75,19 +106,6 @@ function updateTVmazeButtonsEnabled() {
   }
 }
 
-function showIdFromQueryString(qs: string): number | null {
-  const params = new URLSearchParams(location.search);
-  const id = params.get('id');
-  if (id === null) {
-    return null;
-  }
-  const idNum = parseInt(id);
-  if (Number.isNaN(idNum)) {
-    throw new Error(`Invalid id (not a number): ${id}`);
-  }
-  return idNum;
-}
-
 function populateFields(show: Show) {
   // most fields can be populated as if this were new data from TVmaze
   refreshShowInfo(show);
@@ -111,24 +129,21 @@ async function clickLookUpShowButton() {
 }
 
 function clickTVmazeGoButton() {
-  const tvmazeIdFld = document.querySelector('input[name=tvmazeId]');
-  if (tvmazeIdFld === null) {
+  const tvmazeId = currentShowTVmazeId();
+  if (tvmazeId === null) {
     return;
   }
-  const id = (tvmazeIdFld as HTMLInputElement).value;
-  const url = 'https://tvmaze.com/shows/' + encodeURIComponent(id);
+  const url = 'https://tvmaze.com/shows/' + encodeURIComponent(tvmazeId);
   window.open(url, "_blank");
 }
 
 async function clickTVmazeRefreshButton() {
-  const tvmazeIdFld = document.querySelector('input[name=tvmazeId]') as HTMLInputElement;
-  if (!tvmazeIdFld) {
+  const tvmazeId = currentShowTVmazeId();
+  if (tvmazeId === null) {
     return;
   }
-  const id = tvmazeIdFld.value;
-
   try {
-    const show = await TVMazeApi.fetchShowInfo(id);
+    const show = await TVMazeApi.fetchShowInfo(tvmazeId);
     refreshShowInfo(show);
   } catch (e) {
     console.error(e);
@@ -216,6 +231,15 @@ async function clickSubmitButton() {
   }
 }
 
-async function clickCancelButton() {
+function clickCancelButton() {
   history.back();
+}
+
+function currentShowTVmazeId(): string | null {
+  if (editingTVmazeId !== null) {
+    return editingTVmazeId;
+  } else {
+    const input = document.getElementById('tvmazeid') as HTMLInputElement;
+    return input.value === '' ? null : input.value;
+  }
 }

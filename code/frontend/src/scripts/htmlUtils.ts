@@ -32,3 +32,14 @@ export function getFieldValue(fieldName: string): string | null {
     || document.querySelector(`textarea[name=${fieldName}]`) as HTMLTextAreaElement;
   return fld?.value;
 }
+
+export function removePrecedingWhitespace(node: Node) {
+  let prev: Node | null;
+  while (prev = node.previousSibling) {
+    if (prev.nodeType === Node.TEXT_NODE && /^\s*$/.test(prev.nodeValue as string)) {
+      prev.parentNode?.removeChild(prev);
+    } else {
+      return;
+    }
+  }
+}

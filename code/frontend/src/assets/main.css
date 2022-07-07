@@ -102,48 +102,42 @@ img.edit.highlight {
   font-style: italic;
 }
 
-.edit-grid {
-  display: table;
+.form .item input, .form .item label, .form .item div {
+  display: block;
 }
 
-.row {
-  display: table-row;
+.form .item {
+  margin-bottom: 1em;
 }
 
-.edit-grid-label, .edit-grid-item {
-  display: table-cell;
-  white-space: nowrap;
-  padding-bottom: 0.75em;
-}
-
-.edit-grid-label {
-  font-weight: bold;
-  padding-right: 1em;
-  vertical-align: top;
-}
-
-.explanation {
+.form label {
   font-size: 80%;
+  font-weight: bold;
 }
 
-input[type=text] {
+.form input[type=text] {
   line-height: 1.25em;
   min-width: 30em;
   font-family: "Georgia", "serif";
   font-size: 120%;
+}
+
+.form input, .form textarea {
   border: 1px solid #ccc;
+  padding: 0.25em;
+  border-radius: 0.25em;
 }
 
-input[type=text]:focus, textarea:focus {
+.form input[type=text]:focus, .form textarea:focus {
+  border-color: black;
   outline: none;
-  background-color: #ffe;
 }
 
-input[type=text][name=title], input[type=text][name=tvmazeId] {
+.form input[type=text][name=title], .form input[type=text][name=tvmazeId] {
   min-width: 15em;
 }
 
-textarea {
+.form textarea {
   width: 30em;
   height: 12em;
   font-family: "Courier New", "monospace";
@@ -151,7 +145,12 @@ textarea {
   border: 1px solid #ccc;
 }
 
-button {
+.form .explanation {
+  font-size: 80%;
+  color: #888888;
+}
+
+.form button {
   font-size: 100%;
   padding: 0.3em;
 }
