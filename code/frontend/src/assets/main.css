@@ -1,19 +1,31 @@
 body {
+  margin: 0;
   font-family: "Georgia", "serif";
   line-height: 1.25;
 }
 
-.instanceIdentificationBanner {
-  display: none;
+body.nonproductionInstance {
+  background-color: #ffeeee;
 }
 
-.instanceIdentificationBanner.visible {
+#content {
+  margin: 0.5em;
+}
+
+.instanceIdentificationBanner {
   display: block;
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: -1;
+  padding: 0 2em;
+  opacity: 0.7;
   background-color: red;
   color: white;
-  width: 100%;
-  text-align: center;
-  margin-bottom: 0.5em;
+  height: 2em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 #controls {

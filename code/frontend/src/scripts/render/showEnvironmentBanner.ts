@@ -12,12 +12,9 @@ export default async function () {
 }
 
 function showBannerMessage(message: string) {
-  const container = document.body.querySelector('.instanceIdentificationBanner');
-  if (!container) {
-    return alert("Can't find container for site instance identification banner");
-  }
   const dispNode = document.createElement('div');
+  dispNode.className = 'instanceIdentificationBanner';
   dispNode.textContent = message;
-  container.appendChild(dispNode);
-  container.className += ' visible';
+  document.body.prepend(dispNode);
+  document.body.classList.add('nonproductionInstance');
 }
