@@ -78,6 +78,17 @@ app.put('/shows', async (req: Request, res: Response): Promise<void> => {
   }
 });
 
+// DELETE single show
+app.delete('/shows/:id', async (req: Request, res: Response): Promise<void> => {
+  const id = Number(req.params.id);
+  try {
+    storage.deleteShow(id);
+    res.send();
+  } catch (e) {
+    console.error(e);
+    res.status(500).send(`Error: ${e}`);
+  }
+});
 
 // GET data file in its entirety for editing or backing up
 app.get('/data', async (req: Request, res: Response): Promise<void> => {

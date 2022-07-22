@@ -3,6 +3,8 @@ import { segmentWidth } from '../render/drawSeason';
 import { Show } from '../types';
 import { showSynopsis, showSynopsisLoadingIndicator } from '../render/synopsis';
 import { dismissSynopsis } from '../render/synopsis';
+import { removeShow } from '../render/renderShows';
+import API from '../api/api';
 import TVMazeApi from '../tvmaze/TVMazeApi';
 import metadataCache from '../metadataCache';
 
@@ -91,4 +93,16 @@ function svgPointToBoxIndex(point: DOMPoint, seasonMap: string): number | null {
     boxCountOffset += segmentMap.length;
   }
   return null;
+}
+
+export async function confirmDeleteShow(show: Show): Promise<void> {
+  if (!confirm(`Are you sure you want to delete "${show.title}"?`)) {
+    return;
+  }
+  try {
+    await API.deleteShow(show.id);
+    removeShow(show);
+  } catch (e) {
+    console.error(e);
+  }
 }

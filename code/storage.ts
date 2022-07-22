@@ -85,6 +85,15 @@ export async function patchShow(id: number, patch: Partial<Show>) {
   }
 }
 
+export async function deleteShow(id: number) {
+  const allShows = await fetchShows();
+  const remainingShows = allShows.filter(s => s.id !== id);
+  if (remainingShows.length === allShows.length) {
+    throw new ShowNotFoundError(id);
+  }
+  await storeShows(remainingShows);
+}
+
 async function readDataFile(): Promise<string> {
   return fs.promises.readFile(dataFilePath, 'utf-8');
 }

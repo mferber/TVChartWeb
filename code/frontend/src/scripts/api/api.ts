@@ -65,8 +65,17 @@ export default class {
       body: JSON.stringify(body)
     });
     if (!rsp.ok) {
-      throw new Error(`Error updating '${show.title} last watched to S${season} episode count ${episodesWatched}: ${rsp.statusText}`);
+      throw new Error(`Error updating ${show.title} last watched to S${season} episode count ${episodesWatched}: ${rsp.statusText}`);
     }
     return await rsp.json();
+  }
+
+  static async deleteShow(id: number): Promise<void> {
+    const rsp = await fetch(`/shows/${encodeURIComponent(id)}`, {
+      method: 'DELETE'
+    });
+    if (!rsp.ok) {
+      throw new Error(`Error deleting show with id ${id}: ${rsp.statusText}`);
+    }
   }
 }

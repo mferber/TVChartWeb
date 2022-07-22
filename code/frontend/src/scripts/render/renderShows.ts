@@ -1,7 +1,7 @@
 import drawSeason from './drawSeason';
 import { Show, Marker } from '../types';
 import { createElement } from '../htmlUtils';
-import { createSeasonClickHandler } from '../eventHandlers/mainPage';
+import { createSeasonClickHandler, confirmDeleteShow } from '../eventHandlers/mainPage';
 import API from '../api/api';
 
 export default async function () {
@@ -20,8 +20,16 @@ export function rerenderShow(show: Show) {
   }
 }
 
+export function removeShow(show: Show) {
+  const oldElement = document.querySelector(`#show-${show.id}`) as HTMLElement | null;
+  if (oldElement) {
+    removeIconEventListeners(oldElement);
+    oldElement.remove();
+  }
+}
+
 function renderShow(show: Show): HTMLElement {
-  const title = renderTitle(show.title, show.id);
+  const title = renderTitle(show);
   const descr = renderDescription(show.location, show.length);
   const seasons = renderSeasons(show, show.seenThru);
 
@@ -63,23 +71,23 @@ function withSortableTitle(show: Show): [string, Show] {
   return [sortableTitle, show];
 }
 
-function renderTitle(title: string, id: number): HTMLElement {
+function renderTitle(show: Show): HTMLElement {
   const editIcon = createElement('img', 'edit', []);
   editIcon.setAttribute('src', 'pen-to-square-regular.svg');
   editIcon.addEventListener('click', () => {
     unhighlightIcon(editIcon);
-    location.href = `edit.html?id=${id}`;
+    location.href = `edit.html?id=${show.id}`;
   });
   
   const trashIcon = createElement('img', 'edit', []);
   trashIcon.setAttribute('src', 'trash-can-regular.svg');
   trashIcon.addEventListener('click', () => {
     unhighlightIcon(trashIcon);
-    // TODO: delete the selected show
+    confirmDeleteShow(show);
   });
 
   return createElement('div', 'show-heading', [
-    createElement('span', 'show-title', [document.createTextNode(title)]),
+    createElement('span', 'show-title', [document.createTextNode(show.title)]),
     editIcon,
     trashIcon
   ]);
