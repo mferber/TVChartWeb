@@ -32,8 +32,8 @@ body.nonproductionInstance {
   margin: 0 0 1em 0;
 }
 
-.show ~ .show {
-  margin-top: 1.5em;
+.show:not(:last-child) {
+  margin-bottom: 1.5em;
 }
 
 .show-title {

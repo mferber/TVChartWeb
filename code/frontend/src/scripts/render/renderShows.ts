@@ -2,13 +2,13 @@ import drawSeason from './drawSeason';
 import { Show, Marker } from '../types';
 import { createElement } from '../htmlUtils';
 import { createSeasonClickHandler, confirmDeleteShow } from '../eventHandlers/mainPage';
+import * as Animation from './animation';
 import API from '../api/api';
 
 export default async function () {
-  const container = document.body.querySelector('#content');
-  for (let element of await displayItems()) {
-    document.querySelector('#content')?.appendChild(element);
-  }
+  const shows = await displayItems();
+  const container = createElement('div', null, shows);
+  document.querySelector('#content')?.appendChild(container);
 }
 
 export function rerenderShow(show: Show) {
@@ -20,10 +20,11 @@ export function rerenderShow(show: Show) {
   }
 }
 
-export function removeShow(show: Show) {
+export async function removeShow(show: Show) {
   const oldElement = document.querySelector(`#show-${show.id}`) as HTMLElement | null;
   if (oldElement) {
     removeIconEventListeners(oldElement);
+    await Animation.fadeOutVertically(oldElement, 0.5);
     oldElement.remove();
   }
 }
