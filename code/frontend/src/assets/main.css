@@ -32,7 +32,7 @@ body.nonproductionInstance {
   margin: 0 0 1em 0;
 }
 
-.show + .show {
+.show ~ .show {
   margin-top: 1.5em;
 }
 
@@ -60,7 +60,7 @@ img.edit.highlight {
   margin: 0 0 0.5em 0;
 }
 
-.show-season + .show-season {
+.show-season ~ .show-season {
   margin-top: 0.25em;
 }
 
