@@ -43,6 +43,11 @@ body.nonproductionInstance {
   margin: 0 0.75em 0 0;
 }
 
+img#show-favorites {
+  height: 1.25em;
+  vertical-align: middle;
+}
+
 img.edit {
   height: 1em;
   margin: 0 0.25em;

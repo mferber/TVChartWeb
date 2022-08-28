@@ -8,7 +8,7 @@
   <script defer src="./tv-app-tools-bundle.js"></script>
   <script>
     window.addEventListener('DOMContentLoaded', async () => {
-      tvTools.initializeMain();
+      await tvTools.initializeMain();
     });
   </script>
 </head>
@@ -16,10 +16,16 @@
 <body>
   <div id="content">
     <div id="controls">
-      <a href="edit.html">Add a show</a> | <a href="edit_data.html">Edit show list</a> | <a href="data" download>Export data file</a>
+      <img src="heart-regular.svg" id="show-favorites" title="Show favorites only" />
+      |
+      <a href="edit.html">Add a show</a>
+      |
+      <a href="edit_data.html">Edit show list</a>
+      |
+      <a href="data" download>Export data file</a>
     </div>
 
-    <div id="content"></div>
+    <div id="shows-container"></div>
 
     <div id="synopsis-popup">
       <div id="synopsis-loading-indicator">

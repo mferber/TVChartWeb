@@ -11,7 +11,8 @@
       "season": 1,
       "episodesWatched": 2
     },
-    "id": 1
+    "id": 1,
+    "favorite": false
   },
   {
     "title": "All Creatures Great & Small",
@@ -26,7 +27,8 @@
       "season": 2,
       "episodesWatched": 6
     },
-    "id": 2
+    "id": 2,
+    "favorite": true
   },
   {
     "title": "Battlestar Galactica",
@@ -43,7 +45,8 @@
       "season": 3,
       "episodesWatched": 1
     },
-    "id": 3
+    "id": 3,
+    "favorite": true
   },
   {
     "title": "Better Call Saul",
@@ -62,7 +65,8 @@
       "season": 4,
       "episodesWatched": 4
     },
-    "id": 4
+    "id": 4,
+    "favorite": true
   },
   {
     "title": "Better Off Ted",
@@ -77,7 +81,8 @@
       "season": 2,
       "episodesWatched": 3
     },
-    "id": 5
+    "id": 5,
+    "favorite": true
   },
   {
     "title": "BoJack Horseman",
@@ -96,7 +101,8 @@
       "season": 6,
       "episodesWatched": 11
     },
-    "id": 6
+    "id": 6,
+    "favorite": true
   },
   {
     "title": "For All Mankind",
@@ -112,7 +118,8 @@
       "season": 2,
       "episodesWatched": "all"
     },
-    "id": 7
+    "id": 7,
+    "favorite": true
   },
   {
     "title": "Foundation",
@@ -127,7 +134,8 @@
       "season": 1,
       "episodesWatched": "all"
     },
-    "id": 8
+    "id": 8,
+    "favorite": true
   },
   {
     "title": "Hacks",
@@ -142,7 +150,8 @@
       "season": 1,
       "episodesWatched": 6
     },
-    "id": 9
+    "id": 9,
+    "favorite": true
   },
   {
     "title": "Severance",
@@ -156,7 +165,8 @@
       "season": 0,
       "episodesWatched": 0
     },
-    "id": 10
+    "id": 10,
+    "favorite": true
   },
   {
     "title": "Station Eleven",
@@ -170,7 +180,8 @@
       "season": 1,
       "episodesWatched": 9
     },
-    "id": 11
+    "id": 11,
+    "favorite": true
   },
   {
     "title": "Superstore",
@@ -189,7 +200,8 @@
       "season": 4,
       "episodesWatched": 12
     },
-    "id": 12
+    "id": 12,
+    "favorite": true
   },
   {
     "title": "Ted Lasso",
@@ -205,7 +217,8 @@
       "season": 2,
       "episodesWatched": "all"
     },
-    "id": 13
+    "id": 13,
+    "favorite": true
   },
   {
     "title": "The Leftovers",
@@ -221,7 +234,8 @@
       "season": 3,
       "episodesWatched": 5
     },
-    "id": 14
+    "id": 14,
+    "favorite": true
   },
   {
     "title": "The Mandalorian",
@@ -236,7 +250,8 @@
       "season": 2,
       "episodesWatched": 3
     },
-    "id": 15
+    "id": 15,
+    "favorite": true
   },
   {
     "title": "The Other Two",
@@ -251,6 +266,7 @@
       "season": 1,
       "episodesWatched": 9
     },
-    "id": 16
+    "id": 16,
+    "favorite": true
   }
 ]

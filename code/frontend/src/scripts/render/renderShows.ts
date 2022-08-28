@@ -5,10 +5,9 @@ import { createSeasonClickHandler, confirmDeleteShow } from '../eventHandlers/ma
 import * as Animation from './animation';
 import API from '../api/api';
 
-export default async function () {
-  const shows = await displayItems();
-  const container = createElement('div', null, shows);
-  document.querySelector('#content')?.appendChild(container);
+export default async function renderShows(favoritesOnly: boolean) {
+  const shows = await displayItems(favoritesOnly);
+  document.querySelector('#shows-container')?.replaceChildren(...shows);
 }
 
 export function rerenderShow(show: Show) {
@@ -56,8 +55,11 @@ function removeIconEventListeners(showDiv: HTMLElement) {
   });
 }
 
-async function displayItems(): Promise<HTMLElement[]> {
-  const shows = await API.fetchShows();
+async function displayItems(favoritesOnly: boolean): Promise<HTMLElement[]> {
+  let shows = await API.fetchShows();
+  if (favoritesOnly) {
+    shows = shows.filter(s => s.favorite);
+  }
   return sortShows(shows).map(renderShow);
 }
 

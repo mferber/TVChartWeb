@@ -5,7 +5,8 @@ export interface Show {
   location: string,
   length: string,
   seasonMaps: string[],
-  seenThru: Marker
+  seenThru: Marker,
+  favorite: boolean
 };
 
 export type EpisodeCount = number | 'all';

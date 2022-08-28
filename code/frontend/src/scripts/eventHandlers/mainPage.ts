@@ -7,15 +7,30 @@ import { removeShow } from '../render/renderShows';
 import API from '../api/api';
 import TVMazeApi from '../tvmaze/TVMazeApi';
 import metadataCache from '../metadataCache';
+import renderShows from '../render/renderShows';
+import showEnvironmentBanner from '../render/showEnvironmentBanner';
 
-export function initialize() {
+const HEART_REGULAR_PATH = 'heart-regular.svg';
+const HEART_SOLID_PATH = 'heart-solid.svg';
+
+let showFavoritesEnabled = false;
+
+export async function initialize() {
   document.addEventListener('click', dismissSynopsis);
+
+  const showFavoritesButton = document.querySelector('#show-favorites');
+  if (showFavoritesButton) {
+    showFavoritesButton.addEventListener('click', toggleShowFavorites);
+  }
+  updateShowFavoritesButton(showFavoritesEnabled);
 
   // prevent events in the synopsis from affecting the main page
   const synopsis = document.querySelector('#synopsis-popup');
   if (synopsis) {
     synopsis.addEventListener('click', e => e.stopPropagation());
   }
+  
+  return Promise.all([showEnvironmentBanner(), renderShows(showFavoritesEnabled)]);
 }
 
 export function createSeasonClickHandler(show: Show, seasonNum: number): (_: MouseEvent) => void {
@@ -44,6 +59,19 @@ export function createSeasonClickHandler(show: Show, seasonNum: number): (_: Mou
 
     e.stopPropagation();
   }
+}
+
+export function updateShowFavoritesButton(enabled: boolean) {
+  const el = document.querySelector('#show-favorites');
+  if (el === null) { return; }
+  const src = enabled ? HEART_SOLID_PATH : HEART_REGULAR_PATH;
+  el.setAttribute('src', src);
+}
+
+function toggleShowFavorites() {
+  showFavoritesEnabled = !showFavoritesEnabled;
+  updateShowFavoritesButton(showFavoritesEnabled);
+  renderShows(showFavoritesEnabled);
 }
 
 function clientXYToBoxIndex(
