@@ -4,7 +4,7 @@ import { createElement } from '../htmlUtils';
 import { createSeasonClickHandler, confirmDeleteShow, showFavoritesOnlyEnabled } from '../eventHandlers/mainPage';
 import * as Animation from './animation';
 import API from '../api/api';
-import { HEART_REGULAR_PATH, HEART_SOLID_PATH } from '../render/assets';
+import { PEN_SQUARE_PATH, TRASH_CAN_PATH, HEART_REGULAR_PATH, HEART_SOLID_PATH } from '../render/assets';
 
 export default async function renderShows() {
   const shows = await displayItems();
@@ -90,7 +90,7 @@ function renderTitle(show: Show): HTMLElement {
 
 function createEditIcon(show: Show) {
   const el = createElement('img', 'edit', []);
-  el.setAttribute('src', 'pen-to-square-regular.svg');
+  el.setAttribute('src', PEN_SQUARE_PATH);
   el.addEventListener('click', () => {
     unhighlightIcon(el);
     location.href = `edit.html?id=${show.id}`;
@@ -100,7 +100,7 @@ function createEditIcon(show: Show) {
 
 function createTrashIcon(show: Show) {
   const el = createElement('img', 'edit', []);
-  el.setAttribute('src', 'trash-can-regular.svg');
+  el.setAttribute('src', TRASH_CAN_PATH);
   el.addEventListener('click', () => {
     unhighlightIcon(el);
     confirmDeleteShow(show);
