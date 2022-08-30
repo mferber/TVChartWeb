@@ -76,37 +76,9 @@ function withSortableTitle(show: Show): [string, Show] {
 }
 
 function renderTitle(show: Show): HTMLElement {
-  const editIcon = createElement('img', 'edit', []);
-  editIcon.setAttribute('src', 'pen-to-square-regular.svg');
-  editIcon.addEventListener('click', () => {
-    unhighlightIcon(editIcon);
-    location.href = `edit.html?id=${show.id}`;
-  });
-  
-  const trashIcon = createElement('img', 'edit', []);
-  trashIcon.setAttribute('src', 'trash-can-regular.svg');
-  trashIcon.addEventListener('click', () => {
-    unhighlightIcon(trashIcon);
-    confirmDeleteShow(show);
-  });
-
-  const favoriteIcon = createElement('img', 'edit', []);
-  favoriteIcon.setAttribute('src', iconForFavoriteState(show.favorite));
-  favoriteIcon.addEventListener('click', async () => {
-    const newState = !show.favorite;
-    try {
-      await API.patchShow(show.id, { favorite: newState });
-      show.favorite = newState;
-
-      if (newState === false && showFavoritesOnlyEnabled) {
-        removeShow(show);
-      } else {
-        favoriteIcon.setAttribute('src', iconForFavoriteState(newState));
-      }
-    } catch (e) {
-      console.error(e);
-    }
-  });
+  const editIcon = createEditIcon(show); 
+  const trashIcon = createTrashIcon(show);
+  const favoriteIcon = createFavoriteIcon(show);
 
   return createElement('div', 'show-heading', [
     createElement('span', 'show-title', [document.createTextNode(show.title)]),
@@ -114,6 +86,45 @@ function renderTitle(show: Show): HTMLElement {
     trashIcon,
     favoriteIcon
   ]);
+}
+
+function createEditIcon(show: Show) {
+  const el = createElement('img', 'edit', []);
+  el.setAttribute('src', 'pen-to-square-regular.svg');
+  el.addEventListener('click', () => {
+    unhighlightIcon(el);
+    location.href = `edit.html?id=${show.id}`;
+  });
+  return el;
+}
+
+function createTrashIcon(show: Show) {
+  const el = createElement('img', 'edit', []);
+  el.setAttribute('src', 'trash-can-regular.svg');
+  el.addEventListener('click', () => {
+    unhighlightIcon(el);
+    confirmDeleteShow(show);
+  });
+  return el;
+}
+
+function createFavoriteIcon(show: Show) {
+  const el = createElement('img', 'edit', []);
+  el.setAttribute('src', iconForFavoriteState(show.favorite));
+  el.addEventListener('click', async () => {
+    const newState = !show.favorite;
+    try {
+      await API.patchShow(show.id, { favorite: newState });
+      show.favorite = newState;
+      el.setAttribute('src', iconForFavoriteState(newState));
+      if (newState === false && showFavoritesOnlyEnabled) {
+        removeShow(show);
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  });
+  return el;
 }
 
 function renderDescription(location: string, length: string): HTMLElement {
