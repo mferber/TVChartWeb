@@ -11,11 +11,11 @@ export function fadeOutVertically(element: HTMLElement, durationSec: number): Pr
         element.style.opacity = '0';
         element.style.marginBottom = '0';
 
-        element.addEventListener('transitionend', e => {
-          const callee = arguments.callee as (this: HTMLElement, ev: TransitionEvent) => any;
-          element.removeEventListener('transitionend', callee);
+        const transitionEndHandler = (e: Event) => {
+          element.removeEventListener('transitionend', transitionEndHandler);
           resolve();
-        });
+        };
+        element.addEventListener('transitionend', transitionEndHandler);
       });
     });
   });
