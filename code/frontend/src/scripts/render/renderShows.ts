@@ -1,12 +1,13 @@
 import drawSeason from './drawSeason';
 import { Show, Marker } from '../types';
 import { createElement } from '../htmlUtils';
-import { createSeasonClickHandler, confirmDeleteShow } from '../eventHandlers/mainPage';
+import { createSeasonClickHandler, confirmDeleteShow, showFavoritesOnlyEnabled } from '../eventHandlers/mainPage';
 import * as Animation from './animation';
 import API from '../api/api';
+import { HEART_REGULAR_PATH, HEART_SOLID_PATH } from '../render/assets';
 
-export default async function renderShows(favoritesOnly: boolean) {
-  const shows = await displayItems(favoritesOnly);
+export default async function renderShows() {
+  const shows = await displayItems();
   document.querySelector('#shows-container')?.replaceChildren(...shows);
 }
 
@@ -55,9 +56,9 @@ function removeIconEventListeners(showDiv: HTMLElement) {
   });
 }
 
-async function displayItems(favoritesOnly: boolean): Promise<HTMLElement[]> {
+async function displayItems(): Promise<HTMLElement[]> {
   let shows = await API.fetchShows();
-  if (favoritesOnly) {
+  if (showFavoritesOnlyEnabled) {
     shows = shows.filter(s => s.favorite);
   }
   return sortShows(shows).map(renderShow);
@@ -89,10 +90,29 @@ function renderTitle(show: Show): HTMLElement {
     confirmDeleteShow(show);
   });
 
+  const favoriteIcon = createElement('img', 'edit', []);
+  favoriteIcon.setAttribute('src', iconForFavoriteState(show.favorite));
+  favoriteIcon.addEventListener('click', async () => {
+    const newState = !show.favorite;
+    try {
+      await API.patchShow(show.id, { favorite: newState });
+      show.favorite = newState;
+
+      if (newState === false && showFavoritesOnlyEnabled) {
+        removeShow(show);
+      } else {
+        favoriteIcon.setAttribute('src', iconForFavoriteState(newState));
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  });
+
   return createElement('div', 'show-heading', [
     createElement('span', 'show-title', [document.createTextNode(show.title)]),
     editIcon,
-    trashIcon
+    trashIcon,
+    favoriteIcon
   ]);
 }
 
@@ -122,6 +142,10 @@ function mouseLeaveIcon(evt: MouseEvent) {
   if (target) {
     unhighlightIcon(target);
   }
+}
+
+function iconForFavoriteState(state: boolean) {
+  return state ? HEART_SOLID_PATH : HEART_REGULAR_PATH;
 }
 
 function highlightIcon(icon: HTMLElement) {

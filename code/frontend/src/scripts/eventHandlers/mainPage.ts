@@ -9,11 +9,9 @@ import TVMazeApi from '../tvmaze/TVMazeApi';
 import metadataCache from '../metadataCache';
 import renderShows from '../render/renderShows';
 import showEnvironmentBanner from '../render/showEnvironmentBanner';
+import { HEART_REGULAR_PATH, HEART_SOLID_PATH } from '../render/assets';
 
-const HEART_REGULAR_PATH = 'heart-regular.svg';
-const HEART_SOLID_PATH = 'heart-solid.svg';
-
-let showFavoritesEnabled = false;
+export let showFavoritesOnlyEnabled = false;
 
 export async function initialize() {
   document.addEventListener('click', dismissSynopsis);
@@ -22,7 +20,7 @@ export async function initialize() {
   if (showFavoritesButton) {
     showFavoritesButton.addEventListener('click', toggleShowFavorites);
   }
-  updateShowFavoritesButton(showFavoritesEnabled);
+  updateShowFavoritesButton(showFavoritesOnlyEnabled);
 
   // prevent events in the synopsis from affecting the main page
   const synopsis = document.querySelector('#synopsis-popup');
@@ -30,7 +28,7 @@ export async function initialize() {
     synopsis.addEventListener('click', e => e.stopPropagation());
   }
   
-  return Promise.all([showEnvironmentBanner(), renderShows(showFavoritesEnabled)]);
+  return Promise.all([showEnvironmentBanner(), renderShows()]);
 }
 
 export function createSeasonClickHandler(show: Show, seasonNum: number): (_: MouseEvent) => void {
@@ -69,9 +67,9 @@ export function updateShowFavoritesButton(enabled: boolean) {
 }
 
 function toggleShowFavorites() {
-  showFavoritesEnabled = !showFavoritesEnabled;
-  updateShowFavoritesButton(showFavoritesEnabled);
-  renderShows(showFavoritesEnabled);
+  showFavoritesOnlyEnabled = !showFavoritesOnlyEnabled;
+  updateShowFavoritesButton(showFavoritesOnlyEnabled);
+  renderShows();
 }
 
 function clientXYToBoxIndex(
