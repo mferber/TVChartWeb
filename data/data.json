@@ -116,7 +116,7 @@
     ],
     "seenThru": {
       "season": 2,
-      "episodesWatched": "all"
+      "episodesWatched": 10
     },
     "id": 7,
     "favorite": true
@@ -132,10 +132,10 @@
     ],
     "seenThru": {
       "season": 1,
-      "episodesWatched": "all"
+      "episodesWatched": 10
     },
     "id": 8,
-    "favorite": true
+    "favorite": false
   },
   {
     "title": "Hacks",
@@ -215,7 +215,7 @@
     ],
     "seenThru": {
       "season": 2,
-      "episodesWatched": "all"
+      "episodesWatched": 12
     },
     "id": 13,
     "favorite": true
@@ -267,6 +267,21 @@
       "episodesWatched": 9
     },
     "id": 16,
+    "favorite": false
+  },
+  {
+    "id": 17,
+    "tvmazeId": "1116",
+    "title": "The Middleman",
+    "length": "60 min.",
+    "location": "",
+    "seasonMaps": [
+      "............"
+    ],
+    "seenThru": {
+      "season": 1,
+      "episodesWatched": 0
+    },
     "favorite": true
   }
 ]
