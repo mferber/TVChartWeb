@@ -22,12 +22,16 @@ export async function initialize() {
     updateLookUpEnabled();
     for (const fldName of ['title', 'tvmazeId']) {
       const field = document.querySelector(`input[name=${fldName}]`) as HTMLInputElement;
-      field.addEventListener('input', updateLookUpEnabled);
+      if (field) {
+        field.addEventListener('input', updateLookUpEnabled);
+      }
     }
 
     updateTVmazeButtonsEnabled();
     const field = document.querySelector('input[name=tvmazeId]') as HTMLInputElement;
-    field.addEventListener('input', updateTVmazeButtonsEnabled);
+    if (field) {
+      field.addEventListener('input', updateTVmazeButtonsEnabled);
+    }
   } catch (e) {
     console.error(`Error initializing page: ${e}`);
   }
@@ -98,13 +102,13 @@ function updateLookUpEnabled() {
   const tvmazeIdField = document.querySelector('input[name=tvmazeId]') as HTMLInputElement;
   const lookUpShowButton = document.querySelector('button#tvmaze-singlesearch') as HTMLButtonElement;
   
-  // disable button if there's already a TVmaze id, or there's not title to look up
-  lookUpShowButton.disabled = tvmazeIdField.value !== '' || titleField.value === '';
+  // disable button if there's already a TVmaze id, or there's no id to look up
+  lookUpShowButton.disabled = tvmazeIdField && (tvmazeIdField.value !== '' || titleField.value === '');
 }
 
 function updateTVmazeButtonsEnabled() {
   const field = document.querySelector('input[name=tvmazeId]') as HTMLInputElement;
-  const disabled = field.value === '';
+  const disabled = field && field.value === '';
 
   for (const id of ['tvmaze-refresh', 'tvmaze-go']) {
     (document.querySelector(`button#${id}`) as HTMLButtonElement).disabled = disabled;
@@ -149,7 +153,8 @@ async function clickTVmazeRefreshButton() {
     return;
   }
   try {
-    const show = await TVMazeApi.fetchShowInfo(tvmazeId);
+    let show = await TVMazeApi.fetchShowInfo(tvmazeId);
+    show.id = Number(currentShowTVmazeId());
     refreshShowInfo(show);
   } catch (e) {
     console.error(e);
@@ -227,11 +232,15 @@ async function clickSubmitButton() {
     patch.title = getFieldValue('title') || '';
     patch.location = getFieldValue('source') || '';
     patch.length = getFieldValue('episodeduration') || '';
-    patch.tvmazeId = getFieldValue('tvmazeId') || '';
     patch.favorite = isCheckboxChecked('favorite') || false;
 
     const seasonMaps = getFieldValue('season-maps') || '';
     patch.seasonMaps = seasonMaps.split('\n');
+
+    const tvmazeId = getFieldValue('tvmazeId');
+    if (tvmazeId) {
+      patch.tvmazeId = tvmazeId;
+    }
 
     if (id === null) {
       await API.putShow(patch);
@@ -253,7 +262,7 @@ function currentShowTVmazeId(): string | null {
   if (editingTVmazeId !== null) {
     return editingTVmazeId;
   } else {
-    const input = document.getElementById('tvmazeid') as HTMLInputElement;
+    const input = document.getElementById('tvmazeId') as HTMLInputElement;
     return input.value === '' ? null : input.value;
   }
 }
