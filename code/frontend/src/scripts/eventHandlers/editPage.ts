@@ -1,7 +1,7 @@
 import API from '../api/api';
 import TVMazeApi from '../tvmaze/TVMazeApi';
 import { Show } from '../types';
-import { getFieldValue, setField, createElement, removePrecedingWhitespace } from '../htmlUtils';
+import { getFieldValue, setField, isCheckboxChecked, setCheckbox, createElement, removePrecedingWhitespace } from '../htmlUtils';
 
 let editingTVmazeId: string | null = null;
 
@@ -12,6 +12,11 @@ export async function initialize() {
       await initializeAddShow();
     } else {
       await initializeEditShow(showId);
+    }
+
+    const label = document.querySelector('label[for=favorite]');
+    if (label) {
+      label.addEventListener('click', clickFavoriteLabel);
     }
 
     updateLookUpEnabled();
@@ -112,6 +117,7 @@ function populateFields(show: Show) {
 
   // fields not included in TVmaze data
   setField('source', show.location); 
+  setCheckbox('favorite', show.favorite);
 }
 
 async function clickLookUpShowButton() {
@@ -147,6 +153,13 @@ async function clickTVmazeRefreshButton() {
     refreshShowInfo(show);
   } catch (e) {
     console.error(e);
+  }
+}
+
+function clickFavoriteLabel() {
+  const box = document.querySelector('input[name=favorite]') as HTMLInputElement;
+  if (box) {
+    box.checked = !box.checked
   }
 }
 
@@ -215,6 +228,7 @@ async function clickSubmitButton() {
     patch.location = getFieldValue('source') || '';
     patch.length = getFieldValue('episodeduration') || '';
     patch.tvmazeId = getFieldValue('tvmazeId') || '';
+    patch.favorite = isCheckboxChecked('favorite') || false;
 
     const seasonMaps = getFieldValue('season-maps') || '';
     patch.seasonMaps = seasonMaps.split('\n');

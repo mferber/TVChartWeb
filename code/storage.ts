@@ -57,7 +57,8 @@ export async function storeShow(show: Partial<Show>): Promise<Show> {
       length: show.length || '',
       location: show.location || '',
       seasonMaps: show.seasonMaps || [],
-      seenThru: show.seenThru || { season: 1, episodesWatched: 0 }
+      seenThru: show.seenThru || { season: 1, episodesWatched: 0 },
+      favorite: show.favorite || false
     };
     shows.push(newShow);
     await storeShows(shows);

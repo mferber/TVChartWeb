@@ -26,11 +26,25 @@ export function setField(fieldName: string, value: string) {
   }
 }
 
+export function setCheckbox(fieldName: string, value: boolean) {
+  const fld = 
+    document.querySelector(`input[name=${fieldName}]`) as HTMLInputElement
+  if (fld) {
+    fld.checked = value;
+  }
+}
+
 export function getFieldValue(fieldName: string): string | null {
   const fld = 
     document.querySelector(`input[name=${fieldName}]`) as HTMLInputElement
     || document.querySelector(`textarea[name=${fieldName}]`) as HTMLTextAreaElement;
   return fld?.value;
+}
+
+export function isCheckboxChecked(fieldName: string) {
+  const fld = 
+    document.querySelector(`input[name=${fieldName}]`) as HTMLInputElement
+  return fld?.checked
 }
 
 export function removePrecedingWhitespace(node: Node) {
