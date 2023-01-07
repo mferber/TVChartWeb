@@ -59,6 +59,16 @@ export function createSeasonClickHandler(show: Show, seasonNum: number): (_: Mou
   }
 }
 
+export function updateFavoritesModeIndicator(enabled: boolean) {
+  const el = document.querySelector('body');
+  if (el ===  null) { return; }
+  if (enabled) {
+    el.classList.add("favoritesMode");
+  } else {
+    el.classList.remove("favoritesMode");
+  }
+}
+
 export function updateShowFavoritesButton(enabled: boolean) {
   const el = document.querySelector('#show-favorites');
   if (el === null) { return; }
@@ -68,6 +78,7 @@ export function updateShowFavoritesButton(enabled: boolean) {
 
 function toggleShowFavorites() {
   showFavoritesOnlyEnabled = !showFavoritesOnlyEnabled;
+  updateFavoritesModeIndicator(showFavoritesOnlyEnabled);
   updateShowFavoritesButton(showFavoritesOnlyEnabled);
   renderShows();
 }

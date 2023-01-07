@@ -4,8 +4,12 @@ body {
   line-height: 1.25;
 }
 
+body.favoritesMode {
+  background-color: #fff3f3;
+}
+
 #content {
-  margin: 0.5em;
+  padding: 0.5em;
 }
 
 .instanceIdentificationBanner {
