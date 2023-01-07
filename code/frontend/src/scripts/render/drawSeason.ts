@@ -75,15 +75,18 @@ function drawSegmentInterior(segmentMap: string, episodeCounterOffset: number, x
   let elts: Element[] = [];
   const innerBoxWidth = BOX_HEIGHT - 2 * OUTER_STROKE_WIDTH;
 
-  const seenCount = howManyEpisodesSeen(segmentMap, seasonNum, episodeCounterOffset, seenThru);
+  const backgroundX = xOffset + OUTER_STROKE_WIDTH;
+  const backgroundY = OUTER_STROKE_WIDTH;
+  const backgroundWidth = segmentMap.length * innerBoxWidth + (segmentMap.length - 1) * DIVIDER_STROKE_WIDTH;
+  elts.push(drawRect(backgroundX, backgroundY, backgroundWidth, innerBoxWidth, 0, '#fff'))
 
   // gray background for seen episodes
+  const seenCount = howManyEpisodesSeen(segmentMap, seasonNum, episodeCounterOffset, seenThru);
   if (seenCount > 0) {
-    const grayX = xOffset + OUTER_STROKE_WIDTH;
-    const grayY = OUTER_STROKE_WIDTH;
     const grayWidth = (seenCount * innerBoxWidth) + ((seenCount - 1) * DIVIDER_STROKE_WIDTH);
-    elts.push(drawRect(grayX, grayY, grayWidth, innerBoxWidth, 0, '#ccc'))
+    elts.push(drawRect(backgroundX, backgroundY, grayWidth, innerBoxWidth, 0, '#ccc'))
   };
+
 
   // divider lines between episodes
   for (let i = 1; i < segmentMap.length; i++) {

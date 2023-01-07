@@ -14,13 +14,16 @@ import { HEART_REGULAR_PATH, HEART_SOLID_PATH } from '../render/assets';
 export let showFavoritesOnlyEnabled = false;
 
 export async function initialize() {
-  document.addEventListener('click', dismissSynopsis);
+  showFavoritesOnlyEnabled = localStorage.getItem('favorites-mode') === 'true';
+  updateFavoritesModeIndicator(showFavoritesOnlyEnabled);
 
   const showFavoritesButton = document.querySelector('#show-favorites');
   if (showFavoritesButton) {
     showFavoritesButton.addEventListener('click', toggleShowFavorites);
   }
   updateShowFavoritesButton(showFavoritesOnlyEnabled);
+
+  document.addEventListener('click', dismissSynopsis);
 
   // prevent events in the synopsis from affecting the main page
   const synopsis = document.querySelector('#synopsis-popup');
@@ -78,6 +81,7 @@ export function updateShowFavoritesButton(enabled: boolean) {
 
 function toggleShowFavorites() {
   showFavoritesOnlyEnabled = !showFavoritesOnlyEnabled;
+  localStorage.setItem('favorites-mode', showFavoritesOnlyEnabled.toString());
   updateFavoritesModeIndicator(showFavoritesOnlyEnabled);
   updateShowFavoritesButton(showFavoritesOnlyEnabled);
   renderShows();
