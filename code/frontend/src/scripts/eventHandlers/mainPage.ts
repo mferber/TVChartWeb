@@ -121,7 +121,7 @@ function toSVGPoint(svg: SVGGraphicsElement, x: number, y: number): DOMPoint | n
 function svgPointToBoxIndex(point: DOMPoint, seasonMap: string): number | null {
   const boxWidth = BOX_HEIGHT - 2 * OUTER_STROKE_WIDTH;
 
-  let segmentOffset = 0;
+  let segmentOffset = BOX_HEIGHT; // leave room for the season number
   let boxCountOffset = 0;
   const segmentMaps = seasonMap.split('+');
   for (let segmentIndex = 0; segmentIndex < segmentMaps.length; segmentIndex++) {
