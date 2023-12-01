@@ -1,34 +1,20 @@
 [
   {
-    "title": "Abbott Elementary",
-    "tvmazeId": "55350",
-    "location": "Hulu?",
-    "length": "½ hour",
-    "seasonMaps": [
-      "............."
-    ],
-    "seenThru": {
-      "season": 1,
-      "episodesWatched": 2
-    },
-    "id": 1,
-    "favorite": false
-  },
-  {
-    "title": "All Creatures Great & Small",
+    "title": "All Creatures Great and Small",
     "tvmazeId": "42836",
     "location": "PBS",
-    "length": "1 hour",
+    "length": "63 min.",
     "seasonMaps": [
+      "......+S",
       "......+S",
       "......+S"
     ],
     "seenThru": {
-      "season": 2,
-      "episodesWatched": 6
+      "season": 3,
+      "episodesWatched": 7
     },
     "id": 2,
-    "favorite": true
+    "favorite": false
   },
   {
     "title": "Battlestar Galactica",
@@ -43,7 +29,7 @@
     ],
     "seenThru": {
       "season": 3,
-      "episodesWatched": 1
+      "episodesWatched": 15
     },
     "id": 3,
     "favorite": true
@@ -62,8 +48,8 @@
       "............."
     ],
     "seenThru": {
-      "season": 4,
-      "episodesWatched": 4
+      "season": 6,
+      "episodesWatched": 2
     },
     "id": 4,
     "favorite": true
@@ -79,10 +65,10 @@
     ],
     "seenThru": {
       "season": 2,
-      "episodesWatched": 3
+      "episodesWatched": 4
     },
     "id": 5,
-    "favorite": true
+    "favorite": false
   },
   {
     "title": "BoJack Horseman",
@@ -99,7 +85,7 @@
     ],
     "seenThru": {
       "season": 6,
-      "episodesWatched": 11
+      "episodesWatched": 13
     },
     "id": 6,
     "favorite": true
@@ -108,34 +94,19 @@
     "title": "For All Mankind",
     "tvmazeId": "41414",
     "location": "Apple TV+",
-    "length": "1 hour",
+    "length": "61 min.",
     "seasonMaps": [
+      "..........",
       "..........",
       "..........",
       ".........."
     ],
     "seenThru": {
-      "season": 2,
-      "episodesWatched": 10
+      "season": 4,
+      "episodesWatched": 1
     },
     "id": 7,
     "favorite": true
-  },
-  {
-    "title": "Foundation",
-    "tvmazeId": "35951",
-    "location": "Apple TV+",
-    "length": "1 hour",
-    "seasonMaps": [
-      "..........",
-      ".........."
-    ],
-    "seenThru": {
-      "season": 1,
-      "episodesWatched": 10
-    },
-    "id": 8,
-    "favorite": false
   },
   {
     "title": "Hacks",
@@ -147,11 +118,11 @@
       "........"
     ],
     "seenThru": {
-      "season": 1,
-      "episodesWatched": 6
+      "season": 2,
+      "episodesWatched": 8
     },
     "id": 9,
-    "favorite": true
+    "favorite": false
   },
   {
     "title": "Severance",
@@ -162,26 +133,11 @@
       "........."
     ],
     "seenThru": {
-      "season": 0,
-      "episodesWatched": 0
-    },
-    "id": 10,
-    "favorite": true
-  },
-  {
-    "title": "Station Eleven",
-    "tvmazeId": "42845",
-    "location": "HBO",
-    "length": "1 hour",
-    "seasonMaps": [
-      ".........."
-    ],
-    "seenThru": {
       "season": 1,
       "episodesWatched": 9
     },
-    "id": 11,
-    "favorite": true
+    "id": 10,
+    "favorite": false
   },
   {
     "title": "Superstore",
@@ -197,68 +153,98 @@
       "..............."
     ],
     "seenThru": {
-      "season": 4,
-      "episodesWatched": 12
+      "season": 5,
+      "episodesWatched": 7
     },
     "id": 12,
-    "favorite": true
+    "favorite": false
   },
   {
-    "title": "Ted Lasso",
-    "tvmazeId": "44458",
-    "location": "Apple TV+",
-    "length": "½ hour",
+    "id": 16,
+    "tvmazeId": "16149",
+    "title": "Fleabag",
+    "length": "30 min.",
+    "location": "Amazon",
     "seasonMaps": [
-      "..........",
-      "............",
-      "............"
+      "......",
+      "......"
     ],
     "seenThru": {
-      "season": 2,
-      "episodesWatched": 12
+      "season": 1,
+      "episodesWatched": 1
     },
-    "id": 13,
-    "favorite": true
+    "favorite": false
   },
   {
-    "title": "The Leftovers",
-    "tvmazeId": "138",
-    "location": "HBO",
-    "length": "1 hour",
-    "seasonMaps": [
-      "..........",
-      "..........",
-      "........"
-    ],
-    "seenThru": {
-      "season": 3,
-      "episodesWatched": 5
-    },
-    "id": 14,
-    "favorite": true
-  },
-  {
-    "title": "The Mandalorian",
-    "tvmazeId": "38963",
+    "id": 19,
+    "tvmazeId": "62030",
+    "title": "Light & Magic",
+    "length": "? min",
     "location": "Disney+",
-    "length": "½-1 hour",
     "seasonMaps": [
-      "........",
-      "........"
+      "......"
     ],
     "seenThru": {
-      "season": 2,
-      "episodesWatched": 3
+      "season": 1,
+      "episodesWatched": 0
     },
-    "id": 15,
+    "favorite": false
+  },
+  {
+    "id": 20,
+    "tvmazeId": "2955",
+    "title": "Taskmaster",
+    "length": "60 min.",
+    "location": "YouTube",
+    "seasonMaps": [
+      "......",
+      ".....",
+      ".....",
+      "........",
+      "........",
+      "..........",
+      "..........",
+      "..........",
+      "..........",
+      "..........S",
+      "..........",
+      "..........S",
+      "..........",
+      "..........S",
+      "..........",
+      ".........."
+    ],
+    "seenThru": {
+      "season": 10,
+      "episodesWatched": 4
+    },
     "favorite": true
   },
   {
-    "title": "The Other Two",
-    "tvmazeId": "39333",
+    "id": 21,
+    "tvmazeId": "40899",
+    "title": "Los Espookys",
+    "length": "30 min.",
     "location": "HBO",
-    "length": "½ hour",
     "seasonMaps": [
+      "......",
+      "......"
+    ],
+    "seenThru": {
+      "season": 1,
+      "episodesWatched": 6
+    },
+    "favorite": true
+  },
+  {
+    "id": 22,
+    "tvmazeId": "34522",
+    "title": "What We Do in the Shadows",
+    "length": "30 min.",
+    "location": "",
+    "seasonMaps": [
+      "..........",
+      "..........",
       "..........",
       ".........."
     ],
@@ -266,21 +252,285 @@
       "season": 1,
       "episodesWatched": 9
     },
-    "id": 16,
     "favorite": false
   },
   {
-    "id": 17,
-    "tvmazeId": "1116",
-    "title": "The Middleman",
-    "length": "60 min.",
-    "location": "",
+    "id": 23,
+    "tvmazeId": "14116",
+    "title": "The Tick",
+    "length": "28 min.",
+    "location": "Prime",
+    "seasonMaps": [
+      "............",
+      ".........."
+    ],
+    "seenThru": {
+      "season": 1,
+      "episodesWatched": 2
+    },
+    "favorite": false
+  },
+  {
+    "id": 25,
+    "tvmazeId": "54198",
+    "title": "The Bear",
+    "length": "34 min.",
+    "location": "Hulu",
+    "seasonMaps": [
+      "........",
+      ".........."
+    ],
+    "seenThru": {
+      "season": 2,
+      "episodesWatched": 10
+    },
+    "favorite": false
+  },
+  {
+    "id": 26,
+    "tvmazeId": "48764",
+    "title": "Floor Is Lava",
+    "length": "32 min.",
+    "location": "Netflix",
+    "seasonMaps": [
+      "..........",
+      ".....",
+      "....."
+    ],
+    "seenThru": {
+      "season": 3,
+      "episodesWatched": 5
+    },
+    "favorite": false
+  },
+  {
+    "id": 30,
+    "tvmazeId": "52341",
+    "title": "Star Wars: Andor",
+    "length": "46 min.",
+    "location": "Disney+",
     "seasonMaps": [
       "............"
     ],
     "seenThru": {
       "season": 1,
       "episodesWatched": 0
+    },
+    "favorite": false
+  },
+  {
+    "id": 31,
+    "tvmazeId": "11538",
+    "title": "Barry",
+    "length": "30 min.",
+    "location": "Max",
+    "seasonMaps": [
+      "........",
+      "........",
+      "........",
+      "........"
+    ],
+    "seenThru": {
+      "season": 3,
+      "episodesWatched": 8
+    },
+    "favorite": true
+  },
+  {
+    "id": 32,
+    "tvmazeId": "532",
+    "title": "Scrubs",
+    "length": "30 min.",
+    "location": "Hulu",
+    "seasonMaps": [
+      "........................",
+      "......................",
+      "......................",
+      ".........................",
+      "........................",
+      "......................",
+      "...........",
+      "...................",
+      "............."
+    ],
+    "seenThru": {
+      "season": 2,
+      "episodesWatched": 11
+    },
+    "favorite": true
+  },
+  {
+    "id": 33,
+    "tvmazeId": "58323",
+    "title": "Shrinking",
+    "length": "33 min.",
+    "location": "Apple TV+",
+    "seasonMaps": [
+      ".........."
+    ],
+    "seenThru": {
+      "season": 1,
+      "episodesWatched": 10
+    },
+    "favorite": false
+  },
+  {
+    "id": 34,
+    "tvmazeId": "63900",
+    "title": "Cunk on Earth",
+    "length": "29 min.",
+    "location": "Netflix",
+    "seasonMaps": [
+      "....."
+    ],
+    "seenThru": {
+      "season": 1,
+      "episodesWatched": 5
+    },
+    "favorite": false
+  },
+  {
+    "id": 35,
+    "tvmazeId": "38541",
+    "title": "PEN15",
+    "length": "31 min.",
+    "location": "Hulu",
+    "seasonMaps": [
+      "..........",
+      ".......S......."
+    ],
+    "seenThru": {
+      "season": 1,
+      "episodesWatched": 1
+    },
+    "favorite": false
+  },
+  {
+    "id": 36,
+    "tvmazeId": "918",
+    "title": "Pushing Daisies",
+    "length": "60 min.",
+    "location": "HBO Max",
+    "seasonMaps": [
+      ".........",
+      "............."
+    ],
+    "seenThru": {
+      "season": 1,
+      "episodesWatched": 0
+    },
+    "favorite": false
+  },
+  {
+    "id": 37,
+    "tvmazeId": "53686",
+    "title": "Schmigadoon!",
+    "length": "29 min.",
+    "location": "Apple TV+",
+    "seasonMaps": [
+      "......",
+      "......"
+    ],
+    "seenThru": {
+      "season": 2,
+      "episodesWatched": 2
+    },
+    "favorite": true
+  },
+  {
+    "id": 38,
+    "tvmazeId": "367",
+    "title": "Six Feet Under",
+    "length": "60 min.",
+    "location": "HBO Max",
+    "seasonMaps": [
+      ".............",
+      ".............",
+      ".............",
+      "............",
+      "............"
+    ],
+    "seenThru": {
+      "season": 1,
+      "episodesWatched": 0
+    },
+    "favorite": false
+  },
+  {
+    "id": 39,
+    "tvmazeId": "49930",
+    "title": "The Cleaner",
+    "length": "29 min.",
+    "location": "BritBox",
+    "seasonMaps": [
+      "......S",
+      "......"
+    ],
+    "seenThru": {
+      "season": 2,
+      "episodesWatched": 6
+    },
+    "favorite": false
+  },
+  {
+    "id": 41,
+    "tvmazeId": "19807",
+    "title": "The Marvelous Mrs. Maisel",
+    "length": "56 min.",
+    "location": "Amazon",
+    "seasonMaps": [
+      "........",
+      "..........",
+      "........",
+      "........",
+      "........."
+    ],
+    "seenThru": {
+      "season": 1,
+      "episodesWatched": 5
+    },
+    "favorite": true
+  },
+  {
+    "id": 42,
+    "tvmazeId": "210",
+    "title": "Doctor Who",
+    "length": "48 min.",
+    "location": "Max",
+    "seasonMaps": [
+      ".............SS",
+      ".............S",
+      "............S.SS",
+      ".............SSSSS",
+      ".............S",
+      "S..S....S.S.....S.SS",
+      "S.....SSSS......S.S.SSSS",
+      "............S",
+      "SS............S",
+      "SS............S",
+      "..........S",
+      "..........S",
+      "......SSS",
+      "SSSS"
+    ],
+    "seenThru": {
+      "season": 1,
+      "episodesWatched": 5
+    },
+    "favorite": true
+  },
+  {
+    "id": 43,
+    "tvmazeId": "54128",
+    "title": "Poker Face",
+    "length": "56 min.",
+    "location": "Peacock",
+    "seasonMaps": [
+      ".........."
+    ],
+    "seenThru": {
+      "season": 1,
+      "episodesWatched": 1
     },
     "favorite": true
   }
