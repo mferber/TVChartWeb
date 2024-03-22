@@ -10,10 +10,6 @@
       "......+S",
       "......+S"
     ],
-    "seenThru": {
-      "season": 4,
-      "episodesWatched": 3
-    },
     "id": 2,
     "favorite": true,
     "watchedEpisodeMaps": [
@@ -34,10 +30,6 @@
       "....................+S",
       "..........+..........+S"
     ],
-    "seenThru": {
-      "season": 4,
-      "episodesWatched": 2
-    },
     "id": 3,
     "favorite": true,
     "watchedEpisodeMaps": [
@@ -60,10 +52,6 @@
       "..........",
       "............."
     ],
-    "seenThru": {
-      "season": 6,
-      "episodesWatched": 3
-    },
     "id": 4,
     "favorite": true,
     "watchedEpisodeMaps": [
@@ -84,10 +72,6 @@
       ".............",
       "............."
     ],
-    "seenThru": {
-      "season": 2,
-      "episodesWatched": 4
-    },
     "id": 5,
     "favorite": false,
     "watchedEpisodeMaps": [
@@ -108,10 +92,6 @@
       "............",
       "........+........"
     ],
-    "seenThru": {
-      "season": 6,
-      "episodesWatched": 13
-    },
     "id": 6,
     "favorite": false,
     "watchedEpisodeMaps": [
@@ -134,10 +114,6 @@
       "..........",
       ".........."
     ],
-    "seenThru": {
-      "season": 4,
-      "episodesWatched": 8
-    },
     "id": 7,
     "favorite": true,
     "watchedEpisodeMaps": [
@@ -156,10 +132,6 @@
       "..........",
       "........"
     ],
-    "seenThru": {
-      "season": 2,
-      "episodesWatched": 8
-    },
     "id": 9,
     "favorite": false,
     "watchedEpisodeMaps": [
@@ -175,10 +147,6 @@
     "seasonMaps": [
       "........."
     ],
-    "seenThru": {
-      "season": 1,
-      "episodesWatched": 9
-    },
     "id": 10,
     "favorite": false,
     "watchedEpisodeMaps": [
@@ -198,10 +166,6 @@
       ".....................",
       "..............."
     ],
-    "seenThru": {
-      "season": 5,
-      "episodesWatched": 7
-    },
     "id": 12,
     "favorite": false,
     "watchedEpisodeMaps": [
@@ -223,10 +187,6 @@
       "......",
       "......"
     ],
-    "seenThru": {
-      "season": 1,
-      "episodesWatched": 1
-    },
     "favorite": false,
     "watchedEpisodeMaps": [
       "x.....",
@@ -242,10 +202,6 @@
     "seasonMaps": [
       "......"
     ],
-    "seenThru": {
-      "season": 1,
-      "episodesWatched": 0
-    },
     "favorite": false,
     "watchedEpisodeMaps": [
       "......"
@@ -275,10 +231,6 @@
       "..........",
       ".........."
     ],
-    "seenThru": {
-      "season": 12,
-      "episodesWatched": 1
-    },
     "favorite": true,
     "watchedEpisodeMaps": [
       "xxxxxx",
@@ -309,10 +261,6 @@
       "......",
       "......"
     ],
-    "seenThru": {
-      "season": 1,
-      "episodesWatched": 6
-    },
     "favorite": true,
     "watchedEpisodeMaps": [
       "xxxxxx",
@@ -331,10 +279,6 @@
       "..........",
       ".........."
     ],
-    "seenThru": {
-      "season": 1,
-      "episodesWatched": 9
-    },
     "favorite": false,
     "watchedEpisodeMaps": [
       "xxxxxxxxx.",
@@ -353,10 +297,6 @@
       "............",
       ".........."
     ],
-    "seenThru": {
-      "season": 1,
-      "episodesWatched": 2
-    },
     "favorite": false,
     "watchedEpisodeMaps": [
       "xx..........",
@@ -373,10 +313,6 @@
       "........",
       ".........."
     ],
-    "seenThru": {
-      "season": 2,
-      "episodesWatched": 10
-    },
     "favorite": false,
     "watchedEpisodeMaps": [
       "xxxxxxxx",
@@ -394,10 +330,6 @@
       ".....",
       "....."
     ],
-    "seenThru": {
-      "season": 3,
-      "episodesWatched": 5
-    },
     "favorite": false,
     "watchedEpisodeMaps": [
       "xxxxxxxxxx",
@@ -414,10 +346,6 @@
     "seasonMaps": [
       "............"
     ],
-    "seenThru": {
-      "season": 1,
-      "episodesWatched": 0
-    },
     "favorite": false,
     "watchedEpisodeMaps": [
       "............"
@@ -435,10 +363,6 @@
       "........",
       "........"
     ],
-    "seenThru": {
-      "season": 4,
-      "episodesWatched": 2
-    },
     "favorite": true,
     "watchedEpisodeMaps": [
       "xxxxxxxx",
@@ -456,10 +380,6 @@
     "seasonMaps": [
       ".........."
     ],
-    "seenThru": {
-      "season": 1,
-      "episodesWatched": 10
-    },
     "favorite": false,
     "watchedEpisodeMaps": [
       "xxxxxxxxxx"
@@ -474,10 +394,6 @@
     "seasonMaps": [
       "....."
     ],
-    "seenThru": {
-      "season": 1,
-      "episodesWatched": 5
-    },
     "favorite": false,
     "watchedEpisodeMaps": [
       "xxxxx"
@@ -493,10 +409,6 @@
       "..........",
       ".......S......."
     ],
-    "seenThru": {
-      "season": 1,
-      "episodesWatched": 1
-    },
     "favorite": false,
     "watchedEpisodeMaps": [
       "x.........",
@@ -513,10 +425,6 @@
       ".........",
       "............."
     ],
-    "seenThru": {
-      "season": 1,
-      "episodesWatched": 0
-    },
     "favorite": false,
     "watchedEpisodeMaps": [
       ".........",
@@ -533,10 +441,6 @@
       "......",
       "......"
     ],
-    "seenThru": {
-      "season": 2,
-      "episodesWatched": 2
-    },
     "favorite": true,
     "watchedEpisodeMaps": [
       "xxxxxx",
@@ -556,10 +460,6 @@
       "............",
       "............"
     ],
-    "seenThru": {
-      "season": 1,
-      "episodesWatched": 0
-    },
     "favorite": false,
     "watchedEpisodeMaps": [
       ".............",
@@ -579,10 +479,6 @@
       "......S",
       "......"
     ],
-    "seenThru": {
-      "season": 2,
-      "episodesWatched": 6
-    },
     "favorite": false,
     "watchedEpisodeMaps": [
       "xxxxxxx",
@@ -602,10 +498,6 @@
       "........",
       "........."
     ],
-    "seenThru": {
-      "season": 2,
-      "episodesWatched": 3
-    },
     "favorite": true,
     "watchedEpisodeMaps": [
       "xxxxxxxx",
@@ -637,10 +529,6 @@
       "......SSS",
       "SSSS"
     ],
-    "seenThru": {
-      "episodesWatched": 5,
-      "season": 2
-    },
     "favorite": true,
     "watchedEpisodeMaps": [
       "xxxxxxxxxxxxxxx",
@@ -668,10 +556,6 @@
     "seasonMaps": [
       ".........."
     ],
-    "seenThru": {
-      "season": 1,
-      "episodesWatched": 10
-    },
     "favorite": true,
     "watchedEpisodeMaps": [
       "xxxxxxxxxx"
@@ -686,10 +570,6 @@
     "seasonMaps": [
       ".................."
     ],
-    "seenThru": {
-      "season": 1,
-      "episodesWatched": 4
-    },
     "favorite": true,
     "watchedEpisodeMaps": [
       "xxxx.............."
@@ -710,10 +590,6 @@
       "............",
       "............"
     ],
-    "seenThru": {
-      "season": 1,
-      "episodesWatched": 0
-    },
     "favorite": false,
     "watchedEpisodeMaps": [
       "............",
@@ -734,10 +610,6 @@
     "seasonMaps": [
       "........"
     ],
-    "seenThru": {
-      "season": 1,
-      "episodesWatched": 0
-    },
     "favorite": true,
     "watchedEpisodeMaps": [
       "........"
@@ -754,10 +626,6 @@
       "..........",
       ".........."
     ],
-    "seenThru": {
-      "episodesWatched": 1,
-      "season": 1
-    },
     "favorite": true,
     "watchedEpisodeMaps": [
       "x.........",
