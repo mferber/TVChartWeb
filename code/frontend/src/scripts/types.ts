@@ -5,14 +5,8 @@ export interface Show {
   location: string,
   length: string,
   seasonMaps: string[],
-  seenThru: Marker,
+  watchedEpisodeMaps: string[],
   favorite: boolean
-};
-
-export type EpisodeCount = number | 'all';
-export interface Marker {
-  season: number,
-  episodesWatched: EpisodeCount
 };
 
 export interface Episode {
@@ -21,4 +15,9 @@ export interface Episode {
   title: string;
   length: string;
   synopsis: string;
+}
+
+export interface EpisodeDescriptor {
+  season: number,
+  episodeIndex: number
 }

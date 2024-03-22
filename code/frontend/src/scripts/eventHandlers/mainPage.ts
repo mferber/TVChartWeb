@@ -36,8 +36,8 @@ export async function initialize() {
 
 export function createSeasonClickHandler(show: Show, seasonNum: number): (_: MouseEvent) => void {
   return async (e: MouseEvent): Promise<void> => {
-    const boxIndex = clientXYToBoxIndex(e.target as SVGElement, e.clientX, e.clientY, show, seasonNum);
-    if (boxIndex === null) {
+    const episodeIndex = clientXYToBoxIndex(e.target as SVGElement, e.clientX, e.clientY, show, seasonNum);
+    if (episodeIndex === null) {
       return;
     }
 
@@ -47,15 +47,17 @@ export function createSeasonClickHandler(show: Show, seasonNum: number): (_: Mou
       metadataCache[show.title] = await TVMazeApi.fetchSeasonDetails(show, seasonNum);
     }
 
-    const metadata = metadataCache[show.title][seasonNum][boxIndex];
+    const metadata = metadataCache[show.title][seasonNum][episodeIndex];
+    const watched = show.watchedEpisodeMaps[seasonNum - 1].charAt(episodeIndex) === 'x';
     showSynopsis(
       show,
       seasonNum,
-      boxIndex,
+      episodeIndex,
       metadata.episode,
       metadata.title,
       metadata.length,
-      metadata.synopsis
+      metadata.synopsis,
+      watched
     );
 
     e.stopPropagation();

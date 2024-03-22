@@ -1,4 +1,4 @@
-import {Show} from './types';
+import { EpisodeDescriptor, Show } from './types';
 import * as fs from 'fs';
 
 const dataFilePath = '../data/data.json';
@@ -50,14 +50,16 @@ export async function storeShow(show: Partial<Show>): Promise<Show> {
   try {
     const shows = await fetchShows();
     const maxId = shows.reduce<number>((id, show) => Math.max(id, show.id), 0);
+    const seasonMaps = show.seasonMaps || [];
+    const watchedEpisodeMaps = seasonMaps.map(season => season.replace(/\+/g, '').replace(/./g, '.'));
     const newShow: Show = {
       id: maxId + 1,
       tvmazeId: show.tvmazeId || '',
       title: show.title || '?',
       length: show.length || '',
       location: show.location || '',
-      seasonMaps: show.seasonMaps || [],
-      seenThru: show.seenThru || { season: 1, episodesWatched: 0 },
+      seasonMaps: seasonMaps,
+      watchedEpisodeMaps: watchedEpisodeMaps,
       favorite: show.favorite || false
     };
     shows.push(newShow);
@@ -86,6 +88,41 @@ export async function patchShow(id: number, patch: Partial<Show>) {
   }
 }
 
+export async function applyStatusUpdate(
+  id: number, 
+  watched: [EpisodeDescriptor] | undefined, 
+  unwatched: [EpisodeDescriptor] | undefined
+): Promise<Show> {
+  const allShows = await fetchShows()
+  const show = allShows.find(show => show.id === id)
+  if (show) {
+    if (watched !== undefined) {
+      for (const descr of watched) {
+        if (show.watchedEpisodeMaps.length > descr.seasonIndex && show.watchedEpisodeMaps[descr.seasonIndex].length > descr.episodeIndex) {
+          const seasonMap = show.watchedEpisodeMaps[descr.seasonIndex];
+          const updated = seasonMap.substring(0, descr.episodeIndex) + 'x' + seasonMap.substring(descr.episodeIndex + 1);
+          show.watchedEpisodeMaps[descr.seasonIndex] = updated;
+        }
+      }
+    }
+    if (unwatched !== undefined) {
+      for (const descr of unwatched) {
+        if (show.watchedEpisodeMaps.length > descr.seasonIndex && show.watchedEpisodeMaps[descr.seasonIndex].length > descr.episodeIndex) {
+          const seasonMap = show.watchedEpisodeMaps[descr.seasonIndex];
+          const updated = seasonMap.substring(0, descr.episodeIndex) + '.' + seasonMap.substring(descr.episodeIndex + 1);
+          show.watchedEpisodeMaps[descr.seasonIndex] = updated;
+        }
+      }
+    }
+    if (watched || unwatched) {
+      await storeShows(allShows);
+    }
+    return show;
+  } else {
+    throw new ShowNotFoundError(id);
+  }
+}
+
 export async function deleteShow(id: number) {
   const allShows = await fetchShows();
   const remainingShows = allShows.filter(s => s.id !== id);
@@ -100,6 +137,7 @@ async function readDataFile(): Promise<string> {
 }
 
 async function writeDataFile(text: string): Promise<void> {
+  console.log("Writing:", text.substring(0, 100));
   const tempFilePath = dataFilePath + '.tmp'
   await fs.promises.writeFile(tempFilePath, text, 'utf-8');
   await fs.promises.rename(tempFilePath, dataFilePath);

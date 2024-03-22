@@ -1,4 +1,4 @@
-import { Show } from "../types";
+import { Show, EpisodeDescriptor } from "../types";
 
 export default class {
   static async fetchEnvironment(): Promise<Record<string, string>> {
@@ -46,6 +46,25 @@ export default class {
     }
   }
 
+  static async updateShowEpisodesWatched(
+    id: number, 
+    watched: [EpisodeDescriptor] | undefined, 
+    unwatched: [EpisodeDescriptor] | undefined
+  ): Promise<Show> {
+    const rsp = await fetch(`/v0.1/shows/${encodeURIComponent(id)}/update-status`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ 
+        watched: watched?.map(({ season, episodeIndex }) => ({ seasonIndex: season - 1, episodeIndex: episodeIndex })),
+        unwatched: unwatched?.map(({ season, episodeIndex }) => ({ seasonIndex: season - 1, episodeIndex: episodeIndex }))
+      })
+    })
+    if (!rsp.ok) {
+      throw new Error(`Error updating episodes watched: ${rsp.statusText}`);
+    }
+    return await rsp.json();
+  }
+
   static async storeShows(shows: Show[]): Promise<void> {
     const rsp = await fetch('/v0.1/data', {
       method: 'PUT',
@@ -55,19 +74,6 @@ export default class {
     if (!rsp.ok) {
       throw new Error(`Error fetching show: ${rsp.statusText}`);
     }
-  }
-
-  static async updateShowStatus(show: Show, season: number, episodesWatched: number): Promise<Show> {
-    const body = {seenThru: { season, episodesWatched }};
-    const rsp = await fetch(`/v0.1/shows/${encodeURIComponent(show.id)}`, {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body)
-    });
-    if (!rsp.ok) {
-      throw new Error(`Error updating ${show.title} last watched to S${season} episode count ${episodesWatched}: ${rsp.statusText}`);
-    }
-    return await rsp.json();
   }
 
   static async deleteShow(id: number): Promise<void> {

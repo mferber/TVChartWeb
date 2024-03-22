@@ -1,5 +1,5 @@
 import drawSeason from './drawSeason';
-import { Show, Marker } from '../types';
+import { Show } from '../types';
 import { createElement } from '../htmlUtils';
 import { createSeasonClickHandler, confirmDeleteShow, showFavoritesOnlyEnabled } from '../eventHandlers/mainPage';
 import * as Animation from './animation';
@@ -32,7 +32,7 @@ export async function removeShow(show: Show) {
 function renderShow(show: Show): HTMLElement {
   const title = renderTitle(show);
   const descr = renderDescription(show.location, show.length);
-  const seasons = renderSeasons(show, show.seenThru);
+  const seasons = renderSeasons(show);
 
   const showDiv = createElement('div', 'show', [title, descr, seasons]);
   showDiv.id = `show-${show.id}`;
@@ -132,9 +132,9 @@ function renderDescription(location: string, length: string): HTMLElement {
   return createElement('div', 'show-desc', [text]);
 }
 
-function renderSeasons(show: Show, seenThru: Marker): HTMLElement {
+function renderSeasons(show: Show): HTMLElement {
   const seasonSVGs = show.seasonMaps
-    .map((seasonMap, seasonIndex) => drawSeason(seasonMap, seasonIndex + 1, seenThru));
+    .map((seasonMap, seasonIndex) => drawSeason(seasonIndex + 1, seasonMap, show.watchedEpisodeMaps[seasonIndex]));
 
   seasonSVGs.forEach((svg, i) => svg.addEventListener('click', createSeasonClickHandler(show, i + 1)));
 

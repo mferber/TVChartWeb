@@ -77,6 +77,7 @@ export default class {
     const length = runtime ? runtime : averageRuntime;
     const lengthStr = length ? `${length} min.` : 'n/a';
     const seasonMaps = this.constructSeasonMaps(episodes);
+    const watchedEpisodeMaps = seasonMaps.map(season => season.replace(/\+/g, '').replace(/./g, '.'));
 
     return {
       title: name,
@@ -84,7 +85,7 @@ export default class {
       location: "",
       length: lengthStr,
       seasonMaps,
-      seenThru: { season: 0, episodesWatched: 0 }
+      watchedEpisodeMaps
     };
   }
 

@@ -1,16 +1,15 @@
-import { Marker } from "../types";
 import { createElementNS } from '../htmlUtils';
 import { BOX_HEIGHT, INTER_SEGMENT_SPACING, OUTER_STROKE_WIDTH, DIVIDER_STROKE_WIDTH } from './graphicsConstants';
 
 const SVG_NS = 'http://www.w3.org/2000/svg';
 const SPECIAL_EPISODE_MARKER = '\u2605';  // black star
 
-export default function (seasonMap: string, seasonNum: number, seenThru: Marker): SVGElement {
+export default function (seasonNum: number, seasonMap: string, watchedEpisodeMap: string): SVGElement {
   let components: Element[] = [];
   let episodeCounterOffset = 0;
   let x = 0;
 
-  let [seasonNumber, endX] = drawSeasonNumber(seasonNum, x);
+  let [seasonNumber, endX] = drawSeasonNumber(x, seasonNum);
   components.push(seasonNumber);
   x = endX;
 
@@ -21,7 +20,7 @@ export default function (seasonMap: string, seasonNum: number, seenThru: Marker)
       components.push(drawnSeparator);
       x = endX;
     }
-    let [drawnSegment, endX] = drawAppendedSegment(segmentMap, episodeCounterOffset, x, seasonNum, seenThru);
+    let [drawnSegment, endX] = drawAppendedSegment(x, episodeCounterOffset, seasonNum, segmentMap, watchedEpisodeMap);
     components.push(drawnSegment);
 
     episodeCounterOffset += segmentMap.length;
@@ -40,7 +39,7 @@ export function segmentWidth(episodeCount: number): number {
   return (episodeCount * innerBoxWidth) + ((episodeCount - 1) * DIVIDER_STROKE_WIDTH) + OUTER_STROKE_WIDTH
 }
 
-function drawSeasonNumber(seasonNum: number, xOffset: number): [Element, number] {
+function drawSeasonNumber(xOffset: number, seasonNum: number): [Element, number] {
   const label = seasonNum.toString();
   const width = BOX_HEIGHT;
   const fontSize = BOX_HEIGHT * 0.6;
@@ -73,17 +72,17 @@ function drawSegmentSeparator(xOffset: number): [Element, number] {
   return [result, endX];
 }
 
-function drawAppendedSegment(segmentMap: string, episodeCounterOffset: number, xOffset: number, seasonNum: number, seenThru: Marker): [Element, number] {
+function drawAppendedSegment(xOffset: number, episodeCounterOffset: number, seasonNum: number, segmentMap: string, watchedEpisodeMap: string): [Element, number] {
   let x = xOffset;
 
-  let elts = drawSegmentInterior(segmentMap, episodeCounterOffset, x, seasonNum, seenThru);
-  let [outerBox, endX] = drawSegmentOuterBox(segmentMap, x);
+  let elts = drawSegmentInterior(x, seasonNum, episodeCounterOffset, segmentMap, watchedEpisodeMap);
+  let [outerBox, endX] = drawSegmentOuterBox(x, segmentMap);
   elts.push(outerBox);
   const group = createElementNS('g', SVG_NS, null, elts);
   return [group, endX];
 }
 
-function drawSegmentOuterBox(segmentMap: string, xStart: number): [Element, number] {
+function drawSegmentOuterBox(xStart: number, segmentMap: string): [Element, number] {
   const x = xStart + OUTER_STROKE_WIDTH / 2;
   const y = OUTER_STROKE_WIDTH / 2;
   const width = segmentWidth(segmentMap.length);
@@ -93,7 +92,7 @@ function drawSegmentOuterBox(segmentMap: string, xStart: number): [Element, numb
   return [rect, endX];
 }
 
-function drawSegmentInterior(segmentMap: string, episodeCounterOffset: number, xOffset: number, seasonNum: number, seenThru: Marker): Element[] {
+function drawSegmentInterior(xOffset: number, seasonNum: number, episodeCounterOffset: number, segmentMap: string, watchedEpisodeMap: string): Element[] {
   let elts: Element[] = [];
   const innerBoxWidth = BOX_HEIGHT - 2 * OUTER_STROKE_WIDTH;
 
@@ -103,12 +102,17 @@ function drawSegmentInterior(segmentMap: string, episodeCounterOffset: number, x
   elts.push(drawRect(backgroundX, backgroundY, backgroundWidth, innerBoxWidth, 0, '#fff'))
 
   // gray background for seen episodes
-  const seenCount = howManyEpisodesSeen(segmentMap, seasonNum, episodeCounterOffset, seenThru);
-  if (seenCount > 0) {
-    const grayWidth = (seenCount * innerBoxWidth) + ((seenCount - 1) * DIVIDER_STROKE_WIDTH);
-    elts.push(drawRect(backgroundX, backgroundY, grayWidth, innerBoxWidth, 0, '#ccc'))
-  };
-
+  for (var ep = 0; ep < segmentMap.length; ep++) {
+    if (watchedEpisodeMap.charAt(episodeCounterOffset + ep) === 'x') {
+      elts.push(drawRect(
+        backgroundX + (ep * (innerBoxWidth + DIVIDER_STROKE_WIDTH)),
+        backgroundY, 
+        innerBoxWidth, 
+        innerBoxWidth, 
+        0,
+        '#ccc'))
+    }
+  }
 
   // divider lines between episodes
   for (let i = 1; i < segmentMap.length; i++) {
@@ -134,20 +138,6 @@ function drawSegmentInterior(segmentMap: string, episodeCounterOffset: number, x
     elts.push(text);
   }
   return elts;
-}
-
-function howManyEpisodesSeen(segmentMap: string, seasonNum: number, episodeCounterOffset: number, seenThru: Marker) {
-  if (seasonNum < seenThru.season) {
-    return segmentMap.length;
-  } else if (seasonNum > seenThru.season) {
-    return 0;
-  } else {
-    if (seenThru.episodesWatched === 'all') {
-      return segmentMap.length;
-    } else {
-      return Math.min(Math.max(0, seenThru.episodesWatched as number - episodeCounterOffset), segmentMap.length);
-    }
-  }
 }
 
 export function drawLine(x1: number, y1: number, x2: number, y2: number, strokeWidth: number) {

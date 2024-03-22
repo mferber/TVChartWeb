@@ -1,6 +1,6 @@
 import express, {Request, Response} from "express";
 import * as storage from './storage';
-import { Show } from './types';
+import { Show, EpisodeDescriptor, StatusUpdate } from './types';
 
 const app = express()
 const port = 8000
@@ -97,6 +97,22 @@ function createRouter_v0_1() {
     try {
       storage.deleteShow(id);
       res.send();
+    } catch (e) {
+      console.error(e);
+      res.status(500).send(`Error: ${e}`);
+    }
+  });
+
+  // POST to show to update watched statuses
+  // Body: document properties `watched` and `unwatched`, both optional.
+  // Each, if present, contains an array of objects: { seasonIndex: N, episodeIndex: M }.
+  router.post('/shows/:id/update-status', async (req: Request, res: Response): Promise<void> => {
+    const id = Number(req.params.id);
+    try {
+      const watched: [EpisodeDescriptor] | undefined = req.body.watched;
+      const unwatched: [EpisodeDescriptor] | undefined = req.body.unwatched;
+      const show = await storage.applyStatusUpdate(id, watched, unwatched);
+      res.send(show);
     } catch (e) {
       console.error(e);
       res.status(500).send(`Error: ${e}`);

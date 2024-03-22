@@ -1,9 +1,9 @@
 import { rerenderShow } from "./renderShows";
-import { Show } from '../types';
+import { EpisodeDescriptor, Show } from '../types';
 import API from "../api/api";
 
 // store currently active "Mark watched" click event handler, for future removal
-var markWatchedListener: ((this: HTMLElement, ev: MouseEvent) => any) | null = null;
+var toggleWatchedListener: ((this: HTMLElement, ev: MouseEvent) => any) | null = null;
 
 export function showSynopsisLoadingIndicator() {
   const container = synopsisContainer();
@@ -23,14 +23,15 @@ export function showSynopsis(
   episodeNum: number | null,
   episodeTitle: string,
   episodeLength: string,
-  synopsis: string
+  synopsis: string,
+  watched: boolean
 ) {
   const container = synopsisContainer();
   if (!container) {
     return;
   }
 
-  removeMarkWatchedListener(container);
+  removeToggleWatchedListener(container);
 
   let episodeIdentifier = episodeNum ? `S${seasonNum}E${episodeNum}` : `S${seasonNum} — Special`;
   
@@ -42,7 +43,7 @@ export function showSynopsis(
 
   container.querySelector('#synopsis-body')?.scrollTo(0, 0);
 
-  addMarkWatchedListener(container, show, seasonNum, episodeIndex);
+  updateToggleWatchedLink(container, show, seasonNum, episodeIndex);
   setLoadingIndicatorVisible(container, false);
   setContentVisible(container, true);
   setPopupVisible(container, true);
@@ -57,7 +58,7 @@ export function dismissSynopsis() {
   setLoadingIndicatorVisible(container, false);
   setContentVisible(container, false);
   setPopupVisible(container, false);
-  removeMarkWatchedListener(container);
+  removeToggleWatchedListener(container);
 }
 
 function populate(container: HTMLElement, selector: string, value: string) {
@@ -67,23 +68,33 @@ function populate(container: HTMLElement, selector: string, value: string) {
   }
 }
 
-function addMarkWatchedListener(container: HTMLElement, show: Show, seasonNum: number, episodeIndex: number) {
-  const link = container.querySelector('#synopsis-mark-watched-link') as HTMLElement | null;
+function updateToggleWatchedLink(container: HTMLElement, show: Show, seasonNum: number, episodeIndex: number) {
+  const link = container.querySelector('#synopsis-toggle-watched-link') as HTMLElement | null;
   if (link) {
-    markWatchedListener = async e => {
+    const episodeList: [EpisodeDescriptor] = [{ season: seasonNum, episodeIndex: episodeIndex }];
+    const watched = show.watchedEpisodeMaps[seasonNum - 1].charAt(episodeIndex) === 'x';
+
+    link.textContent = watched ? 'Mark unwatched' : 'Mark watched';
+
+    removeToggleWatchedListener(container);
+    toggleWatchedListener = async e => {
       e.preventDefault();
-      const updatedShow = await API.updateShowStatus(show, seasonNum, episodeIndex + 1);
+      const updatedShow = watched ?
+        await API.updateShowEpisodesWatched(show.id, undefined, episodeList) :
+        await API.updateShowEpisodesWatched(show.id, episodeList, undefined);
       rerenderShow(updatedShow);
+      updateToggleWatchedLink(container, updatedShow, seasonNum, episodeIndex);
     };
-    link.addEventListener('click', markWatchedListener);
+    link.addEventListener('click', toggleWatchedListener);
   }
 }
 
-function removeMarkWatchedListener(container: HTMLElement) {
-  if (markWatchedListener) {
-    const link = container.querySelector('#synopsis-mark-watched-link') as HTMLElement | null;
-    link?.removeEventListener('click', markWatchedListener);
-    markWatchedListener = null;
+function removeToggleWatchedListener(container: HTMLElement) {
+  if (toggleWatchedListener) {
+    console.log("removing listener");
+    const link = container.querySelector('#synopsis-toggle-watched-link') as HTMLElement | null;
+    link?.removeEventListener('click', toggleWatchedListener);
+    toggleWatchedListener = null;
   }
 }
 
