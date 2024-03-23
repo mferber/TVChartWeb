@@ -137,7 +137,6 @@ async function readDataFile(): Promise<string> {
 }
 
 async function writeDataFile(text: string): Promise<void> {
-  console.log("Writing:", text.substring(0, 100));
   const tempFilePath = dataFilePath + '.tmp'
   await fs.promises.writeFile(tempFilePath, text, 'utf-8');
   await fs.promises.rename(tempFilePath, dataFilePath);
