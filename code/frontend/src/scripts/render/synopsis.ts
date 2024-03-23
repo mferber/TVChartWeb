@@ -91,7 +91,6 @@ function updateToggleWatchedLink(container: HTMLElement, show: Show, seasonNum: 
 
 function removeToggleWatchedListener(container: HTMLElement) {
   if (toggleWatchedListener) {
-    console.log("removing listener");
     const link = container.querySelector('#synopsis-toggle-watched-link') as HTMLElement | null;
     link?.removeEventListener('click', toggleWatchedListener);
     toggleWatchedListener = null;
