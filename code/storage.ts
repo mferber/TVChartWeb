@@ -90,8 +90,8 @@ export async function patchShow(id: number, patch: Partial<Show>) {
 
 export async function applyStatusUpdate(
   id: number, 
-  watched: [EpisodeDescriptor] | undefined, 
-  unwatched: [EpisodeDescriptor] | undefined
+  watched: EpisodeDescriptor[] | undefined, 
+  unwatched: EpisodeDescriptor[] | undefined
 ): Promise<Show> {
   const allShows = await fetchShows()
   const show = allShows.find(show => show.id === id)
@@ -138,6 +138,8 @@ async function readDataFile(): Promise<string> {
 
 async function writeDataFile(text: string): Promise<void> {
   const tempFilePath = dataFilePath + '.tmp'
+
+  // FIXME: needs a mutex
   await fs.promises.writeFile(tempFilePath, text, 'utf-8');
   await fs.promises.rename(tempFilePath, dataFilePath);
 }

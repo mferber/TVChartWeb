@@ -109,8 +109,8 @@ function createRouter_v0_1() {
   router.post('/shows/:id/update-status', async (req: Request, res: Response): Promise<void> => {
     const id = Number(req.params.id);
     try {
-      const watched: [EpisodeDescriptor] | undefined = req.body.watched;
-      const unwatched: [EpisodeDescriptor] | undefined = req.body.unwatched;
+      const watched: EpisodeDescriptor[] | undefined = req.body.watched;
+      const unwatched: EpisodeDescriptor[] | undefined = req.body.unwatched;
       const show = await storage.applyStatusUpdate(id, watched, unwatched);
       res.send(show);
     } catch (e) {

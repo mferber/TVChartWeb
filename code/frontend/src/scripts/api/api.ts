@@ -48,8 +48,8 @@ export default class {
 
   static async updateShowEpisodesWatched(
     id: number, 
-    watched: [EpisodeDescriptor] | undefined, 
-    unwatched: [EpisodeDescriptor] | undefined
+    watched: EpisodeDescriptor[] | undefined, 
+    unwatched: EpisodeDescriptor[] | undefined
   ): Promise<Show> {
     const rsp = await fetch(`/v0.1/shows/${encodeURIComponent(id)}/update-status`, {
       method: 'POST',

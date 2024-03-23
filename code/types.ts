@@ -15,6 +15,6 @@ export interface EpisodeDescriptor {
 }
 
 export interface StatusUpdate {
-  watched?: [EpisodeDescriptor],
-  unwatched?: [EpisodeDescriptor]
+  watched?: EpisodeDescriptor[],
+  unwatched?: EpisodeDescriptor[]
 }

@@ -95,11 +95,11 @@ img.edit.highlight {
   font-style: italic;
 }
 
-#synopsis-toggle-watched {
+#synopsis-actions {
   margin-top: 0.5em;
 }
 
-#synopsis-toggle-watched-link {
+#synopsis-toggle-watched-link, #synopsis-mark-all-link {
   color: yellow;
 }
 

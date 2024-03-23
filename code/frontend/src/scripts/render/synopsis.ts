@@ -2,8 +2,9 @@ import { rerenderShow } from "./renderShows";
 import { EpisodeDescriptor, Show } from '../types';
 import API from "../api/api";
 
-// store currently active "Mark watched" click event handler, for future removal
+// store currently active event handlers, for future removal
 var toggleWatchedListener: ((this: HTMLElement, ev: MouseEvent) => any) | null = null;
+var markAllListener: ((this: HTMLElement, ev: MouseEvent) => any) | null = null;
 
 export function showSynopsisLoadingIndicator() {
   const container = synopsisContainer();
@@ -44,6 +45,7 @@ export function showSynopsis(
   container.querySelector('#synopsis-body')?.scrollTo(0, 0);
 
   updateToggleWatchedLink(container, show, seasonNum, episodeIndex);
+  updateMarkAllLink(container, show, seasonNum, episodeIndex);
   setLoadingIndicatorVisible(container, false);
   setContentVisible(container, true);
   setPopupVisible(container, true);
@@ -71,7 +73,7 @@ function populate(container: HTMLElement, selector: string, value: string) {
 function updateToggleWatchedLink(container: HTMLElement, show: Show, seasonNum: number, episodeIndex: number) {
   const link = container.querySelector('#synopsis-toggle-watched-link') as HTMLElement | null;
   if (link) {
-    const episodeList: [EpisodeDescriptor] = [{ season: seasonNum, episodeIndex: episodeIndex }];
+    const episodeList: EpisodeDescriptor[] = [{ season: seasonNum, episodeIndex: episodeIndex }];
     const watched = show.watchedEpisodeMaps[seasonNum - 1].charAt(episodeIndex) === 'x';
 
     link.textContent = watched ? 'Mark unwatched' : 'Mark watched';
@@ -94,6 +96,46 @@ function removeToggleWatchedListener(container: HTMLElement) {
     const link = container.querySelector('#synopsis-toggle-watched-link') as HTMLElement | null;
     link?.removeEventListener('click', toggleWatchedListener);
     toggleWatchedListener = null;
+  }
+}
+
+function updateMarkAllLink(container: HTMLElement, show: Show, seasonNum: number, episodeIndex: number) {
+  const link = container.querySelector('#synopsis-mark-all-link') as HTMLElement | null;
+  if (link) {
+    
+    removeMarkAllListener(container);
+    markAllListener = async e => {
+      e.preventDefault();
+      const episodeList = unwatchedEpisodesUpTo(show, seasonNum, episodeIndex);
+      const updatedShow = await API.updateShowEpisodesWatched(show.id, episodeList, undefined);
+      rerenderShow(updatedShow);
+      updateMarkAllLink(container, updatedShow, seasonNum, episodeIndex);
+    };
+    link.addEventListener('click', markAllListener);
+  }
+}
+
+function unwatchedEpisodesUpTo(show: Show, seasonNum: number, episodeIndex: number): EpisodeDescriptor[] {
+  var episodes: EpisodeDescriptor[] = [];
+
+  outer: for (let s = 0; s < seasonNum; s++) {
+    for (let i = 0; i < show.watchedEpisodeMaps[s].length; i++) {
+      if (s === seasonNum - 1 && i > episodeIndex) {
+        break outer;
+      }
+      if (show.watchedEpisodeMaps[s].charAt(i) === '.') {
+        episodes.push({ season: s + 1, episodeIndex: i });
+      } 
+    }
+  }
+  return episodes;
+}
+
+function removeMarkAllListener(container: HTMLElement) {
+  if (markAllListener) {
+    const link = container.querySelector('#synopsis-mark-all-link') as HTMLElement | null;
+    link?.removeEventListener('click', markAllListener);
+    markAllListener = null;
   }
 }
 
