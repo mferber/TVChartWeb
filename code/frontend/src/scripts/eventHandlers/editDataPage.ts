@@ -8,6 +8,10 @@ export async function initialize() {
   submitBtn?.addEventListener('click', (e) => {
     e.preventDefault();
     const text = editor?.value || '';
+
+    // FIXME: this is now missing sanitization logic; it really ought to sanitize all input anyway.
+    // To fix later, or remove the option to edit data directly (replace with an opaque backup/restore
+    // that does sanitize and error check)
     API.storeShows(JSON.parse(text))
       .then(() => location.href = '/');
   });
